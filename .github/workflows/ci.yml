@@ -30,3 +30,7 @@ jobs:
         run: npm run validate:processed
       - name: Build
         run: npm run build
+      - name: Build self-contained offline page
+        run: npm run build:offline
+      - name: Validate self-contained offline page
+        run: npm run validate:offline

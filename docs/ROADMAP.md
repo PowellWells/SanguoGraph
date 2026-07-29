@@ -20,6 +20,13 @@
 - compact first-page data summary
 - graph-first mobile reading order with a dedicated two-row descendant layout
 
+## Milestone 1.2 — offline single-file distribution completed
+
+- self-contained `offline/index.html` for direct local use
+- no Node.js, local server, or network connection required for readers
+- embedded candidate layer remains opt-in and hidden by default
+- automated checks prevent external scripts, styles, or data dependencies
+
 ## Milestone 2 — Cao and Xiahou clans
 
 - expand the verified person set only where sources can be located

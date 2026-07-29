@@ -18,6 +18,11 @@
   </head>
   <body>
     <div id="root"></div>
+    <script id="offline-entry-redirect">
+      if (window.location.protocol === 'file:') {
+        window.location.replace(`./offline/index.html${window.location.hash}`);
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

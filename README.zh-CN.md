@@ -5,6 +5,20 @@
 SanguoGraph 是一个处于早期阶段、以可追溯史料为核心的三国历史人物关系知识图谱。
 Milestone 1 展示曹操核心家庭，并严格分离已经核验的历史记录与外部结构化候选。
 
+## 直接使用（无需安装）
+
+双击仓库根目录的 [`index.html`](index.html) 即可在本地浏览器中使用完整图谱；
+它会自动打开 [`offline/index.html`](offline/index.html)。
+这个文件已经内嵌页面样式、程序和候选数据，不需要安装 Node.js、不需要启动服务器，
+也不依赖网络连接。
+
+项目维护者可运行以下命令重新生成并检查离线文件：
+
+```powershell
+npm run build:offline
+npm run validate:offline
+```
+
 ## Milestone 1
 
 - 固定收录15名人物，全部使用项目本地 `person:sg:*` ID；
@@ -46,6 +60,8 @@ npm run test
 npm run validate:data
 npm run validate:processed
 npm run build
+npm run build:offline
+npm run validate:offline
 npm audit --omit=dev
 ```
 
@@ -55,8 +71,9 @@ npm audit --omit=dev
 ## Wikidata 候选管线
 
 已提交的 `data/processed` 包含99人、738条 Wikidata 派生的未核验候选关系。
-网页只有在用户主动开启开关时才读取 `graph.json`，且只适配15名正式人物范围内的
-father、mother、spouse；sibling、通用 child 和范围外记录均被忽略。
+常规网页构建只在用户主动开启开关时按需加载候选模块；单文件离线版将同一份候选数据
+内嵌到 `index.html`，但仍默认隐藏。两种构建都只适配15名正式人物范围内的 father、
+mother、spouse；sibling、通用 child 和范围外记录均被忽略。
 
 Python 管线、来源和许可证登记见
 [候选数据管线](docs/CANDIDATE_PIPELINE.md)。CI 只按 JSON Schema 和固定

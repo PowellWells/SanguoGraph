@@ -8,6 +8,14 @@ import {
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { App } from './App';
 
+const { loadCandidateGraphMock } = vi.hoisted(() => ({
+  loadCandidateGraphMock: vi.fn(),
+}));
+
+vi.mock('./services/candidateDataLoader', () => ({
+  loadCandidateGraph: loadCandidateGraphMock,
+}));
+
 const destroyGraph = vi.fn();
 const selectElement = vi.fn();
 const graphElement = {
@@ -41,6 +49,7 @@ function renderRoute(route: string) {
 
 beforeEach(() => {
   window.location.hash = '';
+  loadCandidateGraphMock.mockReset();
 });
 
 afterEach(() => {
@@ -86,9 +95,8 @@ describe('application routes and home interaction', () => {
   });
 
   it('degrades safely when candidate loading fails', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockRejectedValue(new Error('离线测试：候选文件不可用')),
+    loadCandidateGraphMock.mockRejectedValue(
+      new Error('离线测试：候选文件不可用'),
     );
     renderRoute('/');
     fireEvent.click(
