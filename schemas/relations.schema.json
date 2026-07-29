@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/sanguo/schemas/relations.schema.json",
+  "title": "Three Kingdoms kinship relations dataset",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/relation"
+  },
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "dataset_id",
+        "record_id",
+        "url"
+      ],
+      "properties": {
+        "dataset_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "locator": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "relation": {
+      "type": "object",
+      "required": [
+        "id",
+        "source_id",
+        "target_id",
+        "relation_type",
+        "universe",
+        "confidence",
+        "verified",
+        "sources"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^relation:[a-f0-9]{16}$"
+        },
+        "source_id": {
+          "type": "string",
+          "pattern": "^person:wd:Q[1-9][0-9]*$"
+        },
+        "target_id": {
+          "type": "string",
+          "pattern": "^person:wd:Q[1-9][0-9]*$"
+        },
+        "relation_type": {
+          "enum": [
+            "father",
+            "mother",
+            "spouse",
+            "child",
+            "sibling",
+            "adoptive_parent",
+            "adoptive_child",
+            "clan"
+          ]
+        },
+        "universe": {
+          "enum": [
+            "historical",
+            "novel",
+            "folklore",
+            "uncertain"
+          ]
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
+

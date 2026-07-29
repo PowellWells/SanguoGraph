@@ -1,0 +1,19 @@
+# External reference repositories and downloaded API responses are immutable inputs.
+data/raw/
+
+# Reproducible intermediate files.
+data/interim/
+
+# Frontend dependencies and build output.
+node_modules/
+dist/
+coverage/
+
+# Python runtime artifacts.
+__pycache__/
+*.py[cod]
+.venv/
+
+# Editor and operating-system files.
+.DS_Store
+Thumbs.db

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "relation_cao_song_cao_cao_father",
+    "sourcePersonId": "person_cao_song",
+    "targetPersonId": "person_cao_cao",
+    "type": "father_of",
+    "certainty": "probable",
+    "historicalLayer": "official_history",
+    "reviewStatus": "pending_review",
+    "sourceIds": [],
+    "note": "示例数据，待史料复核。"
+  },
+  {
+    "id": "relation_cao_cao_cao_pi_father",
+    "sourcePersonId": "person_cao_cao",
+    "targetPersonId": "person_cao_pi",
+    "type": "father_of",
+    "certainty": "probable",
+    "historicalLayer": "official_history",
+    "reviewStatus": "pending_review",
+    "sourceIds": [],
+    "note": "示例数据，待史料复核。"
+  }
+]
+

@@ -1,0 +1,2272 @@
+[
+  {
+    "id": "person:wd:Q10864206",
+    "name_zh": "丁夫人 (魏武帝)",
+    "aliases": [
+      "丁夫人"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10864206",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10864206",
+        "url": "https://www.wikidata.org/wiki/Q10864206"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q30941435",
+    "name_zh": "伏夫人",
+    "aliases": [
+      "扶风太妃"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q30941435",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q30941435",
+        "url": "https://www.wikidata.org/wiki/Q30941435"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q8253555",
+    "name_zh": "刘夫人",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q8253555",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q8253555",
+        "url": "https://www.wikidata.org/wiki/Q8253555"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q704064",
+    "name_zh": "刘永",
+    "aliases": [
+      "Lau Wing",
+      "劉永"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q704064",
+    "family_roots": [
+      "Q245315"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q704064",
+        "url": "https://www.wikidata.org/wiki/Q704064"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q468780",
+    "name_zh": "刘禅",
+    "aliases": [
+      "Adou",
+      "Gongsi",
+      "Hou Zhu",
+      "Lau Sim",
+      "Liu Chan",
+      "公嗣",
+      "劉禪",
+      "劉阿斗",
+      "孝怀皇帝",
+      "孝懷皇帝",
+      "安樂公",
+      "思公",
+      "汉后主",
+      "漢后主",
+      "漢孝懷帝",
+      "漢後主",
+      "蜀後主",
+      "蜀汉后主",
+      "蜀汉后主刘禅",
+      "蜀漢後主劉禪",
+      "阿斗"
+    ],
+    "courtesy_name": "公嗣",
+    "birth_year": 207,
+    "death_year": 271,
+    "faction": null,
+    "wikidata_id": "Q468780",
+    "family_roots": [
+      "Q245315"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q468780",
+        "url": "https://www.wikidata.org/wiki/Q468780"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q245315",
+    "name_zh": "劉備",
+    "aliases": [
+      "Lau Bei",
+      "Liu Xuande",
+      "Xuande",
+      "Zhaoliedi",
+      "刘备",
+      "劉玄德",
+      "昭烈帝",
+      "昭烈皇帝",
+      "漢先主",
+      "漢昭烈帝",
+      "烈祖"
+    ],
+    "courtesy_name": "玄德",
+    "birth_year": 161,
+    "death_year": 223,
+    "faction": "蜀汉",
+    "wikidata_id": "Q245315",
+    "family_roots": [
+      "Q245315"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q245315",
+        "url": "https://www.wikidata.org/wiki/Q245315"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10899734",
+    "name_zh": "劉弘",
+    "aliases": [
+      "Lau Wang"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10899734",
+    "family_roots": [
+      "Q245315"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10899734",
+        "url": "https://www.wikidata.org/wiki/Q10899734"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10900173",
+    "name_zh": "劉理",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": 212,
+    "death_year": 224,
+    "faction": null,
+    "wikidata_id": "Q10900173",
+    "family_roots": [
+      "Q245315"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10900173",
+        "url": "https://www.wikidata.org/wiki/Q10900173"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10909274",
+    "name_zh": "南陽公主",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10909274",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10909274",
+        "url": "https://www.wikidata.org/wiki/Q10909274"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q9597049",
+    "name_zh": "司馬京",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q9597049",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q9597049",
+        "url": "https://www.wikidata.org/wiki/Q9597049"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q1142166",
+    "name_zh": "司馬伷",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": 227,
+    "death_year": 283,
+    "faction": null,
+    "wikidata_id": "Q1142166",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q1142166",
+        "url": "https://www.wikidata.org/wiki/Q1142166"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q1156935",
+    "name_zh": "司馬孚",
+    "aliases": [
+      "Prince Xian of Anping",
+      "Shuda"
+    ],
+    "courtesy_name": null,
+    "birth_year": 180,
+    "death_year": 272,
+    "faction": null,
+    "wikidata_id": "Q1156935",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q1156935",
+        "url": "https://www.wikidata.org/wiki/Q1156935"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q707808",
+    "name_zh": "司馬師",
+    "aliases": [
+      "世宗",
+      "司马师",
+      "晉世宗",
+      "晉景帝",
+      "景皇帝"
+    ],
+    "courtesy_name": null,
+    "birth_year": 208,
+    "death_year": 255,
+    "faction": null,
+    "wikidata_id": "Q707808",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q707808",
+        "url": "https://www.wikidata.org/wiki/Q707808"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q9597768",
+    "name_zh": "司馬敏",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q9597768",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q9597768",
+        "url": "https://www.wikidata.org/wiki/Q9597768"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q1074409",
+    "name_zh": "司馬朗",
+    "aliases": [],
+    "courtesy_name": "伯達",
+    "birth_year": 171,
+    "death_year": 217,
+    "faction": null,
+    "wikidata_id": "Q1074409",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q1074409",
+        "url": "https://www.wikidata.org/wiki/Q1074409"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10916632",
+    "name_zh": "司馬榦",
+    "aliases": [
+      "Ziliang",
+      "司马干"
+    ],
+    "courtesy_name": null,
+    "birth_year": 232,
+    "death_year": 311,
+    "faction": null,
+    "wikidata_id": "Q10916632",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10916632",
+        "url": "https://www.wikidata.org/wiki/Q10916632"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10916657",
+    "name_zh": "司馬肜",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 302,
+    "faction": null,
+    "wikidata_id": "Q10916657",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10916657",
+        "url": "https://www.wikidata.org/wiki/Q10916657"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q9598542",
+    "name_zh": "司馬通",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q9598542",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q9598542",
+        "url": "https://www.wikidata.org/wiki/Q9598542"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q9598706",
+    "name_zh": "司馬進",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q9598706",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q9598706",
+        "url": "https://www.wikidata.org/wiki/Q9598706"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q912095",
+    "name_zh": "司馬防",
+    "aliases": [
+      "司馬芳",
+      "司马芳",
+      "司马防"
+    ],
+    "courtesy_name": "建公",
+    "birth_year": 149,
+    "death_year": 219,
+    "faction": null,
+    "wikidata_id": "Q912095",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q912095",
+        "url": "https://www.wikidata.org/wiki/Q912095"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10916678",
+    "name_zh": "司馬馗",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10916678",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10916678",
+        "url": "https://www.wikidata.org/wiki/Q10916678"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q2654430",
+    "name_zh": "司馬駿",
+    "aliases": [],
+    "courtesy_name": "子臧",
+    "birth_year": 233,
+    "death_year": 286,
+    "faction": null,
+    "wikidata_id": "Q2654430",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q2654430",
+        "url": "https://www.wikidata.org/wiki/Q2654430"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q3273268",
+    "name_zh": "司马亮",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": 233,
+    "death_year": 291,
+    "faction": null,
+    "wikidata_id": "Q3273268",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q3273268",
+        "url": "https://www.wikidata.org/wiki/Q3273268"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q7360",
+    "name_zh": "司马伦",
+    "aliases": [
+      "Prince of Langye Commandery",
+      "Prince of Zhao",
+      "Ziyi",
+      "子彛",
+      "琅邪郡王司马伦",
+      "赵王司马伦"
+    ],
+    "courtesy_name": null,
+    "birth_year": 240,
+    "death_year": 301,
+    "faction": null,
+    "wikidata_id": "Q7360",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q7360",
+        "url": "https://www.wikidata.org/wiki/Q7360"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q9599236",
+    "name_zh": "司马恂 (三国)",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q9599236",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q9599236",
+        "url": "https://www.wikidata.org/wiki/Q9599236"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q353698",
+    "name_zh": "司马懿",
+    "aliases": [
+      "Sima Yi(2)",
+      "Yi Sima",
+      "Zhongda",
+      "仲達",
+      "司馬仲達",
+      "司馬懿",
+      "宣皇帝",
+      "晉高祖",
+      "晋宣帝",
+      "高祖"
+    ],
+    "courtesy_name": "仲達",
+    "birth_year": 179,
+    "death_year": 251,
+    "faction": "曹魏",
+    "wikidata_id": "Q353698",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q353698",
+        "url": "https://www.wikidata.org/wiki/Q353698"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q532884",
+    "name_zh": "司马昭",
+    "aliases": [
+      "Sima Chiu",
+      "司馬子上",
+      "司馬昭",
+      "太祖",
+      "文皇帝",
+      "晉文帝",
+      "晋太祖"
+    ],
+    "courtesy_name": "子上",
+    "birth_year": 211,
+    "death_year": 265,
+    "faction": null,
+    "wikidata_id": "Q532884",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q532884",
+        "url": "https://www.wikidata.org/wiki/Q532884"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q292764",
+    "name_zh": "吴皇后",
+    "aliases": [
+      "Empress Mu",
+      "吳皇后",
+      "吳莧",
+      "吴苋",
+      "蜀汉吴皇后",
+      "蜀汉穆皇后",
+      "蜀漢吳皇后",
+      "蜀漢穆皇后"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 245,
+    "faction": null,
+    "wikidata_id": "Q292764",
+    "family_roots": [
+      "Q245315"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q292764",
+        "url": "https://www.wikidata.org/wiki/Q292764"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q7247105",
+    "name_zh": "大懿皇后",
+    "aliases": [
+      "Empress Dayi"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q7247105",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q7247105",
+        "url": "https://www.wikidata.org/wiki/Q7247105"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q334101",
+    "name_zh": "孙坚",
+    "aliases": [
+      "Suen Kin",
+      "Sun Jian(4)",
+      "Sun Kin",
+      "吳始祖",
+      "吳武烈帝",
+      "始祖",
+      "孫堅",
+      "孫文台",
+      "武烈皇帝"
+    ],
+    "courtesy_name": "文臺",
+    "birth_year": 155,
+    "death_year": 192,
+    "faction": null,
+    "wikidata_id": "Q334101",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q334101",
+        "url": "https://www.wikidata.org/wiki/Q334101"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q848783",
+    "name_zh": "孙朗",
+    "aliases": [
+      "Suen Long",
+      "Sun Long",
+      "孫朗"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q848783",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q848783",
+        "url": "https://www.wikidata.org/wiki/Q848783"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q313327",
+    "name_zh": "孙权",
+    "aliases": [
+      "Da Di",
+      "Suen Kuen",
+      "Sun Kuen",
+      "Zhongmou",
+      "仲謀",
+      "仲谋",
+      "吳大帝",
+      "吴大帝",
+      "吴太祖",
+      "大帝",
+      "大皇帝",
+      "太祖",
+      "孙仲谋",
+      "孫權"
+    ],
+    "courtesy_name": "仲謀",
+    "birth_year": 182,
+    "death_year": 252,
+    "faction": "东吴",
+    "wikidata_id": "Q313327",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q313327",
+        "url": "https://www.wikidata.org/wiki/Q313327"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q1195858",
+    "name_zh": "孙登",
+    "aliases": [
+      "Deng Sun"
+    ],
+    "courtesy_name": null,
+    "birth_year": 209,
+    "death_year": 241,
+    "faction": null,
+    "wikidata_id": "Q1195858",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q1195858",
+        "url": "https://www.wikidata.org/wiki/Q1195858"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q463953",
+    "name_zh": "孙破虏吴夫人",
+    "aliases": [
+      "Wu Shi(Mother of Sun Quan)",
+      "吳氏(孫權母)",
+      "吴太夫人",
+      "孫破虜吳夫人"
+    ],
+    "courtesy_name": null,
+    "birth_year": 156,
+    "death_year": 207,
+    "faction": null,
+    "wikidata_id": "Q463953",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q463953",
+        "url": "https://www.wikidata.org/wiki/Q463953"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q380598",
+    "name_zh": "孙策",
+    "aliases": [
+      "Suen Chak",
+      "Sun Chak",
+      "孫伯符",
+      "孫策",
+      "長沙桓王"
+    ],
+    "courtesy_name": null,
+    "birth_year": 175,
+    "death_year": 200,
+    "faction": null,
+    "wikidata_id": "Q380598",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q380598",
+        "url": "https://www.wikidata.org/wiki/Q380598"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q7243622",
+    "name_zh": "孙鲁育",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 255,
+    "faction": null,
+    "wikidata_id": "Q7243622",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q7243622",
+        "url": "https://www.wikidata.org/wiki/Q7243622"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q470034",
+    "name_zh": "孫亮",
+    "aliases": [
+      "会稽王",
+      "候官侯",
+      "吳廢帝",
+      "吴会稽王",
+      "吴废帝",
+      "孙亮",
+      "會稽王"
+    ],
+    "courtesy_name": null,
+    "birth_year": 243,
+    "death_year": 260,
+    "faction": null,
+    "wikidata_id": "Q470034",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q470034",
+        "url": "https://www.wikidata.org/wiki/Q470034"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q468767",
+    "name_zh": "孫休",
+    "aliases": [
+      "吳景帝",
+      "吴景帝",
+      "孙休",
+      "景皇帝"
+    ],
+    "courtesy_name": "子烈",
+    "birth_year": 235,
+    "death_year": 264,
+    "faction": null,
+    "wikidata_id": "Q468767",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q468767",
+        "url": "https://www.wikidata.org/wiki/Q468767"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q1155964",
+    "name_zh": "孫匡",
+    "aliases": [
+      "孙匡"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q1155964",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q1155964",
+        "url": "https://www.wikidata.org/wiki/Q1155964"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q1195417",
+    "name_zh": "孫和",
+    "aliases": [
+      "He Sun",
+      "Suen Wo",
+      "Wen Di",
+      "Zixiao",
+      "吳文帝",
+      "子孝",
+      "孙和",
+      "文帝",
+      "文皇帝"
+    ],
+    "courtesy_name": "子孝",
+    "birth_year": 224,
+    "death_year": 253,
+    "faction": null,
+    "wikidata_id": "Q1195417",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q1195417",
+        "url": "https://www.wikidata.org/wiki/Q1195417"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q283993",
+    "name_zh": "孫夫人",
+    "aliases": [
+      "Sun Shangxiang",
+      "Sun Shi(Wife of Liu Bei)",
+      "孙仁献",
+      "孙夫人",
+      "孙尚香",
+      "孫仁獻",
+      "孫后(昭烈帝后)",
+      "孫尚香",
+      "孫氏(劉備妻)",
+      "尚香"
+    ],
+    "courtesy_name": null,
+    "birth_year": 192,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q283993",
+    "family_roots": [
+      "Q245315",
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q283993",
+        "url": "https://www.wikidata.org/wiki/Q283993"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q844486",
+    "name_zh": "孫奮",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 270,
+    "faction": null,
+    "wikidata_id": "Q844486",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q844486",
+        "url": "https://www.wikidata.org/wiki/Q844486"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q844298",
+    "name_zh": "孫慮",
+    "aliases": [],
+    "courtesy_name": "子智",
+    "birth_year": 213,
+    "death_year": 232,
+    "faction": null,
+    "wikidata_id": "Q844298",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q844298",
+        "url": "https://www.wikidata.org/wiki/Q844298"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q1147819",
+    "name_zh": "孫翊",
+    "aliases": [
+      "Suen Yik",
+      "Sun  Yi",
+      "Sun Yik",
+      "孙俨",
+      "孙翊"
+    ],
+    "courtesy_name": null,
+    "birth_year": 184,
+    "death_year": 204,
+    "faction": null,
+    "wikidata_id": "Q1147819",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q1147819",
+        "url": "https://www.wikidata.org/wiki/Q1147819"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q844305",
+    "name_zh": "孫霸",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 250,
+    "faction": null,
+    "wikidata_id": "Q844305",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q844305",
+        "url": "https://www.wikidata.org/wiki/Q844305"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q5978333",
+    "name_zh": "孫魯班",
+    "aliases": [
+      "全公主"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q5978333",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q5978333",
+        "url": "https://www.wikidata.org/wiki/Q5978333"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10947311",
+    "name_zh": "安陽公主",
+    "aliases": [
+      "Cao Anyang"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10947311",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10947311",
+        "url": "https://www.wikidata.org/wiki/Q10947311"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q30941284",
+    "name_zh": "尹夫人",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q30941284",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q30941284",
+        "url": "https://www.wikidata.org/wiki/Q30941284"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q709785",
+    "name_zh": "張春華",
+    "aliases": [
+      "Empress Xuanmu",
+      "宣穆皇后"
+    ],
+    "courtesy_name": null,
+    "birth_year": 189,
+    "death_year": 247,
+    "faction": null,
+    "wikidata_id": "Q709785",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q709785",
+        "url": "https://www.wikidata.org/wiki/Q709785"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q107738502",
+    "name_zh": "張濟之妻",
+    "aliases": [
+      "Zhang Ji's wife",
+      "张济之妻"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q107738502",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q107738502",
+        "url": "https://www.wikidata.org/wiki/Q107738502"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q7236270",
+    "name_zh": "徐夫人 (孫權)",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q7236270",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q7236270",
+        "url": "https://www.wikidata.org/wiki/Q7236270"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q7231875",
+    "name_zh": "敬懷皇后",
+    "aliases": [
+      "Jinghuai huanghou",
+      "Jìnghuái huánghòu"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q7231875",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q7231875",
+        "url": "https://www.wikidata.org/wiki/Q7231875"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q1064069",
+    "name_zh": "昭烈皇后",
+    "aliases": [
+      "甘夫人"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 210,
+    "faction": null,
+    "wikidata_id": "Q1064069",
+    "family_roots": [
+      "Q245315"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q1064069",
+        "url": "https://www.wikidata.org/wiki/Q1064069"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q313333",
+    "name_zh": "曹丕",
+    "aliases": [
+      "Emperor Wen",
+      "the Wen Emperor",
+      "世祖",
+      "子桓",
+      "字子桓",
+      "文帝",
+      "文皇帝",
+      "曹子桓",
+      "魏世祖",
+      "魏文帝",
+      "魏高祖"
+    ],
+    "courtesy_name": "子桓",
+    "birth_year": 187,
+    "death_year": 226,
+    "faction": null,
+    "wikidata_id": "Q313333",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q313333",
+        "url": "https://www.wikidata.org/wiki/Q313333"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q580624",
+    "name_zh": "曹冲",
+    "aliases": [
+      "Cangshu",
+      "曹沖"
+    ],
+    "courtesy_name": "倉舒",
+    "birth_year": 196,
+    "death_year": 208,
+    "faction": null,
+    "wikidata_id": "Q580624",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q580624",
+        "url": "https://www.wikidata.org/wiki/Q580624"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q11090991",
+    "name_zh": "曹均",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 219,
+    "faction": null,
+    "wikidata_id": "Q11090991",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q11090991",
+        "url": "https://www.wikidata.org/wiki/Q11090991"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10323203",
+    "name_zh": "曹子上",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10323203",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10323203",
+        "url": "https://www.wikidata.org/wiki/Q10323203"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10323222",
+    "name_zh": "曹子乘",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10323222",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10323222",
+        "url": "https://www.wikidata.org/wiki/Q10323222"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10323244",
+    "name_zh": "曹子京",
+    "aliases": [
+      "Cao Jing"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10323244",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10323244",
+        "url": "https://www.wikidata.org/wiki/Q10323244"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10323269",
+    "name_zh": "曹子勤",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10323269",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10323269",
+        "url": "https://www.wikidata.org/wiki/Q10323269"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q11091019",
+    "name_zh": "曹子整",
+    "aliases": [
+      "曹整"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 218,
+    "faction": null,
+    "wikidata_id": "Q11091019",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q11091019",
+        "url": "https://www.wikidata.org/wiki/Q11091019"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10323292",
+    "name_zh": "曹子棘",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10323292",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10323292",
+        "url": "https://www.wikidata.org/wiki/Q10323292"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q706905",
+    "name_zh": "曹宇",
+    "aliases": [],
+    "courtesy_name": "彭祖",
+    "birth_year": null,
+    "death_year": 278,
+    "faction": null,
+    "wikidata_id": "Q706905",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q706905",
+        "url": "https://www.wikidata.org/wiki/Q706905"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q711798",
+    "name_zh": "曹峻",
+    "aliases": [],
+    "courtesy_name": "子安",
+    "birth_year": null,
+    "death_year": 259,
+    "faction": null,
+    "wikidata_id": "Q711798",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q711798",
+        "url": "https://www.wikidata.org/wiki/Q711798"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q699910",
+    "name_zh": "曹嵩",
+    "aliases": [
+      "Cao Song(2)",
+      "夏侯嵩",
+      "太皇帝"
+    ],
+    "courtesy_name": "巨高",
+    "birth_year": null,
+    "death_year": 194,
+    "faction": null,
+    "wikidata_id": "Q699910",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q699910",
+        "url": "https://www.wikidata.org/wiki/Q699910"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q11091072",
+    "name_zh": "曹幹",
+    "aliases": [
+      "Cao Liang",
+      "曹干",
+      "曹良"
+    ],
+    "courtesy_name": null,
+    "birth_year": 216,
+    "death_year": 261,
+    "faction": null,
+    "wikidata_id": "Q11091072",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q11091072",
+        "url": "https://www.wikidata.org/wiki/Q11091072"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q735448",
+    "name_zh": "曹彪",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": 195,
+    "death_year": 251,
+    "faction": null,
+    "wikidata_id": "Q735448",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q735448",
+        "url": "https://www.wikidata.org/wiki/Q735448"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q699893",
+    "name_zh": "曹彰",
+    "aliases": [
+      "Ziwen",
+      "任城威王"
+    ],
+    "courtesy_name": "子文",
+    "birth_year": 190,
+    "death_year": 223,
+    "faction": null,
+    "wikidata_id": "Q699893",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q699893",
+        "url": "https://www.wikidata.org/wiki/Q699893"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q6402587",
+    "name_zh": "曹德",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 193,
+    "faction": null,
+    "wikidata_id": "Q6402587",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q6402587",
+        "url": "https://www.wikidata.org/wiki/Q6402587"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q11091100",
+    "name_zh": "曹徽",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 242,
+    "faction": null,
+    "wikidata_id": "Q11091100",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q11091100",
+        "url": "https://www.wikidata.org/wiki/Q11091100"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q8252899",
+    "name_zh": "曹憲",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q8252899",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q8252899",
+        "url": "https://www.wikidata.org/wiki/Q8252899"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q204077",
+    "name_zh": "曹操",
+    "aliases": [
+      "Cao Mengde",
+      "Cho Cho",
+      "Meng-te",
+      "Mengde",
+      "T'ai-tsu",
+      "Tai-tsu",
+      "Taizu",
+      "Ts'ao Meng-te",
+      "Ts'ao Ts'ao",
+      "Tsao Meng-te",
+      "Tsao Tsao",
+      "Wei T'ai-tsu",
+      "Wei Tai-tsu",
+      "Wei Taizu",
+      "夏侯操",
+      "太祖",
+      "曹孟德",
+      "曹阿瞞",
+      "武皇帝",
+      "阿瞒",
+      "魏太祖",
+      "魏武帝"
+    ],
+    "courtesy_name": "孟德",
+    "birth_year": 155,
+    "death_year": 220,
+    "faction": "曹魏",
+    "wikidata_id": "Q204077",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q204077",
+        "url": "https://www.wikidata.org/wiki/Q204077"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q5353322",
+    "name_zh": "曹據",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q5353322",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q5353322",
+        "url": "https://www.wikidata.org/wiki/Q5353322"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q557261",
+    "name_zh": "曹昂",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": 177,
+    "death_year": 197,
+    "faction": null,
+    "wikidata_id": "Q557261",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q557261",
+        "url": "https://www.wikidata.org/wiki/Q557261"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q706866",
+    "name_zh": "曹林",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 256,
+    "faction": null,
+    "wikidata_id": "Q706866",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q706866",
+        "url": "https://www.wikidata.org/wiki/Q706866"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q698890",
+    "name_zh": "曹植",
+    "aliases": [
+      "Cao Zijian",
+      "Cáo Zhí",
+      "Prince Si",
+      "Prince Si of Chen",
+      "Prince Ssu",
+      "Prince Ssu of Ch'en",
+      "Ts'ao Chih",
+      "Ts'ao Tzu-chien",
+      "Tsao Chih",
+      "Tsao Tzu-chien",
+      "Tso-chi",
+      "Tsoc-hi",
+      "Tzu-chien",
+      "Zijian",
+      "子建",
+      "曹子建"
+    ],
+    "courtesy_name": "子建",
+    "birth_year": 192,
+    "death_year": 232,
+    "faction": null,
+    "wikidata_id": "Q698890",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q698890",
+        "url": "https://www.wikidata.org/wiki/Q698890"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q571756",
+    "name_zh": "曹熊",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": 195,
+    "death_year": 220,
+    "faction": null,
+    "wikidata_id": "Q571756",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q571756",
+        "url": "https://www.wikidata.org/wiki/Q571756"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q3178707",
+    "name_zh": "曹玹",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q3178707",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q3178707",
+        "url": "https://www.wikidata.org/wiki/Q3178707"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q5353300",
+    "name_zh": "曹矩",
+    "aliases": [
+      "Cho Kui",
+      "Tso Kui"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q5353300",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q5353300",
+        "url": "https://www.wikidata.org/wiki/Q5353300"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q10323773",
+    "name_zh": "曹茂",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q10323773",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q10323773",
+        "url": "https://www.wikidata.org/wiki/Q10323773"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q8252909",
+    "name_zh": "曹華",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q8252909",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q8252909",
+        "url": "https://www.wikidata.org/wiki/Q8252909"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q706827",
+    "name_zh": "曹袞",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 235,
+    "faction": null,
+    "wikidata_id": "Q706827",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q706827",
+        "url": "https://www.wikidata.org/wiki/Q706827"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q707386",
+    "name_zh": "曹鑠",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q707386",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q707386",
+        "url": "https://www.wikidata.org/wiki/Q707386"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q8253522",
+    "name_zh": "杜夫人",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q8253522",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q8253522",
+        "url": "https://www.wikidata.org/wiki/Q8253522"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q8251889",
+    "name_zh": "柏夫人",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q8251889",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q8251889",
+        "url": "https://www.wikidata.org/wiki/Q8251889"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q1111981",
+    "name_zh": "步練師",
+    "aliases": [
+      "Lady Bu",
+      "步夫人",
+      "練師"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 238,
+    "faction": null,
+    "wikidata_id": "Q1111981",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q1111981",
+        "url": "https://www.wikidata.org/wiki/Q1111981"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q292698",
+    "name_zh": "武宣卞皇后",
+    "aliases": [
+      "Bian Shi(Mother of Cao Pi)",
+      "卞夫人",
+      "卞氏(曹丕母)",
+      "卞皇后",
+      "魏武宣皇后"
+    ],
+    "courtesy_name": null,
+    "birth_year": 159,
+    "death_year": 230,
+    "faction": null,
+    "wikidata_id": "Q292698",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q292698",
+        "url": "https://www.wikidata.org/wiki/Q292698"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q11561243",
+    "name_zh": "清河公主",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q11561243",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q11561243",
+        "url": "https://www.wikidata.org/wiki/Q11561243"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q463969",
+    "name_zh": "潘淑",
+    "aliases": [
+      "Empress Pan",
+      "潘皇后"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 252,
+    "faction": null,
+    "wikidata_id": "Q463969",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q463969",
+        "url": "https://www.wikidata.org/wiki/Q463969"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q180920",
+    "name_zh": "獻穆皇后",
+    "aliases": [
+      "Cao Jie",
+      "曹節"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": 237,
+    "faction": null,
+    "wikidata_id": "Q180920",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q180920",
+        "url": "https://www.wikidata.org/wiki/Q180920"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q30928775",
+    "name_zh": "王昭儀",
+    "aliases": [
+      "Wong Chiu Yee",
+      "Wong Chiuyee"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q30928775",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q30928775",
+        "url": "https://www.wikidata.org/wiki/Q30928775"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q30941289",
+    "name_zh": "環夫人",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q30941289",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q30941289",
+        "url": "https://www.wikidata.org/wiki/Q30941289"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q30941250",
+    "name_zh": "秦夫人",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q30941250",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q30941250",
+        "url": "https://www.wikidata.org/wiki/Q30941250"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q6707853",
+    "name_zh": "袁夫人",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q6707853",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q6707853",
+        "url": "https://www.wikidata.org/wiki/Q6707853"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q6470614",
+    "name_zh": "謝夫人 (孫權)",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q6470614",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q6470614",
+        "url": "https://www.wikidata.org/wiki/Q6470614"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q65801407",
+    "name_zh": "趙氏",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q65801407",
+    "family_roots": [
+      "Q313327"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q65801407",
+        "url": "https://www.wikidata.org/wiki/Q65801407"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q15929527",
+    "name_zh": "金鄉公主",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q15929527",
+    "family_roots": [
+      "Q204077"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q15929527",
+        "url": "https://www.wikidata.org/wiki/Q15929527"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q16603750",
+    "name_zh": "高陆公主",
+    "aliases": [],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q16603750",
+    "family_roots": [
+      "Q353698"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q16603750",
+        "url": "https://www.wikidata.org/wiki/Q16603750"
+      }
+    ]
+  },
+  {
+    "id": "person:wd:Q558785",
+    "name_zh": "麋夫人",
+    "aliases": [
+      "糜夫人"
+    ],
+    "courtesy_name": null,
+    "birth_year": null,
+    "death_year": null,
+    "faction": null,
+    "wikidata_id": "Q558785",
+    "family_roots": [
+      "Q245315"
+    ],
+    "sources": [
+      {
+        "dataset_id": "wikidata",
+        "record_id": "Q558785",
+        "url": "https://www.wikidata.org/wiki/Q558785"
+      }
+    ]
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "registry_version": 1,
+  "sources": [
+    {
+      "id": "github_kgqa_sg",
+      "name": "BrambleXu/KGQA_SG",
+      "url": "https://github.com/BrambleXu/KGQA_SG",
+      "downloaded_at": "2026-07-28T22:16:10+08:00",
+      "download_method": "git clone --depth 1",
+      "revision": "7c3966ab5c272fc938fb5eccf3fe0d597120974c",
+      "license": {
+        "spdx": null,
+        "status": "not_specified",
+        "evidence": "No LICENSE, LICENCE, COPYING, or license declaration was found in the downloaded revision."
+      },
+      "access_policy": "reference_only",
+      "purpose": "Reference-only comparison of relation labels, legacy triples, and graph layout. The README describes a Romance of the Three Kingdoms visualization, so its claims are not treated as historical evidence.",
+      "local_path": "data/raw/KGQA_SG"
+    },
+    {
+      "id": "github_three_kingdoms_kg",
+      "name": "Welcome21984/knowle-graph-of-ThreeKingdoms",
+      "url": "https://github.com/Welcome21984/knowle-graph-of-ThreeKingdoms",
+      "downloaded_at": "2026-07-28T22:16:10+08:00",
+      "download_method": "git clone --depth 1",
+      "revision": "f79edbe7bda3bff2d57464ad9c01ac19fee5b76d",
+      "license": {
+        "spdx": null,
+        "status": "not_specified",
+        "evidence": "No LICENSE, LICENCE, COPYING, or license declaration was found in the downloaded revision."
+      },
+      "access_policy": "reference_only",
+      "purpose": "Reference-only comparison of person coverage and field names. Data is not copied into processed outputs.",
+      "local_path": "data/raw/knowle-graph-of-ThreeKingdoms"
+    },
+    {
+      "id": "wikidata",
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/",
+      "api_url": "https://www.wikidata.org/w/api.php",
+      "downloaded_at": "2026-07-28T14:46:32.513812+00:00",
+      "download_method": "MediaWiki Action API wbgetentities, cached in batches",
+      "license": {
+        "spdx": "CC0-1.0",
+        "status": "declared",
+        "url": "https://www.wikidata.org/wiki/Wikidata:Copyright"
+      },
+      "access_policy": "processable",
+      "purpose": "Candidate historical-person identity, names, dates, and kinship statements. Statements remain unverified until checked against independent historical sources.",
+      "local_path": "data/raw/wikidata",
+      "retrieval_manifest": "data/raw/wikidata/download_manifest.json"
+    }
+  ]
+}

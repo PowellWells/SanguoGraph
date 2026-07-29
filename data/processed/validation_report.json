@@ -1,0 +1,149 @@
+{
+  "generated_at": "2026-07-28T14:46:32.827011+00:00",
+  "status": "pass",
+  "scope": "core_families_v1",
+  "summary": {
+    "person_count": 99,
+    "relation_count": 738,
+    "verified_relation_count": 0,
+    "unverified_relation_count": 738,
+    "historical_relation_count": 738,
+    "novel_relation_count": 0,
+    "folklore_relation_count": 0,
+    "uncertain_relation_count": 0
+  },
+  "errors": [],
+  "warnings": [
+    "same_name_candidates_require_review",
+    "wikidata_relations_are_not_independently_verified"
+  ],
+  "checks": {
+    "persons_schema": {
+      "status": "pass",
+      "errors": []
+    },
+    "relations_schema": {
+      "status": "pass",
+      "errors": []
+    },
+    "same_names": {
+      "status": "review",
+      "count": 4,
+      "items": [
+        {
+          "normalized_name": "太祖",
+          "person_ids": [
+            "person:wd:Q204077",
+            "person:wd:Q313327",
+            "person:wd:Q532884"
+          ],
+          "matches": [
+            {
+              "person_id": "person:wd:Q532884",
+              "matched_name": "太祖",
+              "primary_name": "司马昭"
+            },
+            {
+              "person_id": "person:wd:Q313327",
+              "matched_name": "太祖",
+              "primary_name": "孙权"
+            },
+            {
+              "person_id": "person:wd:Q204077",
+              "matched_name": "太祖",
+              "primary_name": "曹操"
+            }
+          ]
+        },
+        {
+          "normalized_name": "文帝",
+          "person_ids": [
+            "person:wd:Q1195417",
+            "person:wd:Q313333"
+          ],
+          "matches": [
+            {
+              "person_id": "person:wd:Q1195417",
+              "matched_name": "文帝",
+              "primary_name": "孫和"
+            },
+            {
+              "person_id": "person:wd:Q313333",
+              "matched_name": "文帝",
+              "primary_name": "曹丕"
+            }
+          ]
+        },
+        {
+          "normalized_name": "文皇帝",
+          "person_ids": [
+            "person:wd:Q1195417",
+            "person:wd:Q313333",
+            "person:wd:Q532884"
+          ],
+          "matches": [
+            {
+              "person_id": "person:wd:Q532884",
+              "matched_name": "文皇帝",
+              "primary_name": "司马昭"
+            },
+            {
+              "person_id": "person:wd:Q1195417",
+              "matched_name": "文皇帝",
+              "primary_name": "孫和"
+            },
+            {
+              "person_id": "person:wd:Q313333",
+              "matched_name": "文皇帝",
+              "primary_name": "曹丕"
+            }
+          ]
+        },
+        {
+          "normalized_name": "景皇帝",
+          "person_ids": [
+            "person:wd:Q468767",
+            "person:wd:Q707808"
+          ],
+          "matches": [
+            {
+              "person_id": "person:wd:Q707808",
+              "matched_name": "景皇帝",
+              "primary_name": "司馬師"
+            },
+            {
+              "person_id": "person:wd:Q468767",
+              "matched_name": "景皇帝",
+              "primary_name": "孫休"
+            }
+          ]
+        }
+      ]
+    },
+    "duplicate_relations": {
+      "status": "pass",
+      "count": 0,
+      "items": []
+    },
+    "parent_child_inverse_overlaps": {
+      "status": "pass",
+      "count": 0,
+      "items": []
+    },
+    "dangling_relations": {
+      "status": "pass",
+      "count": 0,
+      "items": []
+    },
+    "invalid_date_ranges": {
+      "status": "pass",
+      "count": 0,
+      "items": []
+    },
+    "self_relations": {
+      "status": "pass",
+      "count": 0,
+      "items": []
+    }
+  }
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "id": "person_cao_song",
+    "name": "曹嵩",
+    "courtesyName": null,
+    "otherNames": [],
+    "gender": "male",
+    "birthYear": null,
+    "deathYear": null,
+    "clan": "谯县曹氏",
+    "factions": ["东汉"],
+    "description": "Milestone 0 示例人物。",
+    "historicity": "historical",
+    "reviewStatus": "pending_review",
+    "note": "示例数据，待史料复核。"
+  },
+  {
+    "id": "person_cao_cao",
+    "name": "曹操",
+    "courtesyName": "孟德",
+    "otherNames": [],
+    "gender": "male",
+    "birthYear": 155,
+    "deathYear": 220,
+    "clan": "谯县曹氏",
+    "factions": ["东汉", "曹魏政权"],
+    "description": "Milestone 0 示例人物。",
+    "historicity": "historical",
+    "reviewStatus": "pending_review",
+    "note": "示例数据，待史料复核。"
+  },
+  {
+    "id": "person_cao_pi",
+    "name": "曹丕",
+    "courtesyName": "子桓",
+    "otherNames": [],
+    "gender": "male",
+    "birthYear": 187,
+    "deathYear": 226,
+    "clan": "谯县曹氏",
+    "factions": ["东汉", "曹魏"],
+    "description": "Milestone 0 示例人物。",
+    "historicity": "historical",
+    "reviewStatus": "pending_review",
+    "note": "示例数据，待史料复核。"
+  }
+]
+

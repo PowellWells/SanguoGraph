@@ -1,0 +1,56 @@
+{
+  "scope": "core_families_v1",
+  "description": "Four historical core figures and their one-hop Wikidata kinship neighborhood.",
+  "families": [
+    {
+      "key": "cao_cao",
+      "label": "曹操家族",
+      "root_qid": "Q204077",
+      "root_name_zh": "曹操",
+      "faction": "曹魏"
+    },
+    {
+      "key": "liu_bei",
+      "label": "刘备家族",
+      "root_qid": "Q245315",
+      "root_name_zh": "刘备",
+      "faction": "蜀汉"
+    },
+    {
+      "key": "sun_quan",
+      "label": "孙权家族",
+      "root_qid": "Q313327",
+      "root_name_zh": "孙权",
+      "faction": "东吴"
+    },
+    {
+      "key": "sima_yi",
+      "label": "司马懿家族",
+      "root_qid": "Q353698",
+      "root_name_zh": "司马懿",
+      "faction": "曹魏"
+    }
+  ],
+  "wikidata_properties": {
+    "father": "P22",
+    "mother": "P25",
+    "spouse": "P26",
+    "child": "P40",
+    "sibling": "P3373"
+  },
+  "person_properties": {
+    "instance_of": "P31",
+    "birth_date": "P569",
+    "death_date": "P570",
+    "courtesy_name": "P1782"
+  },
+  "historical_human_qids": [
+    "Q5"
+  ],
+  "fictional_entity_qids": [
+    "Q95074",
+    "Q15632617",
+    "Q15773347"
+  ]
+}
+
