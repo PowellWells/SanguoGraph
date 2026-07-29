@@ -1,6 +1,10 @@
 import type { Core, ElementDefinition, EventObject } from 'cytoscape';
 import { useEffect, useRef } from 'react';
 import type { Person, Relation, RelationType } from '../../domain';
+import {
+  getPersonGraphClasses,
+  getRelationGraphClasses,
+} from '../../services/graphVisualEncoding';
 import { getRelationClaim } from '../../services/relationPresentation';
 import { GraphLegend } from './GraphLegend';
 import { GraphToolbar } from './GraphToolbar';
@@ -85,7 +89,10 @@ function buildElements(
         person.id === 'person:sg:cao_cao',
     },
     position: positions[person.id],
-    classes: `person ${person.gender}${person.id === 'person:sg:cao_cao' ? ' core' : ''}${lockedPersonIds.has(person.id) ? ' locked' : ''}`,
+    classes: getPersonGraphClasses(
+      person,
+      lockedPersonIds.has(person.id),
+    ),
   }));
   const edges: ElementDefinition[] = relations.map((relation) => ({
     data: {
@@ -98,7 +105,11 @@ function buildElements(
           ? '候选'
           : relationLabels[relation.type],
     },
-    classes: `${relation.type} ${relation.origin} ${getRelationClaim(relation, persons).evidenceBasis}${highlightedRelationIds.has(relation.id) ? ' path-highlight' : ''}`,
+    classes: getRelationGraphClasses(
+      relation,
+      getRelationClaim(relation, persons).evidenceBasis,
+      highlightedRelationIds.has(relation.id),
+    ),
   }));
   return [...nodes, ...edges];
 }
@@ -186,10 +197,10 @@ export function RelationshipGraph({
             style: {
               width: 54,
               height: 54,
-              'background-color': '#fbf7ee',
-              'border-color': '#b88a42',
+              'background-color': '#68727d',
+              'border-color': '#47515c',
               'border-width': 2,
-              color: '#20242a',
+              color: '#ffffff',
               label: 'data(label)',
               'font-family': 'Songti SC, Microsoft YaHei, serif',
               'font-size': 10,
@@ -201,19 +212,79 @@ export function RelationshipGraph({
             },
           },
           {
-            selector: 'node[ancestor]',
+            selector: 'node.faction-wei',
             style: {
-              'background-color': '#f8f2e7',
-              'border-color': '#b37a2e',
-              'border-width': 2,
+              'background-color': '#3f6f9f',
+              'border-color': '#244e79',
+              color: '#ffffff',
             },
           },
           {
-            selector: 'node.female',
+            selector: 'node.faction-wei.female',
             style: {
-              'background-color': '#e8edf3',
-              'border-color': '#27466f',
-              shape: 'ellipse',
+              'background-color': '#dce9f5',
+              'border-color': '#47749e',
+              color: '#183751',
+            },
+          },
+          {
+            selector: 'node.faction-shu',
+            style: {
+              'background-color': '#aa3d45',
+              'border-color': '#7f252c',
+              color: '#ffffff',
+            },
+          },
+          {
+            selector: 'node.faction-shu.female',
+            style: {
+              'background-color': '#f3dadd',
+              'border-color': '#bd6269',
+              color: '#5f2227',
+            },
+          },
+          {
+            selector: 'node.faction-wu',
+            style: {
+              'background-color': '#3f7b59',
+              'border-color': '#285d40',
+              color: '#ffffff',
+            },
+          },
+          {
+            selector: 'node.faction-wu.female',
+            style: {
+              'background-color': '#dcecdf',
+              'border-color': '#5f8f70',
+              color: '#244a33',
+            },
+          },
+          {
+            selector: 'node.faction-other',
+            style: {
+              'background-color': '#68727d',
+              'border-color': '#47515c',
+              color: '#ffffff',
+            },
+          },
+          {
+            selector: 'node.faction-other.female',
+            style: {
+              'background-color': '#e8ebee',
+              'border-color': '#7f8891',
+              color: '#343a40',
+            },
+          },
+          {
+            selector: 'node.person-confirmed',
+            style: {
+              'border-style': 'solid',
+            },
+          },
+          {
+            selector: 'node.person-pending',
+            style: {
+              'border-style': 'dashed',
             },
           },
           {
@@ -221,35 +292,26 @@ export function RelationshipGraph({
             style: {
               width: 66,
               height: 66,
-              'background-color': '#b51217',
-              'border-color': '#9c0e13',
               'border-width': 3,
-              color: '#ffffff',
               'font-size': 13,
             },
           },
           {
             selector: 'node:selected',
             style: {
-              'border-color': '#b51217',
+              'border-color': '#d5a52f',
               'border-width': 4,
-              'underlay-color': '#b51217',
-              'underlay-opacity': 0.12,
+              'underlay-color': '#d5a52f',
+              'underlay-opacity': 0.16,
               'underlay-padding': 7,
-            },
-          },
-          {
-            selector: 'node.core:selected',
-            style: {
-              'background-color': '#b51217',
-              color: '#ffffff',
             },
           },
           {
             selector: 'node.locked',
             style: {
-              'border-style': 'double',
-              'border-width': 5,
+              'underlay-color': '#1d2630',
+              'underlay-opacity': 0.13,
+              'underlay-padding': 10,
             },
           },
           {
@@ -285,14 +347,12 @@ export function RelationshipGraph({
               width: 1.8,
               'line-color': '#34383d',
               'target-arrow-shape': 'none',
-              'line-style': 'solid',
               'text-rotation': 'none',
             },
           },
           {
             selector: 'edge.adoptive_father_of, edge.adoptive_mother_of',
             style: {
-              'line-style': 'dashed',
               'line-color': '#b51217',
               'target-arrow-color': '#b51217',
               'target-arrow-shape': 'triangle',
@@ -301,7 +361,6 @@ export function RelationshipGraph({
           {
             selector: 'edge.indirect_inference',
             style: {
-              'line-style': 'dashed',
               'line-color': '#b51217',
               'target-arrow-color': '#b51217',
             },
@@ -311,13 +370,26 @@ export function RelationshipGraph({
             style: {
               'line-color': '#8d9299',
               'target-arrow-color': '#8d9299',
-              'line-style': 'dashed',
               'curve-style': 'unbundled-bezier',
               'control-point-distances': 28,
               'control-point-weights': 0.5,
               color: '#71767d',
               width: 1.4,
               opacity: 0.82,
+            },
+          },
+          {
+            selector: 'edge.relation-confirmed',
+            style: {
+              'line-style': 'solid',
+              opacity: 1,
+            },
+          },
+          {
+            selector: 'edge.relation-pending',
+            style: {
+              'line-style': 'dashed',
+              opacity: 0.76,
             },
           },
           {

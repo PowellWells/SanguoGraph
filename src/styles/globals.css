@@ -1754,6 +1754,7 @@ select {
   gap: 5px 11px;
   color: #52575d;
   font-size: 0.59rem;
+  row-gap: 4px;
 }
 
 .graph-legend::before {
@@ -1771,22 +1772,48 @@ select {
   border-top-width: 1.5px;
 }
 
-.legend-line.mother,
-.legend-line.father {
-  border-color: var(--seal);
+.legend-line.confirmed {
+  border-color: #4f5963;
+  border-top-style: solid;
 }
 
-.legend-line.spouse {
-  border-color: #34383d;
+.legend-line.pending {
+  border-color: #7d858d;
+  border-top-style: dashed;
 }
 
-.legend-line.adoptive,
-.legend-line.inferred {
-  border-color: var(--seal);
+.legend-person,
+.legend-color {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #59636d;
+  border-radius: 50%;
+  background: #eef0f2;
 }
 
-.legend-line.candidate {
-  border-color: #8d9299;
+.legend-person.pending {
+  border-style: dashed;
+}
+
+.legend-color.wei {
+  border-color: #244e79;
+  background: #3f6f9f;
+}
+
+.legend-color.shu {
+  border-color: #7f252c;
+  background: #aa3d45;
+}
+
+.legend-color.wu {
+  border-color: #285d40;
+  background: #3f7b59;
+}
+
+.legend-color.other {
+  border-color: #47515c;
+  background: #68727d;
 }
 
 .graph-toolbar {
