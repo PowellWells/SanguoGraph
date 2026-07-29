@@ -44,7 +44,7 @@ export function App() {
       <Header currentRoute={route} />
       <main className="main-content">{page}</main>
       <footer className="site-footer">
-        <p>Milestone 1 · 正式关系与 Wikidata 候选线索分层展示</p>
+        <p>Milestone 1.1 · 可视化前端 · 正式关系与候选线索分层展示</p>
       </footer>
     </div>
   );

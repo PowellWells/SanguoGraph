@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { GraphControls } from '../components/graph/GraphControls';
 import { RelationshipGraph } from '../components/graph/RelationshipGraph';
+import { GraphSummary } from '../components/graph/GraphSummary';
 import { PersonPanel } from '../components/person/PersonPanel';
 import { graphData } from '../data';
 import type {
@@ -129,12 +130,19 @@ export function HomePage() {
   return (
     <>
       <section className="page-intro">
-        <p className="eyebrow">可追溯史料 · 分层表达 · 开放协作</p>
-        <h1>从史料出发，看见曹操核心家庭的关系</h1>
-        <p>
-          当前图谱收录15名人物。默认只展示已核验关系；Wikidata
-          只作为可选择、默认隐藏的发现线索。
-        </p>
+        <div className="intro-copy">
+          <p className="eyebrow">可追溯史料 · 分层表达 · 开放协作</p>
+          <h1>从史料出发，看见曹操核心家庭的关系</h1>
+          <p>
+            沿着父母、夫妻与收养连线阅读家族结构；点击节点查看人物，
+            点击连线回到具体史料。
+          </p>
+        </div>
+        <GraphSummary
+          personCount={graphData.persons.length}
+          relationCount={graphData.relations.length}
+          sourceCount={graphData.sources.length}
+        />
       </section>
       <section className="workspace" aria-label="人物关系图谱工作区">
         <GraphControls

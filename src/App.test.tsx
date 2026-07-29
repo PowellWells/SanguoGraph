@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { App } from './App';
 
@@ -8,12 +14,19 @@ const graphElement = {
   select: selectElement,
   isNode: () => true,
 };
+const positionNodes = vi.fn();
+const fitGraph = vi.fn();
 const graphInstance = {
   destroy: destroyGraph,
   on: vi.fn(),
   elements: () => ({ unselect: vi.fn() }),
+  nodes: () => ({ positions: positionNodes }),
   getElementById: () => graphElement,
   animate: vi.fn(),
+  resize: vi.fn(),
+  fit: fitGraph,
+  zoom: vi.fn(() => 1),
+  center: vi.fn(),
 };
 const createGraph = vi.fn(() => graphInstance);
 
@@ -51,6 +64,13 @@ describe('application routes and home interaction', () => {
     expect(
       screen.getByRole('checkbox', { name: '显示 Wikidata 候选线索' }),
     ).not.toBeChecked();
+    const summary = screen.getByLabelText('图谱数据摘要');
+    expect(within(summary).getByText('15')).toBeInTheDocument();
+    expect(within(summary).getByText('23')).toBeInTheDocument();
+    expect(within(summary).getByText('6')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: '适应画布' }),
+    ).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '曹操' })).toBeInTheDocument();
     await waitFor(() => expect(createGraph).toHaveBeenCalledOnce());
   });

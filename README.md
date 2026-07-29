@@ -15,6 +15,8 @@ structured-data candidates.
   annotations;
 - Cytoscape.js graph with search, relation filters, and all/one-hop/two-hop
   views;
+- generation-aware desktop and compact mobile layouts with zoom and fit
+  controls;
 - a lazy, opt-in Wikidata candidate layer that is hidden by default;
 - responsive desktop and mobile layouts.
 

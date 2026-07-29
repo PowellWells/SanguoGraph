@@ -13,6 +13,13 @@
 - lazy, default-hidden Wikidata candidate overlay
 - formal and processed data quality gates
 
+## Milestone 1.1 — visual frontend completed
+
+- generation-aware family-tree composition instead of generic auto-layout
+- visible relationship labels, canvas controls, and live graph counts
+- compact first-page data summary
+- graph-first mobile reading order with a dedicated two-row descendant layout
+
 ## Milestone 2 — Cao and Xiahou clans
 
 - expand the verified person set only where sources can be located
