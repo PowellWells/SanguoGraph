@@ -10,6 +10,8 @@ export type RelationType =
   | 'adoptive_mother_of'
   | 'clan_relative_of';
 
+export type RelationOrigin = 'recorded' | 'candidate' | 'derived';
+
 export interface Relation {
   id: string;
   sourcePersonId: string;
@@ -18,7 +20,7 @@ export interface Relation {
   certainty: Certainty;
   historicalLayer: HistoricalLayer;
   reviewStatus: ReviewStatus;
+  origin: RelationOrigin;
   sourceIds: string[];
   note: string;
 }
-

@@ -1,58 +1,78 @@
-# 三国人物亲属关系数据管线
+# SanguoGraph / 三国人物关系谱
 
-本项目面向三国历史人物亲属关系图。第一版仅覆盖曹操、刘备、孙权、司马懿四个核心人物的一跳亲属，并明确区分历史人物、小说人物、民间传说和暂不能判定的记录。
+[简体中文](README.zh-CN.md)
 
-## 数据原则
+SanguoGraph is an early-stage, source-traceable knowledge graph for historical
+relationships in the Three Kingdoms period. Milestone 1 presents Cao Cao's core
+family while keeping verified historical records separate from external
+structured-data candidates.
 
-- 不把《三国演义》或衍生人物图谱直接当作正史。
-- GitHub 参考仓库无明确许可证时一律登记为 `reference_only`，不导入 processed 数据。
-- Wikidata 是发现候选关系的结构化入口，不等于史料核验。自动导入关系均为 `verified: false`。
-- `verified: true` 仅保留给后续已经由人工对照可靠历史文献的记录。
-- 不依据同姓推断 `clan`，也不把普通亲生关系推断为收养关系。
-- 原始响应缓存在 `data/raw/wikidata/cache/`；清洗脚本只读取，不改写原始下载内容。
+## Milestone 1
 
-## 目录
+- 15 locally identified people (`person:sg:*`);
+- 23 recorded father, mother, spouse, and adoptive-parent relationships;
+- inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
+  annotations;
+- Cytoscape.js graph with search, relation filters, and all/one-hop/two-hop
+  views;
+- a lazy, opt-in Wikidata candidate layer that is hidden by default;
+- responsive desktop and mobile layouts.
 
-```text
-config/                 四个核心家族和 Wikidata 属性配置
-data/raw/               外部仓库及 Wikidata 原始缓存（不纳入 Git）
-data/interim/           标准化过程文件（可重建）
-data/processed/         前端和下游使用的最终 JSON
-data/sources/           数据源、许可证和用途登记
-schemas/                persons.json 与 relations.json 的 JSON Schema
-scripts/                下载、标准化、检测和流水线脚本
-```
+Wikidata QIDs are external identifiers only. They are never project primary
+keys and cannot establish a `confirmed` relationship.
 
-## 运行
+## Evidence policy
 
-需要 Python 3.10+。JSON Schema 校验使用 `jsonschema`；如果环境中没有，可先安装：
+- Official-history, annotated-history, literary, and structured-candidate
+  claims remain separate.
+- `certainty` describes the claim; `reviewStatus` describes editorial review.
+- A `confirmed` relation must be `verified` and cite at least one historical
+  source that is not a structured dataset.
+- Candidate or program-derived relationships are never written into the formal
+  relationship JSON.
+- Quotations and references must not be invented.
+
+See [Source policy](docs/SOURCE_POLICY.md) and
+[Data schema](docs/DATA_SCHEMA.md).
+
+## Local development
+
+Requires Node.js 18.18+ and npm.
 
 ```powershell
-py -3.12 -m pip install "jsonschema>=4.18,<5"
+npm install
+npm run dev
 ```
 
-完整运行：
+Run the complete quality gate:
 
 ```powershell
-py -3.12 scripts/run_pipeline.py
+npm run lint
+npm run test
+npm run validate:data
+npm run validate:processed
+npm run build
+npm audit --omit=dev
 ```
 
-分步运行：
+The production Vite base path is `/sanguo-graph/`, and navigation uses hash
+routes so project GitHub Pages refreshes do not require server rewrites.
 
-```powershell
-py -3.12 scripts/download_wikidata.py --depth 1 --batch-size 100
-py -3.12 scripts/normalize_data.py
-py -3.12 scripts/validate_data.py
-```
+## Candidate data pipeline
 
-`download_wikidata.py` 会拒绝大于 100 的批大小；鉴于 Wikidata 匿名 API 当前单批上限为 50，脚本还会把实际请求自动收紧到 50。再次运行会优先复用缓存。要做历史史料校订，可在 `data/interim/curation_overrides.json` 中覆盖关系的 `universe`、`confidence` 和 `verified`，但必须同时加入可追溯来源。
+The checked-in `data/processed` layer contains 99 people and 738 unverified
+Wikidata-derived candidate relations. The website fetches `graph.json` only
+when a reader enables the candidate switch and adapts only records involving
+the 15 formal people.
 
-## 关系语义
+The reproducible Python pipeline and source/license registry are documented in
+[Candidate data pipeline](docs/CANDIDATE_PIPELINE.md). CI validates the
+processed files against JSON Schema and fixed SHA-256 values; it does not
+download Wikidata.
 
-- `father` / `mother`：source 人物的父亲 / 母亲是 target。
-- `child`：source 人物的子女是 target；若同一亲子对已有更具体的 `father` 或 `mother`，标准化时不重复保留 `child`。
-- `spouse` / `sibling`：对称关系，输出时每对人物只保留一条。
-- `adoptive_parent` / `adoptive_child`：仅接受明确来源，不从普通父母子女关系推断。
-- `clan`：仅用于有明确宗族依据的人物对，不按姓氏自动推断。
+## License
 
-前端直接读取 `data/processed/graph.json`，当前流程不需要 Neo4j。
+Source code is available under the [MIT License](LICENSE). Project-maintained
+historical data is currently curated by the maintainers. A standalone data
+license remains an open governance decision in the
+[roadmap](docs/ROADMAP.md); third-party data is not re-licensed as CC0.

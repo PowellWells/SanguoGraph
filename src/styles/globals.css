@@ -41,6 +41,10 @@ input {
   font: inherit;
 }
 
+button {
+  color: inherit;
+}
+
 a {
   color: inherit;
 }
@@ -222,7 +226,7 @@ a {
   border: 1px solid var(--line);
   border-radius: 3px;
   background: #f5f1e8;
-  color: var(--ink-soft);
+  color: var(--ink);
 }
 
 .controls-panel fieldset {
@@ -234,6 +238,10 @@ a {
   border-top: 1px solid var(--line);
 }
 
+.controls-panel fieldset + fieldset {
+  margin-top: 18px;
+}
+
 .controls-panel fieldset label {
   display: flex;
   align-items: center;
@@ -243,8 +251,80 @@ a {
   font-size: 0.86rem;
 }
 
-.controls-panel input[type="checkbox"] {
+.controls-panel input[type="checkbox"],
+.controls-panel input[type="radio"] {
   accent-color: var(--seal);
+}
+
+.search-results {
+  max-height: 180px;
+  margin: -16px 0 24px;
+  padding: 0;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  list-style: none;
+}
+
+.search-results li + li {
+  border-top: 1px solid var(--line);
+}
+
+.search-results button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.search-results button:hover,
+.search-results button:focus-visible {
+  background: var(--paper-muted);
+}
+
+.search-results span,
+.search-empty {
+  color: var(--ink-soft);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.75rem;
+}
+
+.search-empty {
+  padding: 12px;
+}
+
+.candidate-toggle {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-family: "Microsoft YaHei", sans-serif;
+}
+
+.candidate-toggle > label {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.candidate-toggle p,
+.inline-error {
+  margin: 8px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.candidate-toggle .inline-error {
+  color: #8b2d27;
 }
 
 .panel-note {
@@ -259,7 +339,7 @@ a {
 
 .graph-card {
   display: flex;
-  height: 520px;
+  height: 620px;
   min-width: 0;
   flex-direction: column;
   padding: 22px;
@@ -283,7 +363,7 @@ a {
 .graph-canvas {
   position: relative;
   display: grid;
-  min-height: 410px;
+  min-height: 450px;
   flex: 1;
   overflow: hidden;
   place-items: center;
@@ -294,61 +374,43 @@ a {
     #f8f5ee;
 }
 
-.graph-canvas::before,
-.graph-canvas::after {
-  position: absolute;
-  z-index: 0;
-  content: "";
-  background: rgb(159 49 42 / 9%);
-}
-
-.graph-canvas::before {
-  top: 50%;
-  right: 8%;
-  left: 8%;
-  height: 1px;
-}
-
-.graph-canvas::after {
-  top: 8%;
-  bottom: 8%;
-  left: 50%;
-  width: 1px;
-}
-
-.graph-empty-state {
-  position: relative;
-  z-index: 1;
-  max-width: 360px;
-  padding: 32px;
-  background: rgb(248 245 238 / 88%);
-  text-align: center;
-}
-
-.empty-seal {
-  display: grid;
-  width: 54px;
-  height: 54px;
-  margin: 0 auto 20px;
-  place-items: center;
-  border: 2px solid var(--seal);
-  color: var(--seal);
-  font-size: 1.45rem;
-  font-weight: 700;
-  transform: rotate(-3deg);
-}
-
-.graph-empty-state h3 {
-  margin: 0;
-  font-size: 1.08rem;
-}
-
-.graph-empty-state p {
-  margin: 10px 0 0;
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: -4px 0 14px;
   color: var(--ink-soft);
   font-family: "Microsoft YaHei", sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.7;
+  font-size: 0.68rem;
+}
+
+.graph-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-line {
+  display: inline-block;
+  width: 24px;
+  border-top: 2px solid #766d60;
+}
+
+.legend-line.mother {
+  border-color: #a65b52;
+}
+
+.legend-line.spouse {
+  border-color: var(--seal);
+}
+
+.legend-line.adoptive,
+.legend-line.candidate {
+  border-top-style: dashed;
+}
+
+.legend-line.candidate {
+  border-color: #aaa49a;
 }
 
 .person-placeholder {
@@ -378,6 +440,131 @@ a {
 
 .metadata-placeholder {
   margin: 22px 0 0;
+}
+
+.person-years,
+.detail-description,
+.detail-note {
+  margin: 0 0 14px;
+  color: var(--ink-soft);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.detail-description {
+  color: var(--ink);
+}
+
+.detail-subtitle {
+  margin: 24px 0 10px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+}
+
+.kin-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kin-list li {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 6px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.76rem;
+}
+
+.kin-list span,
+.kin-list small {
+  color: var(--ink-soft);
+}
+
+.detail-metadata {
+  margin: 0 0 20px;
+}
+
+.detail-metadata div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.76rem;
+}
+
+.detail-metadata dt,
+.detail-metadata dd {
+  margin: 0;
+}
+
+.detail-metadata dt {
+  color: var(--ink-soft);
+}
+
+.candidate-warning {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border-left: 3px solid #989186;
+  background: #efede8;
+  color: #605b54;
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.74rem;
+  line-height: 1.6;
+}
+
+.evidence-list {
+  display: grid;
+  gap: 12px;
+}
+
+.evidence-list article,
+.source-catalog article {
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: #f8f5ee;
+}
+
+.evidence-list h4,
+.source-catalog h3 {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.evidence-list blockquote,
+.source-catalog blockquote {
+  margin: 0 0 10px;
+  color: var(--ink-soft);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+
+.evidence-list a,
+.source-catalog a {
+  color: var(--seal);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.source-catalog {
+  display: grid;
+  gap: 14px;
+}
+
+.source-catalog p {
+  margin-bottom: 10px !important;
+  font-size: 0.8rem;
 }
 
 .metadata-placeholder div {
@@ -498,12 +685,12 @@ a {
   }
 
   .graph-card {
-    height: 480px;
-    min-height: 480px;
+    height: 560px;
+    min-height: 560px;
   }
 
   .graph-canvas {
-    min-height: 360px;
+    min-height: 400px;
   }
 
   .person-panel {

@@ -8,11 +8,17 @@ export interface GraphData {
 
 export type ValidationCode =
   | 'DUPLICATE_ID'
+  | 'INVALID_LOCAL_ID'
   | 'UNKNOWN_PERSON'
   | 'SELF_RELATION'
   | 'UNKNOWN_SOURCE'
+  | 'VERIFIED_PERSON_WITHOUT_HISTORICAL_SOURCE'
   | 'CONFIRMED_RELATION_NOT_VERIFIED'
-  | 'CONFIRMED_RELATION_WITHOUT_SOURCE';
+  | 'CONFIRMED_RELATION_WITHOUT_HISTORICAL_SOURCE'
+  | 'CANDIDATE_NOT_PENDING'
+  | 'RAW_RELATION_NOT_RECORDED'
+  | 'DUPLICATE_SPOUSE'
+  | 'PARENT_CYCLE';
 
 export interface ValidationIssue {
   code: ValidationCode;
@@ -26,21 +32,75 @@ function findDuplicateIds(
   entities: ReadonlyArray<{ id: string }>,
 ): ValidationIssue[] {
   const seen = new Set<string>();
-  const duplicateIds = new Set<string>();
+  const duplicates = new Set<string>();
 
   for (const entity of entities) {
     if (seen.has(entity.id)) {
-      duplicateIds.add(entity.id);
+      duplicates.add(entity.id);
     }
     seen.add(entity.id);
   }
 
-  return Array.from(duplicateIds).map((entityId) => ({
+  return [...duplicates].map((entityId) => ({
     code: 'DUPLICATE_ID',
     collection,
     entityId,
     message: `${collection} 中存在重复 ID：${entityId}`,
   }));
+}
+
+function isHistoricalEvidence(source: HistoricalSource | undefined): boolean {
+  return source !== undefined && source.sourceType !== 'structured_dataset';
+}
+
+function findParentCycle(relations: Relation[]): string[] | null {
+  const parentTypes = new Set([
+    'father_of',
+    'mother_of',
+    'adoptive_father_of',
+    'adoptive_mother_of',
+  ]);
+  const adjacency = new Map<string, string[]>();
+
+  for (const relation of relations) {
+    if (!parentTypes.has(relation.type)) {
+      continue;
+    }
+    const children = adjacency.get(relation.sourcePersonId) ?? [];
+    children.push(relation.targetPersonId);
+    adjacency.set(relation.sourcePersonId, children);
+  }
+
+  const visiting = new Set<string>();
+  const visited = new Set<string>();
+
+  const visit = (id: string, trail: string[]): string[] | null => {
+    if (visiting.has(id)) {
+      return [...trail, id];
+    }
+    if (visited.has(id)) {
+      return null;
+    }
+
+    visiting.add(id);
+    for (const child of adjacency.get(id) ?? []) {
+      const cycle = visit(child, [...trail, id]);
+      if (cycle) {
+        return cycle;
+      }
+    }
+    visiting.delete(id);
+    visited.add(id);
+    return null;
+  };
+
+  for (const id of adjacency.keys()) {
+    const cycle = visit(id, []);
+    if (cycle) {
+      return cycle;
+    }
+  }
+  return null;
 }
 
 export function validateGraphData(data: GraphData): ValidationIssue[] {
@@ -50,25 +110,58 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
     ...findDuplicateIds('sources', data.sources),
   ];
   const personIds = new Set(data.persons.map((person) => person.id));
-  const sourceIds = new Set(data.sources.map((source) => source.id));
+  const sourcesById = new Map(data.sources.map((source) => [source.id, source]));
+  const spousePairs = new Map<string, string>();
 
-  for (const relation of data.relations) {
-    if (!personIds.has(relation.sourcePersonId)) {
+  for (const person of data.persons) {
+    if (!/^person:sg:[a-z0-9_]+$/.test(person.id)) {
       issues.push({
-        code: 'UNKNOWN_PERSON',
-        collection: 'relations',
-        entityId: relation.id,
-        message: `${relation.id} 引用了不存在的起点人物：${relation.sourcePersonId}`,
+        code: 'INVALID_LOCAL_ID',
+        collection: 'persons',
+        entityId: person.id,
+        message: `${person.id} 不是有效的项目本地人物 ID。`,
       });
     }
 
-    if (!personIds.has(relation.targetPersonId)) {
+    for (const sourceId of person.sourceIds) {
+      if (!sourcesById.has(sourceId)) {
+        issues.push({
+          code: 'UNKNOWN_SOURCE',
+          collection: 'persons',
+          entityId: person.id,
+          message: `${person.id} 引用了不存在的史料：${sourceId}`,
+        });
+      }
+    }
+
+    if (
+      person.reviewStatus === 'verified' &&
+      !person.sourceIds.some((sourceId) =>
+        isHistoricalEvidence(sourcesById.get(sourceId)),
+      )
+    ) {
       issues.push({
-        code: 'UNKNOWN_PERSON',
-        collection: 'relations',
-        entityId: relation.id,
-        message: `${relation.id} 引用了不存在的终点人物：${relation.targetPersonId}`,
+        code: 'VERIFIED_PERSON_WITHOUT_HISTORICAL_SOURCE',
+        collection: 'persons',
+        entityId: person.id,
+        message: `${person.id} 标记为 verified 时必须引用至少一条历史文献。`,
       });
+    }
+  }
+
+  for (const relation of data.relations) {
+    for (const [field, personId] of [
+      ['起点', relation.sourcePersonId],
+      ['终点', relation.targetPersonId],
+    ] as const) {
+      if (!personIds.has(personId)) {
+        issues.push({
+          code: 'UNKNOWN_PERSON',
+          collection: 'relations',
+          entityId: relation.id,
+          message: `${relation.id} 引用了不存在的${field}人物：${personId}`,
+        });
+      }
     }
 
     if (relation.sourcePersonId === relation.targetPersonId) {
@@ -80,12 +173,8 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
       });
     }
 
-    const validSourceCount = relation.sourceIds.filter((sourceId) =>
-      sourceIds.has(sourceId),
-    ).length;
-
     for (const sourceId of relation.sourceIds) {
-      if (!sourceIds.has(sourceId)) {
+      if (!sourcesById.has(sourceId)) {
         issues.push({
           code: 'UNKNOWN_SOURCE',
           collection: 'relations',
@@ -95,27 +184,77 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
       }
     }
 
+    if (relation.origin !== 'recorded') {
+      issues.push({
+        code: 'RAW_RELATION_NOT_RECORDED',
+        collection: 'relations',
+        entityId: relation.id,
+        message: `${relation.id} 位于正式原始数据中，origin 必须为 recorded。`,
+      });
+    }
+
+    if (
+      relation.origin === 'candidate' &&
+      relation.reviewStatus !== 'pending_review'
+    ) {
+      issues.push({
+        code: 'CANDIDATE_NOT_PENDING',
+        collection: 'relations',
+        entityId: relation.id,
+        message: `${relation.id} 是候选关系，必须保持 pending_review。`,
+      });
+    }
+
     if (relation.certainty === 'confirmed') {
       if (relation.reviewStatus !== 'verified') {
         issues.push({
           code: 'CONFIRMED_RELATION_NOT_VERIFIED',
           collection: 'relations',
           entityId: relation.id,
-          message: `${relation.id} 标记为 confirmed 时必须已通过人工核验。`,
+          message: `${relation.id} 标记为 confirmed 时必须已经人工核验。`,
         });
       }
-
-      if (validSourceCount === 0) {
+      if (
+        !relation.sourceIds.some((sourceId) =>
+          isHistoricalEvidence(sourcesById.get(sourceId)),
+        )
+      ) {
         issues.push({
-          code: 'CONFIRMED_RELATION_WITHOUT_SOURCE',
+          code: 'CONFIRMED_RELATION_WITHOUT_HISTORICAL_SOURCE',
           collection: 'relations',
           entityId: relation.id,
-          message: `${relation.id} 标记为 confirmed 时必须至少引用一条有效史料。`,
+          message: `${relation.id} 标记为 confirmed 时必须引用非结构化数据集的历史文献。`,
         });
+      }
+    }
+
+    if (relation.type === 'spouse_of') {
+      const pair = [relation.sourcePersonId, relation.targetPersonId]
+        .sort()
+        .join('|');
+      const previous = spousePairs.get(pair);
+      if (previous) {
+        issues.push({
+          code: 'DUPLICATE_SPOUSE',
+          collection: 'relations',
+          entityId: relation.id,
+          message: `${relation.id} 与 ${previous} 重复表达同一夫妻关系。`,
+        });
+      } else {
+        spousePairs.set(pair, relation.id);
       }
     }
   }
 
+  const cycle = findParentCycle(data.relations);
+  if (cycle) {
+    issues.push({
+      code: 'PARENT_CYCLE',
+      collection: 'relations',
+      entityId: cycle[0],
+      message: `父母或收养关系形成有向环：${cycle.join(' → ')}`,
+    });
+  }
+
   return issues;
 }
-

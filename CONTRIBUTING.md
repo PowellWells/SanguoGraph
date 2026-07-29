@@ -15,22 +15,25 @@ require a higher evidence standard than interface changes.
    npm run lint
    npm run test
    npm run validate:data
+   npm run validate:processed
    npm run build
    ```
 
 4. Explain the user-visible change and the evidence behind any data change.
 
-Do not commit `node_modules`, `dist`, local candidate datasets, credentials, or
-generated build artifacts.
+Do not commit `node_modules`, `dist`, raw/interim caches, credentials, or
+generated build artifacts. Do not hand-edit `data/processed`; rebuild and
+review it through the documented candidate pipeline.
 
 ## Data contributions
 
-- Use stable IDs rather than names as references.
+- Use project-local `person:sg:*` IDs rather than names or Wikidata QIDs as
+  primary references.
 - Preserve official-history, annotated-history, literature, and later-tradition
   layers separately.
 - Keep new claims as `pending_review` until a maintainer verifies the source.
-- Do not mark a relationship `confirmed` without at least one valid source
-  record.
+- Do not mark a relationship `confirmed` without at least one valid,
+  non-structured historical source record.
 - Do not invent quotations or fill missing source fields with guesses.
 - Provide a direct, verifiable reference wherever lawful and practical.
 
@@ -45,4 +48,3 @@ provenance are documented and compatible with the project.
 
 The standalone license for project-maintained historical data is not yet
 settled; see `docs/ROADMAP.md`.
-

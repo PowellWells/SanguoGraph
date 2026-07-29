@@ -1,7 +1,11 @@
 import type { HistoricalLayer } from './historicalLayer';
 import type { ReviewStatus } from './reviewStatus';
 
-export type SourceType = 'primary' | 'secondary' | 'literary';
+export type SourceType =
+  | 'primary'
+  | 'secondary'
+  | 'literary'
+  | 'structured_dataset';
 
 export interface HistoricalSource {
   id: string;
@@ -17,4 +21,3 @@ export interface HistoricalSource {
   reviewStatus: ReviewStatus;
   note: string;
 }
-

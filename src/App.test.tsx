@@ -1,11 +1,21 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { App } from './App';
 
 const destroyGraph = vi.fn();
-const createGraph = vi.fn(() => ({
+const selectElement = vi.fn();
+const graphElement = {
+  select: selectElement,
+  isNode: () => true,
+};
+const graphInstance = {
   destroy: destroyGraph,
-}));
+  on: vi.fn(),
+  elements: () => ({ unselect: vi.fn() }),
+  getElementById: () => graphElement,
+  animate: vi.fn(),
+};
+const createGraph = vi.fn(() => graphInstance);
 
 vi.mock('cytoscape', () => ({
   default: createGraph,
@@ -22,44 +32,74 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.clearAllMocks();
+  vi.unstubAllGlobals();
 });
 
-describe('application routes', () => {
-  it('renders the home workspace with an empty graph container', async () => {
-    const { unmount } = renderRoute('/');
+describe('application routes and home interaction', () => {
+  it('renders the verified Cao family graph and keeps candidates off by default', async () => {
+    renderRoute('/');
 
     expect(
       screen.getByRole('heading', {
-        name: '从史料出发，重新看见三国人物之间的联系',
+        name: '从史料出发，看见曹操核心家庭的关系',
       }),
     ).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'aria-label',
-      '空白人物关系图谱画布',
+      '曹操核心家庭人物关系图谱',
     );
-    await waitFor(() => {
-      expect(createGraph).toHaveBeenCalledOnce();
-    });
-
-    unmount();
-    expect(destroyGraph).toHaveBeenCalledOnce();
+    expect(
+      screen.getByRole('checkbox', { name: '显示 Wikidata 候选线索' }),
+    ).not.toBeChecked();
+    expect(screen.getByRole('heading', { name: '曹操' })).toBeInTheDocument();
+    await waitFor(() => expect(createGraph).toHaveBeenCalledOnce());
   });
 
-  it('renders the sources page', () => {
-    renderRoute('/sources');
+  it('searches by a traditional alias and selects the result', () => {
+    renderRoute('/');
+    fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索' }), {
+      target: { value: '曹沖' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /曹冲/ }));
 
+    expect(screen.getByRole('heading', { name: '曹冲' })).toBeInTheDocument();
+  });
+
+  it('degrades safely when candidate loading fails', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockRejectedValue(new Error('离线测试：候选文件不可用')),
+    );
+    renderRoute('/');
+    fireEvent.click(
+      screen.getByRole('checkbox', { name: '显示 Wikidata 候选线索' }),
+    );
+
+    expect(
+      await screen.findByRole('alert'),
+    ).toHaveTextContent('离线测试：候选文件不可用');
+    expect(screen.getByTestId('relationship-graph')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '曹操' })).toBeInTheDocument();
+  });
+
+  it('renders the sources page with the source catalog', () => {
+    renderRoute('/sources');
     expect(
       screen.getByRole('heading', { name: '史料说明', level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getByText('候选数据不等于史实')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', {
+        name: '《三国志》卷一《魏书一·武帝纪》',
+      }),
+    ).toBeInTheDocument();
   });
 
-  it('renders the about page', () => {
+  it('renders the Milestone 1 about page', () => {
     renderRoute('/about');
-
     expect(
       screen.getByRole('heading', { name: '关于 SanguoGraph', level: 1 }),
     ).toBeInTheDocument();
-    expect(screen.getByText('项目边界')).toBeInTheDocument();
+    expect(screen.getByText('如何阅读')).toBeInTheDocument();
   });
 });

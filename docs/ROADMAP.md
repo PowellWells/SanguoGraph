@@ -1,39 +1,36 @@
 # Roadmap
 
-## Milestone 0 — project foundation
+## Milestone 0 — completed
 
-- React, TypeScript, Vite, and Cytoscape.js shell
-- domain models and pending-review sample data
-- automated validation, tests, and GitHub Pages deployment workflow
-- contribution and source policies
+- React, TypeScript, Vite, Cytoscape.js shell, validation, tests, and Pages CI
+- Wikidata candidate pipeline and source/license registry
 
-## Milestone 1 — Cao Cao's core family
+## Milestone 1 — completed
 
-- verify the first historical-source records
-- expand to roughly fifteen core family members
-- render people and foundational relationships in Cytoscape.js
-- add search, node selection, and relationship evidence panels
+- 15-person Cao Cao core family
+- source-backed base relationships and evidence panels
+- search, type filters, all/one-hop/two-hop views
+- lazy, default-hidden Wikidata candidate overlay
+- formal and processed data quality gates
 
 ## Milestone 2 — Cao and Xiahou clans
 
-- extend the verified person set
-- introduce disputed-source presentation
-- add carefully scoped relationship inference
+- expand the verified person set only where sources can be located
+- introduce disputed-source comparison
+- design, but do not silently persist, carefully scoped relationship inference
 
 ## Milestone 3 — evidence system
 
-- improve source browsing and comparison
-- distinguish direct records from derived relationships in the interface
-- add structured correction and source-suggestion issue templates
+- improve source browsing and claim comparison
+- add correction and source-suggestion issue templates
+- consider stable deep links for people and claims
 
 ## Open governance decisions
 
 - Select a standalone license for project-maintained historical data.
-- Document provenance and license compatibility before importing any external
-  dataset.
-- Decide whether future APIs require a backend only after the static dataset
+- Review provenance and license compatibility before every external import.
+- Reassess whether an API/backend is needed only after the static approach
   reaches practical limits.
 
 Until the data-license decision is complete, do not describe third-party or
 project-maintained data as CC0.
-

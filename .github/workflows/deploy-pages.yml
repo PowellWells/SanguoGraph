@@ -34,6 +34,8 @@ jobs:
         run: npm run test
       - name: Validate data
         run: npm run validate:data
+      - name: Validate processed candidate data
+        run: npm run validate:processed
       - name: Build
         run: npm run build
       - name: Configure Pages
@@ -53,4 +55,3 @@ jobs:
       - name: Deploy Pages
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
-

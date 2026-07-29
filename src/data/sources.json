@@ -1,2 +1,86 @@
-[]
-
+[
+  {
+    "id": "source:sg:sgz_wei_01_wudi",
+    "work": "三国志",
+    "section": "卷一·魏书一·武帝纪",
+    "author": "陈寿",
+    "commentator": null,
+    "quotation": "养子嵩嗣……嵩生太祖。",
+    "reference": "《三国志》卷一《魏书一·武帝纪》",
+    "url": "https://zh.wikisource.org/wiki/三國志/卷01",
+    "sourceType": "primary",
+    "historicalLayer": "official_history",
+    "reviewStatus": "verified",
+    "note": "短引文保留关系判断所需的相邻语句，省略号表示中间有省文。"
+  },
+  {
+    "id": "source:sg:sgz_wei_02_wendi",
+    "work": "三国志",
+    "section": "卷二·魏书二·文帝纪",
+    "author": "陈寿",
+    "commentator": null,
+    "quotation": "文皇帝讳丕，字子桓，武帝太子也。",
+    "reference": "《三国志》卷二《魏书二·文帝纪》",
+    "url": "https://zh.wikisource.org/wiki/三國志/卷02",
+    "sourceType": "primary",
+    "historicalLayer": "official_history",
+    "reviewStatus": "verified",
+    "note": ""
+  },
+  {
+    "id": "source:sg:sgz_wei_05_houfei",
+    "work": "三国志",
+    "section": "卷五·魏书五·后妃传·武宣卞皇后",
+    "author": "陈寿",
+    "commentator": null,
+    "quotation": "建安初，丁夫人废，遂以后为继室。",
+    "reference": "《三国志》卷五《魏书五·后妃传》",
+    "url": "https://zh.wikisource.org/wiki/三國志/卷05",
+    "sourceType": "primary",
+    "historicalLayer": "official_history",
+    "reviewStatus": "verified",
+    "note": "同篇正文称卞皇后为文帝母。"
+  },
+  {
+    "id": "source:sg:sgz_wei_05_weilue_note",
+    "work": "三国志",
+    "section": "卷五·魏书五·后妃传·武宣卞皇后裴松之注引《魏略》",
+    "author": null,
+    "commentator": "裴松之",
+    "quotation": "丁养子脩。",
+    "reference": "《三国志》卷五《魏书五·后妃传》裴松之注引《魏略》",
+    "url": "https://zh.wikisource.org/wiki/三國志/卷05",
+    "sourceType": "primary",
+    "historicalLayer": "annotated_history",
+    "reviewStatus": "verified",
+    "note": "注引材料，证据层级与《三国志》正文分开。"
+  },
+  {
+    "id": "source:sg:sgz_wei_19_rencheng",
+    "work": "三国志",
+    "section": "卷十九·魏书十九·任城陈萧王传",
+    "author": "陈寿",
+    "commentator": null,
+    "quotation": "任城威王彰，字子文。",
+    "reference": "《三国志》卷十九《魏书十九·任城陈萧王传》",
+    "url": "https://zh.wikisource.org/wiki/三國志/卷19",
+    "sourceType": "primary",
+    "historicalLayer": "official_history",
+    "reviewStatus": "verified",
+    "note": "本卷分别为曹彰、曹植、曹熊立传。"
+  },
+  {
+    "id": "source:sg:sgz_wei_20_wuwen",
+    "work": "三国志",
+    "section": "卷二十·魏书二十·武文世王公传",
+    "author": "陈寿",
+    "commentator": null,
+    "quotation": "卞皇后生文皇帝、任城威王彰、陈思王植、萧怀王熊；刘夫人生丰愍王昂……环夫人生邓哀王冲、彭城王据、燕王宇。",
+    "reference": "《三国志》卷二十《魏书二十·武文世王公传》",
+    "url": "https://zh.wikisource.org/wiki/三國志/卷20",
+    "sourceType": "primary",
+    "historicalLayer": "official_history",
+    "reviewStatus": "verified",
+    "note": "短引文只保留本里程碑涉及的人物，省略号表示中间省略相殇王铄。"
+  }
+]

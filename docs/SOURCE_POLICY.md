@@ -1,40 +1,36 @@
 # Source policy
 
-SanguoGraph exists to make historical relationship claims inspectable rather
-than merely visual.
+SanguoGraph makes relationship claims inspectable rather than merely visual.
 
 ## Evidence layers
 
-Data must distinguish:
-
-1. `official_history` — statements in official historical texts;
-2. `annotated_history` — material preserved through historical annotations;
+1. `official_history` — the main text of official histories;
+2. `annotated_history` — material preserved in historical annotations;
 3. `literature` — literary works such as *Romance of the Three Kingdoms*;
-4. `later_tradition` — later legends, local traditions, and retrospective
-   claims.
+4. `later_tradition` — later legend or retrospective claims;
+5. `structured_candidate` — external structured-data discovery leads.
 
-These layers may be compared, but they must not be merged into a single claim.
+These layers may be compared but must not be merged into one undifferentiated
+claim.
 
-## Review and certainty
+## Review, certainty, and origin
 
-`reviewStatus` describes editorial workflow. `certainty` describes the strength
-or nature of the claim.
-
-- Candidate imports and initial transcriptions remain `pending_review`.
-- A maintainer may set a record to `verified` only after checking the cited
-  material.
-- `confirmed` requires a verified relationship and at least one valid source.
-- `probable` is not a substitute for missing review; the note should explain
-  why a claim is provisional.
-- `fictional` must use an appropriate literary or later-tradition layer.
+- `reviewStatus` is the editorial workflow; `certainty` is the claim judgment.
+- `origin: recorded` is a directly recorded formal claim.
+- `origin: candidate` is a discovery lead and must remain `pending_review`.
+- `origin: derived` is a future program inference and must not be presented as
+  a direct record.
+- `confirmed` requires `verified` plus at least one non-structured historical
+  source.
+- A locatable annotation may be `verified` while remaining `probable` when the
+  evidence layer warrants caution.
 
 ## Candidate sources
 
-Wikidata, other public knowledge graphs, encyclopedias, and automated extraction
-may identify useful candidates. They cannot by themselves establish a
-historical fact. Every accepted confirmation must return to an inspectable
-source.
+Wikidata and other knowledge graphs may identify candidates but cannot by
+themselves establish historical fact. The UI hides candidates by default and
+labels them “未经过正史核验”.
 
-Do not copy or redistribute third-party datasets until their provenance,
-license, compatibility, and transformation requirements have been reviewed.
-
+Do not copy or redistribute third-party data until provenance, license,
+compatibility, and transformation requirements have been reviewed. Never
+invent quotations, locators, or source links.

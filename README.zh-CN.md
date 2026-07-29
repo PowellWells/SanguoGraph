@@ -2,39 +2,35 @@
 
 [English](README.md)
 
-SanguoGraph
-是一个处于早期阶段的开源三国历史人物关系知识图谱。项目以可追溯史料为核心，
-记录人物之间的亲属、婚姻、收养和宗族关系，并为每条关系保留材料层级、
-可信度和人工核验状态。
+SanguoGraph 是一个处于早期阶段、以可追溯史料为核心的三国历史人物关系知识图谱。
+Milestone 1 展示曹操核心家庭，并严格分离已经核验的历史记录与外部结构化候选。
 
-## 当前进度
+## Milestone 1
 
-Milestone 0 仅提供项目基础：
+- 固定收录15名人物，全部使用项目本地 `person:sg:*` ID；
+- 收录23条父亲、母亲、夫妻和收养基础关系；
+- 每条正式关系可查看《三国志》卷次、短引文和原文链接；
+- Cytoscape.js 图谱支持姓名、字、简繁体与别名搜索；
+- 支持关系类型筛选和全部、1跳、2跳邻域；
+- Wikidata 候选层按需加载、默认关闭，失败不影响正式图谱；
+- 保留桌面三栏和移动端纵向布局。
 
-- 响应式 React 与 Cytoscape.js 页面骨架；
-- 人物、关系和史料的严格 TypeScript 数据类型；
-- 三个待复核示例人物与两条待复核示例关系；
-- 自动数据校验、测试和 GitHub Pages 工作流。
-
-示例数据尚未作为正式关系图展示。史料核验和首个曹操核心家庭交互图谱属于
-Milestone 1。
+Wikidata QID 只保存为外部标识，不能成为项目主键，也不能单独支撑
+`confirmed` 关系。
 
 ## 史料原则
 
-- 正史关系与文学关系必须分层保存。
-- Wikidata 和既有知识图谱只能作为候选线索，不能代替对史料原文的人工核验。
-- 不接受没有有效出处的 `confirmed` 关系。
-- 程序推导出的关系不能伪装成史料直接记载。
+- 正史正文、注引材料、文学叙事和结构化候选必须分层。
+- `certainty` 表达关系判断，`reviewStatus` 表达编辑核验流程。
+- `confirmed` 必须同时为 `verified`，并至少引用一条非结构化数据集的历史文献。
+- 候选关系和未来程序派生关系不得写入正式关系 JSON。
+- 不伪造短引文、卷次或链接。
 
-贡献数据前请阅读[史料政策](docs/SOURCE_POLICY.md)和
-[数据模式](docs/DATA_SCHEMA.md)。
+请阅读[史料政策](docs/SOURCE_POLICY.md)和[数据模式](docs/DATA_SCHEMA.md)。
 
 ## 本地开发
 
-环境要求：
-
-- Node.js 18.18 或更高版本
-- npm
+需要 Node.js 18.18+ 和 npm：
 
 ```powershell
 npm install
@@ -47,20 +43,26 @@ npm run dev
 npm run lint
 npm run test
 npm run validate:data
+npm run validate:processed
 npm run build
+npm audit --omit=dev
 ```
 
-生产构建的 Vite base path 为 `/sanguo-graph/`，用于项目型 GitHub Pages 地址。
+生产构建的 Vite base path 为 `/sanguo-graph/`，并使用 Hash 路由，
+适配项目型 GitHub Pages 的直接刷新。
 
-## 参与贡献
+## Wikidata 候选管线
 
-提交代码或数据前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
-项目不接受无出处的确认关系。
+已提交的 `data/processed` 包含99人、738条 Wikidata 派生的未核验候选关系。
+网页只有在用户主动开启开关时才读取 `graph.json`，且只适配15名正式人物范围内的
+father、mother、spouse；sibling、通用 child 和范围外记录均被忽略。
+
+Python 管线、来源和许可证登记见
+[候选数据管线](docs/CANDIDATE_PIPELINE.md)。CI 只按 JSON Schema 和固定
+SHA-256 校验 processed 文件，不重新下载 Wikidata。
 
 ## 许可证
 
-源代码采用 [MIT License](LICENSE)。
-
-当前项目数据由维护者整理。独立、长期的数据许可证仍在
-[路线图](docs/ROADMAP.md)中评估；项目不会擅自把第三方数据声明为 CC0。
-
+源代码采用 [MIT License](LICENSE)。当前历史数据由项目维护者整理，
+独立数据许可证仍在[路线图](docs/ROADMAP.md)中评估；项目不会擅自把第三方数据
+声明为 CC0。

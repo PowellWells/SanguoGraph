@@ -16,6 +16,9 @@ export interface Person {
   description: string;
   historicity: Historicity;
   reviewStatus: ReviewStatus;
+  sourceIds: string[];
+  externalIds: {
+    wikidata?: string;
+  };
   note: string;
 }
-
