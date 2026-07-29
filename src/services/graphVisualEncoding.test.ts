@@ -15,6 +15,12 @@ const caoCao = graphData.persons.find(
 const ladyDing = graphData.persons.find(
   (person) => person.id === 'person:sg:lady_ding',
 );
+const caoAng = graphData.persons.find(
+  (person) => person.id === 'person:sg:cao_ang',
+);
+const caoSong = graphData.persons.find(
+  (person) => person.id === 'person:sg:cao_song',
+);
 const confirmedRelation = graphData.relations.find(
   (relation) => relation.id === 'relation:sg:cao_cao_spouse_lady_huan',
 );
@@ -22,19 +28,39 @@ const probableRelation = graphData.relations.find(
   (relation) => relation.certainty === 'probable',
 );
 
-if (!caoCao || !ladyDing || !confirmedRelation || !probableRelation) {
+if (
+  !caoCao ||
+  !ladyDing ||
+  !caoAng ||
+  !caoSong ||
+  !confirmedRelation ||
+  !probableRelation
+) {
   throw new Error('图谱视觉编码测试缺少所需的正式数据。');
 }
 
 describe('graph visual encoding', () => {
-  it('maps factions to Wei, Shu, Wu and other without rewriting source data', () => {
+  it('applies the curated Cao-family visual faction without rewriting source data', () => {
     expect(getFactionColorKey(caoCao)).toBe('wei');
-    expect(getFactionColorKey(ladyDing)).toBe('other');
+    expect(getFactionColorKey(ladyDing)).toBe('wei');
+    expect(getFactionColorKey(caoAng)).toBe('wei');
+    expect(getFactionColorKey(caoSong)).toBe('other');
+  });
+
+  it('maps non-overridden factions to Wei, Shu, Wu and other', () => {
     expect(
-      getFactionColorKey({ ...caoCao, factions: ['蜀汉'] }),
+      getFactionColorKey({
+        ...caoSong,
+        id: 'person:test:shu',
+        factions: ['蜀汉'],
+      }),
     ).toBe('shu');
     expect(
-      getFactionColorKey({ ...caoCao, factions: ['孙吴'] }),
+      getFactionColorKey({
+        ...caoSong,
+        id: 'person:test:wu',
+        factions: ['孙吴'],
+      }),
     ).toBe('wu');
   });
 
@@ -44,7 +70,7 @@ describe('graph visual encoding', () => {
       'male faction-wei person-confirmed core',
     );
     expect(getPersonGraphClasses(ladyDing, false)).toContain(
-      'female faction-other person-confirmed',
+      'female faction-wei person-confirmed',
     );
 
     const pendingPerson: Person = {
