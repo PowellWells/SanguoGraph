@@ -71,7 +71,7 @@ describe('application routes and home interaction', () => {
       '曹操核心家庭人物关系图谱',
     );
     expect(
-      screen.getByRole('checkbox', { name: '显示 Wikidata 候选线索' }),
+      screen.getByRole('checkbox', { name: '开放知识库候选' }),
     ).not.toBeChecked();
     const summary = screen.getByLabelText('图谱数据摘要');
     expect(within(summary).getByText('15')).toBeInTheDocument();
@@ -86,7 +86,7 @@ describe('application routes and home interaction', () => {
 
   it('searches by a traditional alias and selects the result', () => {
     renderRoute('/');
-    fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索' }), {
+    fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索与消歧' }), {
       target: { value: '曹沖' },
     });
     fireEvent.click(screen.getByRole('button', { name: /曹冲/ }));
@@ -100,7 +100,7 @@ describe('application routes and home interaction', () => {
     );
     renderRoute('/');
     fireEvent.click(
-      screen.getByRole('checkbox', { name: '显示 Wikidata 候选线索' }),
+      screen.getByRole('checkbox', { name: '开放知识库候选' }),
     );
 
     expect(
@@ -108,6 +108,61 @@ describe('application routes and home interaction', () => {
     ).toHaveTextContent('离线测试：候选文件不可用');
     expect(screen.getByTestId('relationship-graph')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '曹操' })).toBeInTheDocument();
+  });
+
+  it('opens the filtered source catalog from the live summary', () => {
+    renderRoute('/');
+    fireEvent.click(screen.getByRole('button', { name: '6 查看列表' }));
+
+    expect(
+      screen.getByRole('heading', { name: '史料记录（6）' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/这里只统计当前画布/)).toBeInTheDocument();
+    const relationButton = screen.getByRole('button', {
+      name: /曹操 — 环夫人/,
+    });
+    fireEvent.click(relationButton);
+    expect(
+      screen.getByRole('heading', { name: '曹操 — 环夫人' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('夫人；具体位序未见当前史料明确说明'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('依据史料间接推定')).toBeInTheDocument();
+  });
+
+  it('supports hiding a person and returning to the previous graph state', () => {
+    renderRoute('/');
+    fireEvent.click(screen.getByRole('button', { name: '隐藏此人物' }));
+
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-node-count',
+      '14',
+    );
+    fireEvent.click(screen.getByRole('button', { name: '返回上一步' }));
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-node-count',
+      '15',
+    );
+  });
+
+  it('queries a shortest relationship path under current filters', () => {
+    renderRoute('/');
+    fireEvent.click(screen.getByText('双人物关系查询'));
+    fireEvent.change(screen.getByRole('combobox', { name: '人物 A' }), {
+      target: { value: 'person:sg:cao_teng' },
+    });
+    fireEvent.change(screen.getByRole('combobox', { name: '人物 B' }), {
+      target: { value: 'person:sg:cao_pi' },
+    });
+    fireEvent.click(
+      screen.getByRole('button', { name: '查询当前筛选下的最短路径' }),
+    );
+
+    expect(
+      screen.getByRole('heading', { name: '曹腾 — 曹丕' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('共经过 3 条关系；点击任一关系查看完整证据。')).toBeInTheDocument();
   });
 
   it('renders the sources page with the source catalog', () => {

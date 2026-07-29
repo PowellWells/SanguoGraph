@@ -27,10 +27,21 @@
 - embedded candidate layer remains opt-in and hidden by default
 - automated checks prevent external scripts, styles, or data dependencies
 
+## Milestone 1.3 — interaction and evidence loop completed
+
+- relation dossiers with direction, period, qualification, evidence basis,
+  modern interpretation, certainty, dispute, decision, and review status
+- supporting and opposing evidence slots with conservative empty-state wording
+- node expansion/collapse, position locking, hiding, branch isolation, undo,
+  core reset, and complete-network actions
+- live source counts and an actionable source catalog tied to current filters
+- seven independent source-system filters with candidates disabled by default
+- disambiguating search cards, pinyin/context search, and shortest-path queries
+
 ## Milestone 2 — Cao and Xiahou clans
 
 - expand the verified person set only where sources can be located
-- introduce disputed-source comparison
+- populate disputed-source comparison with independently reviewed claims
 - design, but do not silently persist, carefully scoped relationship inference
 
 ## Milestone 3 — evidence system

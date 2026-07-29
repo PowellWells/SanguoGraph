@@ -18,7 +18,9 @@ export type ValidationCode =
   | 'CANDIDATE_NOT_PENDING'
   | 'RAW_RELATION_NOT_RECORDED'
   | 'DUPLICATE_SPOUSE'
-  | 'PARENT_CYCLE';
+  | 'PARENT_CYCLE'
+  | 'UNKNOWN_OPPOSING_SOURCE'
+  | 'CLAIM_DECISION_MISMATCH';
 
 export interface ValidationIssue {
   code: ValidationCode;
@@ -184,6 +186,17 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
       }
     }
 
+    for (const sourceId of relation.claim?.opposingSourceIds ?? []) {
+      if (!sourcesById.has(sourceId)) {
+        issues.push({
+          code: 'UNKNOWN_OPPOSING_SOURCE',
+          collection: 'relations',
+          entityId: relation.id,
+          message: `${relation.id} 引用了不存在的反对或质疑史料：${sourceId}`,
+        });
+      }
+    }
+
     if (relation.origin !== 'recorded') {
       issues.push({
         code: 'RAW_RELATION_NOT_RECORDED',
@@ -224,6 +237,17 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
           collection: 'relations',
           entityId: relation.id,
           message: `${relation.id} 标记为 confirmed 时必须引用非结构化数据集的历史文献。`,
+        });
+      }
+      if (
+        relation.claim &&
+        relation.claim.decisionStatus !== 'confirmed'
+      ) {
+        issues.push({
+          code: 'CLAIM_DECISION_MISMATCH',
+          collection: 'relations',
+          entityId: relation.id,
+          message: `${relation.id} 的 confirmed 可信度与关系结论状态不一致。`,
         });
       }
     }

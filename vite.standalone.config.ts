@@ -1,9 +1,25 @@
 import { defineConfig } from 'vite';
+import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 
 const offlineRedirectPattern =
   /\s*<script id="offline-entry-redirect">[\s\S]*?<\/script>/;
+const trimOfflineWhitespace: Plugin = {
+  name: 'trim-offline-trailing-whitespace',
+  enforce: 'post',
+  generateBundle(_options, bundle) {
+    Object.values(bundle).forEach((entry) => {
+      if (
+        entry.type === 'asset' &&
+        entry.fileName === 'index.html' &&
+        typeof entry.source === 'string'
+      ) {
+        entry.source = entry.source.replace(/[ \t]+$/gm, '');
+      }
+    });
+  },
+};
 
 export default defineConfig({
   base: './',
@@ -19,6 +35,7 @@ export default defineConfig({
     viteSingleFile({
       removeViteModuleLoader: true,
     }),
+    trimOfflineWhitespace,
   ],
   build: {
     outDir: 'offline',

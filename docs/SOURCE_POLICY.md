@@ -13,6 +13,12 @@ SanguoGraph makes relationship claims inspectable rather than merely visual.
 These layers may be compared but must not be merged into one undifferentiated
 claim.
 
+The reader-facing filters refine this into seven independent presentation
+layers: direct official-history records, official-history inferences, other
+ancient sources, modern research, literature, open-knowledge candidates, and
+editor inference. Empty layers remain visible with a zero count so absence of
+data is not mistaken for a negative historical conclusion.
+
 ## Review, certainty, and origin
 
 - `reviewStatus` is the editorial workflow; `certainty` is the claim judgment.
@@ -24,6 +30,11 @@ claim.
   source.
 - A locatable annotation may be `verified` while remaining `probable` when the
   evidence layer warrants caution.
+- “No opposing source recorded” means only that the current project data has
+  none; it must not be read as a claim of scholarly consensus.
+- Spouse rank is displayed only when the cited wording supports it. A “夫人”
+  record derived from a child list is not silently upgraded to wife, successor
+  wife, or concubine.
 
 ## Candidate sources
 

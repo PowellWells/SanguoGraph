@@ -43,8 +43,12 @@ describe('PersonPanel', () => {
       />,
     );
 
-    expect(screen.getByRole('heading', { name: '曹嵩 — 曹操' })).toBeInTheDocument();
-    expect(screen.getByText('confirmed')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '曹嵩 → 曹操' })).toBeInTheDocument();
+    expect(screen.getByText('父子')).toBeInTheDocument();
+    expect(screen.getByText('史料直接记载')).toBeInTheDocument();
+    expect(screen.getAllByText('已确认')).toHaveLength(2);
+    expect(screen.getByText('当前未登记反对材料')).toBeInTheDocument();
+    expect(screen.getByText(/已录史料将曹嵩记为曹操之父/)).toBeInTheDocument();
     expect(screen.getByText(/养子嵩嗣/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '查看原文' })).toHaveAttribute(
       'href',

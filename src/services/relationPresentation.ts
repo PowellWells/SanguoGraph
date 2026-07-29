@@ -1,0 +1,215 @@
+import type {
+  Person,
+  Relation,
+  RelationClaim,
+  RelationType,
+} from '../domain';
+
+export const relationTypeLabels: Readonly<Record<RelationType, string>> = {
+  father_of: '父亲',
+  mother_of: '母亲',
+  spouse_of: '夫妻／配偶',
+  adoptive_father_of: '养父',
+  adoptive_mother_of: '养母',
+  clan_relative_of: '宗族',
+};
+
+export const certaintyLabels = {
+  confirmed: '已确认',
+  probable: '较可信',
+  disputed: '存疑',
+  fictional: '文学关系',
+} as const;
+
+export const reviewStatusLabels = {
+  pending_review: '待核验',
+  verified: '已核验',
+} as const;
+
+export const relationOriginLabels = {
+  recorded: '正式史料记录',
+  candidate: '外部候选线索',
+  derived: '程序派生关系',
+} as const;
+
+export const evidenceBasisLabels = {
+  direct_record: '史料直接记载',
+  indirect_inference: '依据史料间接推定',
+  editor_inference: '编辑者推断',
+  structured_candidate: '开放知识库候选',
+} as const;
+
+export const disputeStatusLabels = {
+  none_recorded: '当前未登记反对材料',
+  not_assessed: '尚未评估',
+  disputed: '存在争议',
+  conflicting: '史料互有冲突',
+  rejected: '已否定',
+} as const;
+
+export const decisionStatusLabels = {
+  candidate: '候选',
+  pending_review: '待核验',
+  confirmed: '已确认',
+  disputed: '存疑',
+  rejected: '已否定',
+} as const;
+
+const claimOverrides: Readonly<Record<string, Partial<RelationClaim>>> = {
+  'relation:sg:cao_cao_spouse_lady_ding': {
+    periodLabel: '建安初年以前；起始年份不详，后被废',
+    relationshipQualifier: '早期正室',
+    evidenceBasis: 'direct_record',
+    modernInterpretation:
+      '《后妃传》记“丁夫人废”，并以卞氏“继室”承接，可判断丁夫人为曹操此前的正式配偶。',
+  },
+  'relation:sg:cao_cao_spouse_empress_bian': {
+    periodLabel: '建安初年起；终止时间不详',
+    relationshipQualifier: '继室，后为武宣皇后',
+    evidenceBasis: 'direct_record',
+    modernInterpretation:
+      '《后妃传》直接称卞氏在丁夫人被废后成为“继室”，并非仅由子女关系反推。',
+  },
+  'relation:sg:cao_cao_spouse_lady_liu': {
+    periodLabel: '东汉末年；具体起止时间不详',
+    relationshipQualifier: '夫人；具体位序未见当前史料明确说明',
+    evidenceBasis: 'indirect_inference',
+    modernInterpretation:
+      '史书以“刘夫人”称之，并记其生曹昂。项目据这一母子记载及篇章语境表达其与曹操的配偶关系，不进一步判定为正妻、继室或妾室。',
+  },
+  'relation:sg:cao_cao_spouse_lady_huan': {
+    periodLabel: '东汉末年；具体起止时间不详',
+    relationshipQualifier: '夫人；具体位序未见当前史料明确说明',
+    evidenceBasis: 'indirect_inference',
+    modernInterpretation:
+      '《武文世王公传》记“环夫人生”曹冲、曹据、曹宇。项目据母子记载及篇章语境表达其与曹操的配偶关系，不将“夫人”进一步等同为正妻、继室或妾室。',
+  },
+  'relation:sg:lady_ding_adoptive_mother_cao_ang': {
+    periodLabel: '东汉末年；具体收养年份不详',
+    relationshipQualifier: '养母子',
+    evidenceBasis: 'direct_record',
+    modernInterpretation:
+      '裴松之注引《魏略》直接记“丁养子脩”；这是注引材料中的直接表述，与《三国志》正文分层展示。',
+  },
+};
+
+function defaultPeriod(relation: Relation, target: Person | undefined): string {
+  if (relation.origin === 'candidate') {
+    return '未核验；时间不详';
+  }
+
+  if (
+    relation.type === 'father_of' ||
+    relation.type === 'mother_of'
+  ) {
+    return target?.birthYear
+      ? `自${target.birthYear}年出生起；亲属身份为终身关系`
+      : '东汉末年；子女出生年份不详';
+  }
+
+  if (
+    relation.type === 'adoptive_father_of' ||
+    relation.type === 'adoptive_mother_of'
+  ) {
+    return '东汉时期；收养发生年份不详';
+  }
+
+  return '东汉末年；具体起止时间不详';
+}
+
+function defaultQualifier(relation: Relation): string {
+  switch (relation.type) {
+    case 'father_of':
+      return '父子';
+    case 'mother_of':
+      return '母子';
+    case 'spouse_of':
+      return '配偶；具体身份层级未登记';
+    case 'adoptive_father_of':
+      return '养父子';
+    case 'adoptive_mother_of':
+      return '养母子';
+    case 'clan_relative_of':
+      return '宗族关系';
+  }
+}
+
+function defaultInterpretation(
+  relation: Relation,
+  source: Person | undefined,
+  target: Person | undefined,
+): string {
+  if (relation.origin === 'candidate') {
+    return '此关系来自开放知识库，仅用于发现线索；尚未经过正史原文核验，不能作为历史结论。';
+  }
+
+  const from = source?.name ?? '起点人物';
+  const to = target?.name ?? '终点人物';
+  switch (relation.type) {
+    case 'father_of':
+      return `已录史料将${from}记为${to}之父。`;
+    case 'mother_of':
+      return `已录史料将${from}记为${to}之母。`;
+    case 'spouse_of':
+      return `已录史料支持${from}与${to}存在配偶关系；具体身份层级以限定说明为准。`;
+    case 'adoptive_father_of':
+      return `已录史料将${from}记为${to}的养父。`;
+    case 'adoptive_mother_of':
+      return `已录史料将${from}记为${to}的养母。`;
+    case 'clan_relative_of':
+      return `已录史料支持${from}与${to}存在宗族关系。`;
+  }
+}
+
+export function getRelationClaim(
+  relation: Relation,
+  persons: Person[],
+): RelationClaim {
+  if (relation.claim) {
+    return relation.claim;
+  }
+
+  const source = persons.find(
+    (person) => person.id === relation.sourcePersonId,
+  );
+  const target = persons.find(
+    (person) => person.id === relation.targetPersonId,
+  );
+  const override = claimOverrides[relation.id] ?? {};
+
+  return {
+    periodLabel: override.periodLabel ?? defaultPeriod(relation, target),
+    relationshipQualifier:
+      override.relationshipQualifier ?? defaultQualifier(relation),
+    evidenceBasis:
+      override.evidenceBasis ??
+      (relation.origin === 'candidate'
+        ? 'structured_candidate'
+        : relation.origin === 'derived'
+          ? 'editor_inference'
+          : 'direct_record'),
+    modernInterpretation:
+      override.modernInterpretation ??
+      defaultInterpretation(relation, source, target),
+    disputeStatus:
+      override.disputeStatus ??
+      (relation.certainty === 'disputed' ? 'disputed' : relation.origin === 'candidate' ? 'not_assessed' : 'none_recorded'),
+    decisionStatus:
+      override.decisionStatus ??
+      (relation.origin === 'candidate'
+        ? 'candidate'
+        : relation.reviewStatus === 'pending_review'
+          ? 'pending_review'
+          : relation.certainty === 'disputed'
+            ? 'disputed'
+            : 'confirmed'),
+    opposingSourceIds: override.opposingSourceIds ?? [],
+    scholarlyViews: override.scholarlyViews ?? [],
+  };
+}
+
+export function relationDirectionLabel(relation: Relation): string {
+  return relation.type === 'spouse_of'
+    ? '无方向；双方互为配偶'
+    : '有方向；箭头由关系主体指向关系对象';
+}

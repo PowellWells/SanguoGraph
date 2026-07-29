@@ -109,4 +109,25 @@ describe('formal graph data', () => {
 
     expect(issueCodes(data)).toContain('PARENT_CYCLE');
   });
+
+  it('validates claim decisions and opposing source references', () => {
+    const data = copyGraphData();
+    data.relations[0].claim = {
+      periodLabel: '测试时期',
+      relationshipQualifier: '测试关系',
+      evidenceBasis: 'direct_record',
+      modernInterpretation: '测试解释',
+      disputeStatus: 'conflicting',
+      decisionStatus: 'disputed',
+      opposingSourceIds: ['source:sg:missing_opposition'],
+      scholarlyViews: [],
+    };
+
+    expect(issueCodes(data)).toEqual(
+      expect.arrayContaining([
+        'UNKNOWN_OPPOSING_SOURCE',
+        'CLAIM_DECISION_MISMATCH',
+      ]),
+    );
+  });
 });

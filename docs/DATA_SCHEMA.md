@@ -30,9 +30,20 @@ reserved for a later milestone.
 | `reviewStatus` | Editorial state, independent of certainty |
 | `historicalLayer` | Includes official, annotated, literary, tradition, or structured candidate |
 | `sourceIds` | Evidence references |
+| `claim.periodLabel` | Approximate effective period; unknown dates stay explicit |
+| `claim.relationshipQualifier` | More precise identity such as successor wife or rank unknown |
+| `claim.evidenceBasis` | Direct record, indirect inference, editor inference, or structured candidate |
+| `claim.modernInterpretation` | Bounded modern-language explanation of what the evidence supports |
+| `claim.disputeStatus` | No opposition recorded, not assessed, disputed, conflicting, or rejected |
+| `claim.decisionStatus` | Candidate, pending, confirmed, disputed, or rejected |
+| `claim.opposingSourceIds` | Sources that oppose or qualify the current conclusion |
+| `claim.scholarlyViews` | Attributed scholarly positions; empty until a locatable study is entered |
 
 Only `origin: recorded` may appear in `src/data/relations.json`. Candidate
-relations are adapted at runtime; derived relations are not implemented.
+relations are adapted at runtime; derived relations are not implemented. The
+claim object is optional while older formal records are migrated. The UI
+creates a conservative presentation profile when it is absent and explicitly
+labels missing dates and unrecorded opposing evidence.
 
 ## HistoricalSource
 
@@ -45,7 +56,8 @@ optional short quotation, full reference, URL, layer, review state, and note.
 `npm run validate:data` checks local ID format, uniqueness, references,
 verified-person evidence, confirmed-relation historical evidence, candidate
 review state, spouse duplicates, directed parent cycles, and formal-origin
-restrictions.
+restrictions. When claim metadata is present it also checks opposing-source
+references and consistency between a confirmed relation and its decision state.
 
 `npm run validate:processed` checks the candidate snapshot against JSON Schema,
 references, unverified state, and fixed SHA-256 values without rewriting it.

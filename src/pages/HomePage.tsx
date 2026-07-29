@@ -1,14 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
 import { GraphControls } from '../components/graph/GraphControls';
-import { RelationshipGraph } from '../components/graph/RelationshipGraph';
 import { GraphSummary } from '../components/graph/GraphSummary';
+import { RelationshipGraph } from '../components/graph/RelationshipGraph';
+import { PathResultPanel } from '../components/person/PathResultPanel';
 import { PersonPanel } from '../components/person/PersonPanel';
+import { SourceCatalogPanel } from '../components/source/SourceCatalogPanel';
 import { graphData } from '../data';
-import type {
-  HistoricalSource,
-  Relation,
-  RelationType,
-} from '../domain';
+import type { HistoricalSource, Relation, RelationType } from '../domain';
 import { loadCandidateGraph } from '../services/candidateDataLoader';
 import {
   filterRelations,
@@ -16,7 +14,18 @@ import {
   type NeighborhoodDepth,
 } from '../services/graphSelectors';
 import { searchPersons } from '../services/personSearch';
+import {
+  findShortestRelationshipPath,
+  type RelationshipPath,
+} from '../services/relationshipPath';
+import {
+  countRelationsBySourceLayer,
+  filterRelationsBySourceLayers,
+  initialSourceLayers,
+  type SourceLayerKey,
+} from '../services/sourceLayers';
 
+const corePersonId = 'person:sg:cao_cao';
 const initialTypes = new Set<RelationType>([
   'father_of',
   'mother_of',
@@ -24,18 +33,23 @@ const initialTypes = new Set<RelationType>([
   'adoptive_father_of',
   'adoptive_mother_of',
 ]);
+const allFormalPersonIds = new Set(graphData.persons.map((person) => person.id));
+
+type DetailMode = 'record' | 'sources' | 'path';
 
 export function HomePage() {
   const [query, setQuery] = useState('');
   const [enabledTypes, setEnabledTypes] = useState(initialTypes);
   const [depth, setDepth] = useState<NeighborhoodDepth>('all');
+  const [enabledSourceLayers, setEnabledSourceLayers] = useState(
+    () => new Set(initialSourceLayers),
+  );
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(
-    'person:sg:cao_cao',
+    corePersonId,
   );
   const [selectedRelationId, setSelectedRelationId] = useState<string | null>(
     null,
   );
-  const [showCandidates, setShowCandidates] = useState(false);
   const [candidateRelations, setCandidateRelations] = useState<Relation[]>([]);
   const [candidateSources, setCandidateSources] = useState<HistoricalSource[]>(
     [],
@@ -44,45 +58,190 @@ export function HomePage() {
     'idle' | 'loading' | 'loaded' | 'error'
   >('idle');
   const [candidateError, setCandidateError] = useState<string | null>(null);
+  const [explorationPersonIds, setExplorationPersonIds] = useState(
+    () => new Set(allFormalPersonIds),
+  );
+  const [visibilityHistory, setVisibilityHistory] = useState<string[][]>([]);
+  const [expandedPersonIds, setExpandedPersonIds] = useState(
+    () => new Set<string>(),
+  );
+  const [lockedPersonIds, setLockedPersonIds] = useState(
+    () => new Set<string>(),
+  );
+  const [detailMode, setDetailMode] = useState<DetailMode>('record');
+  const [pathStartId, setPathStartId] = useState(corePersonId);
+  const [pathEndId, setPathEndId] = useState('person:sg:cao_pi');
+  const [pathResult, setPathResult] = useState<RelationshipPath | null>(null);
 
   const searchResults = useMemo(
     () => searchPersons(graphData.persons, query),
     [query],
   );
+  const candidateEnabled = enabledSourceLayers.has('structured_candidate');
   const combinedRelations = useMemo(
     () => [
       ...graphData.relations,
-      ...(showCandidates ? candidateRelations : []),
+      ...(candidateEnabled ? candidateRelations : []),
     ],
-    [candidateRelations, showCandidates],
+    [candidateEnabled, candidateRelations],
   );
-  const filteredRelations = useMemo(
+  const combinedSources = useMemo(
+    () => [...graphData.sources, ...candidateSources],
+    [candidateSources],
+  );
+  const typeFilteredRelations = useMemo(
     () => filterRelations(combinedRelations, enabledTypes),
     [combinedRelations, enabledTypes],
+  );
+  const sourceLayerCounts = useMemo(
+    () =>
+      countRelationsBySourceLayer(
+        [...graphData.relations, ...candidateRelations],
+        graphData.persons,
+      ),
+    [candidateRelations],
+  );
+  const filteredRelations = useMemo(
+    () =>
+      filterRelationsBySourceLayers(
+        typeFilteredRelations,
+        graphData.persons,
+        enabledSourceLayers,
+      ),
+    [enabledSourceLayers, typeFilteredRelations],
   );
   const neighborhood = useMemo(
     () => selectNeighborhood(filteredRelations, selectedPersonId, depth),
     [depth, filteredRelations, selectedPersonId],
   );
+  const visiblePersonIds = useMemo(() => {
+    const ids = new Set<string>();
+    neighborhood.personIds.forEach((personId) => {
+      if (explorationPersonIds.has(personId)) {
+        ids.add(personId);
+      }
+    });
+    if (
+      selectedPersonId &&
+      explorationPersonIds.has(selectedPersonId) &&
+      depth !== 'all'
+    ) {
+      ids.add(selectedPersonId);
+    }
+    return ids;
+  }, [depth, explorationPersonIds, neighborhood.personIds, selectedPersonId]);
   const visiblePersons = useMemo(
     () =>
-      graphData.persons.filter((person) =>
-        neighborhood.personIds.has(person.id),
+      graphData.persons.filter((person) => visiblePersonIds.has(person.id)),
+    [visiblePersonIds],
+  );
+  const visibleRelations = useMemo(
+    () =>
+      neighborhood.relations.filter(
+        (relation) =>
+          visiblePersonIds.has(relation.sourcePersonId) &&
+          visiblePersonIds.has(relation.targetPersonId),
       ),
-    [neighborhood.personIds],
+    [neighborhood.relations, visiblePersonIds],
+  );
+  const visibleSourceIds = useMemo(
+    () =>
+      new Set(
+        [
+          ...visibleRelations.flatMap((relation) => relation.sourceIds),
+          ...visiblePersons.flatMap((person) => person.sourceIds),
+        ],
+      ),
+    [visiblePersons, visibleRelations],
   );
   const visibleSources = useMemo(
-    () => [...graphData.sources, ...candidateSources],
-    [candidateSources],
+    () =>
+      combinedSources.filter((source) => visibleSourceIds.has(source.id)),
+    [combinedSources, visibleSourceIds],
   );
 
   const selectPerson = useCallback((personId: string) => {
     setSelectedPersonId(personId);
     setSelectedRelationId(null);
+    setDetailMode('record');
   }, []);
   const selectRelation = useCallback((relationId: string) => {
     setSelectedRelationId(relationId);
+    setDetailMode('record');
   }, []);
+
+  const commitVisibility = useCallback(
+    (next: Set<string>) => {
+      setVisibilityHistory((current) => [
+        ...current,
+        [...explorationPersonIds],
+      ]);
+      setExplorationPersonIds(next);
+    },
+    [explorationPersonIds],
+  );
+
+  const directNeighborIds = useCallback(
+    (personId: string) => {
+      const ids = new Set([personId]);
+      filteredRelations.forEach((relation) => {
+        if (relation.sourcePersonId === personId) {
+          ids.add(relation.targetPersonId);
+        }
+        if (relation.targetPersonId === personId) {
+          ids.add(relation.sourcePersonId);
+        }
+      });
+      return ids;
+    },
+    [filteredRelations],
+  );
+
+  const toggleExpand = useCallback(
+    (personId: string) => {
+      const next = new Set(explorationPersonIds);
+      if (!expandedPersonIds.has(personId)) {
+        directNeighborIds(personId).forEach((id) => next.add(id));
+        setExpandedPersonIds((current) => new Set(current).add(personId));
+      } else {
+        directNeighborIds(personId).forEach((neighborId) => {
+          if (
+            neighborId === personId ||
+            neighborId === corePersonId ||
+            lockedPersonIds.has(neighborId)
+          ) {
+            return;
+          }
+          const connectedElsewhere = filteredRelations.some(
+            (relation) =>
+              (relation.sourcePersonId === neighborId &&
+                relation.targetPersonId !== personId &&
+                next.has(relation.targetPersonId)) ||
+              (relation.targetPersonId === neighborId &&
+                relation.sourcePersonId !== personId &&
+                next.has(relation.sourcePersonId)),
+          );
+          if (!connectedElsewhere) {
+            next.delete(neighborId);
+          }
+        });
+        setExpandedPersonIds((current) => {
+          const updated = new Set(current);
+          updated.delete(personId);
+          return updated;
+        });
+      }
+      commitVisibility(next);
+    },
+    [
+      directNeighborIds,
+      expandedPersonIds,
+      explorationPersonIds,
+      filteredRelations,
+      lockedPersonIds,
+      commitVisibility,
+    ],
+  );
 
   const toggleType = (type: RelationType) => {
     setEnabledTypes((current) => {
@@ -96,28 +255,69 @@ export function HomePage() {
     });
   };
 
-  const toggleCandidates = async (enabled: boolean) => {
-    setShowCandidates(enabled);
-    setCandidateError(null);
-    if (!enabled || candidateStatus === 'loaded') {
-      if (!enabled && selectedRelationId?.includes(':candidate_')) {
-        setSelectedRelationId(null);
-      }
-      return;
+  const loadCandidates = async () => {
+    if (candidateStatus === 'loaded') {
+      return true;
     }
-
     setCandidateStatus('loading');
+    setCandidateError(null);
     try {
       const candidates = await loadCandidateGraph(graphData.persons);
       setCandidateRelations(candidates.relations);
       setCandidateSources(candidates.sources);
       setCandidateStatus('loaded');
+      return true;
     } catch (error) {
       setCandidateStatus('error');
       setCandidateError(
         error instanceof Error ? error.message : '候选数据加载失败。',
       );
+      return false;
     }
+  };
+
+  const toggleSourceLayer = async (layer: SourceLayerKey) => {
+    const enabling = !enabledSourceLayers.has(layer);
+    if (layer === 'structured_candidate' && enabling) {
+      const loaded = await loadCandidates();
+      if (!loaded) {
+        return;
+      }
+    }
+    setEnabledSourceLayers((current) => {
+      const next = new Set(current);
+      if (enabling) {
+        next.add(layer);
+      } else {
+        next.delete(layer);
+      }
+      return next;
+    });
+    if (
+      layer === 'structured_candidate' &&
+      !enabling &&
+      selectedRelationId?.includes(':candidate_')
+    ) {
+      setSelectedRelationId(null);
+    }
+  };
+
+  const runPathQuery = () => {
+    const result = findShortestRelationshipPath(
+      filteredRelations,
+      pathStartId,
+      pathEndId,
+    );
+    setPathResult(result);
+    if (result) {
+      const next = new Set(explorationPersonIds);
+      result.personIds.forEach((personId) => next.add(personId));
+      if (next.size !== explorationPersonIds.size) {
+        commitVisibility(next);
+      }
+    }
+    setDetailMode('path');
+    setSelectedRelationId(null);
   };
 
   const selectedPerson =
@@ -126,6 +326,72 @@ export function HomePage() {
     combinedRelations.find(
       (relation) => relation.id === selectedRelationId,
     ) ?? null;
+  const highlightedRelationIds = useMemo(
+    () =>
+      new Set(
+        detailMode === 'path' && pathResult
+          ? pathResult.relations.map((relation) => relation.id)
+          : [],
+      ),
+    [detailMode, pathResult],
+  );
+
+  const hideSelectedPerson = () => {
+    if (!selectedPersonId) {
+      return;
+    }
+    const next = new Set(explorationPersonIds);
+    next.delete(selectedPersonId);
+    commitVisibility(next);
+    const fallback =
+      graphData.persons.find((person) => next.has(person.id))?.id ?? null;
+    setSelectedPersonId(fallback);
+  };
+
+  const keepSelectedBranch = () => {
+    if (!selectedPersonId) {
+      return;
+    }
+    commitVisibility(directNeighborIds(selectedPersonId));
+    setDepth('all');
+  };
+
+  const goBack = () => {
+    const previous = visibilityHistory.at(-1);
+    if (!previous) {
+      return;
+    }
+    setExplorationPersonIds(new Set(previous));
+    setVisibilityHistory((current) => current.slice(0, -1));
+  };
+
+  const resetToCore = () => {
+    commitVisibility(directNeighborIds(corePersonId));
+    setSelectedPersonId(corePersonId);
+    setSelectedRelationId(null);
+    setDepth('all');
+    setDetailMode('record');
+  };
+
+  const showCompleteNetwork = () => {
+    commitVisibility(new Set(allFormalPersonIds));
+    setDepth('all');
+  };
+
+  const toggleSelectedLock = () => {
+    if (!selectedPersonId) {
+      return;
+    }
+    setLockedPersonIds((current) => {
+      const next = new Set(current);
+      if (next.has(selectedPersonId)) {
+        next.delete(selectedPersonId);
+      } else {
+        next.add(selectedPersonId);
+      }
+      return next;
+    });
+  };
 
   return (
     <>
@@ -135,45 +401,90 @@ export function HomePage() {
           <h1>从史料出发，看见曹操核心家庭的关系</h1>
           <p>
             沿着父母、夫妻与收养连线阅读家族结构；点击节点查看人物，
-            点击连线回到具体史料。
+            点击连线打开关系档案并回到具体史料。
           </p>
         </div>
         <GraphSummary
-          personCount={graphData.persons.length}
-          relationCount={graphData.relations.length}
-          sourceCount={graphData.sources.length}
+          personCount={visiblePersons.length}
+          relationCount={visibleRelations.length}
+          sourceCount={visibleSources.length}
+          onOpenSources={() => setDetailMode('sources')}
         />
       </section>
       <section className="workspace" aria-label="人物关系图谱工作区">
         <GraphControls
+          persons={graphData.persons}
           query={query}
           searchResults={searchResults}
           enabledTypes={enabledTypes}
           depth={depth}
-          showCandidates={showCandidates}
+          enabledSourceLayers={enabledSourceLayers}
+          sourceLayerCounts={sourceLayerCounts}
           candidateStatus={candidateStatus}
           candidateError={candidateError}
+          pathStartId={pathStartId}
+          pathEndId={pathEndId}
           onQueryChange={setQuery}
           onSelectPerson={selectPerson}
           onToggleType={toggleType}
           onDepthChange={setDepth}
-          onCandidateToggle={(enabled) => void toggleCandidates(enabled)}
+          onSourceLayerToggle={(layer) => void toggleSourceLayer(layer)}
+          onPathStartChange={setPathStartId}
+          onPathEndChange={setPathEndId}
+          onRunPathQuery={runPathQuery}
         />
         <RelationshipGraph
           persons={visiblePersons}
-          relations={neighborhood.relations}
+          relations={visibleRelations}
           selectedPersonId={selectedPersonId}
           selectedRelationId={selectedRelationId}
+          lockedPersonIds={lockedPersonIds}
+          highlightedRelationIds={highlightedRelationIds}
           onSelectPerson={selectPerson}
           onSelectRelation={selectRelation}
+          onToggleExpand={toggleExpand}
         />
-        <PersonPanel
-          selectedPerson={selectedRelation ? null : selectedPerson}
-          selectedRelation={selectedRelation}
-          persons={graphData.persons}
-          relations={combinedRelations}
-          sources={visibleSources}
-        />
+        {detailMode === 'sources' ? (
+          <SourceCatalogPanel
+            sources={visibleSources}
+            relations={visibleRelations}
+            persons={graphData.persons}
+            onSelectRelation={selectRelation}
+            onClose={() => setDetailMode('record')}
+          />
+        ) : detailMode === 'path' ? (
+          <PathResultPanel
+            path={pathResult}
+            persons={graphData.persons}
+            startPersonId={pathStartId}
+            endPersonId={pathEndId}
+            onSelectRelation={selectRelation}
+            onClose={() => setDetailMode('record')}
+          />
+        ) : (
+          <PersonPanel
+            selectedPerson={selectedRelation ? null : selectedPerson}
+            selectedRelation={selectedRelation}
+            persons={graphData.persons}
+            relations={combinedRelations}
+            sources={combinedSources}
+            actions={
+              selectedPerson
+                ? {
+                    isLocked: lockedPersonIds.has(selectedPerson.id),
+                    canGoBack: visibilityHistory.length > 0,
+                    onToggleExpand: () => toggleExpand(selectedPerson.id),
+                    onToggleLock: toggleSelectedLock,
+                    onHide: hideSelectedPerson,
+                    onKeepBranch: keepSelectedBranch,
+                    onGoBack: goBack,
+                    onResetCore: resetToCore,
+                    onShowCompleteNetwork: showCompleteNetwork,
+                  }
+                : undefined
+            }
+          />
+        )}
       </section>
     </>
   );

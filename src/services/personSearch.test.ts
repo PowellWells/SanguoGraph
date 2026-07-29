@@ -10,6 +10,8 @@ describe('searchPersons', () => {
     ['倉舒', '曹冲'],
     ['魏文帝', '曹丕'],
     ['孟德', '曹操'],
+    ['caocao', '曹操'],
+    ['政治家', '曹操'],
   ])('matches %s by names, courtesy names or aliases', (query, expected) => {
     expect(searchPersons(graphData.persons, query)[0]?.name).toBe(expected);
   });

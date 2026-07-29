@@ -32,6 +32,13 @@ npm run validate:offline
   views;
 - generation-aware desktop and compact mobile layouts with zoom and fit
   controls;
+- relation dossiers covering direction, period, qualification, evidence basis,
+  interpretation, certainty, dispute, decision, and review state;
+- node expansion/collapse, locking, hiding, branch isolation, undo, and reset;
+- live, filter-aware source counts and an actionable source catalog;
+- independent source-system filters rather than a single mixed trust layer;
+- disambiguating search with pinyin/context matching and two-person shortest
+  paths;
 - a lazy, opt-in Wikidata candidate layer that is hidden by default;
 - responsive desktop and mobile layouts.
 

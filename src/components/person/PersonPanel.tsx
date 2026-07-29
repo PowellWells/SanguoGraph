@@ -1,14 +1,28 @@
 import type { HistoricalSource, Person, Relation } from '../../domain';
+import {
+  certaintyLabels,
+  decisionStatusLabels,
+  disputeStatusLabels,
+  evidenceBasisLabels,
+  getRelationClaim,
+  relationDirectionLabel,
+  relationOriginLabels,
+  relationTypeLabels,
+  reviewStatusLabels,
+} from '../../services/relationPresentation';
 import { EvidencePanel } from '../source/EvidencePanel';
 
-const relationLabels = {
-  father_of: '父亲',
-  mother_of: '母亲',
-  spouse_of: '夫妻',
-  adoptive_father_of: '养父',
-  adoptive_mother_of: '养母',
-  clan_relative_of: '宗族',
-} as const;
+export interface PersonPanelActions {
+  isLocked: boolean;
+  canGoBack: boolean;
+  onToggleExpand: () => void;
+  onToggleLock: () => void;
+  onHide: () => void;
+  onKeepBranch: () => void;
+  onGoBack: () => void;
+  onResetCore: () => void;
+  onShowCompleteNetwork: () => void;
+}
 
 interface PersonPanelProps {
   selectedPerson: Person | null;
@@ -16,6 +30,7 @@ interface PersonPanelProps {
   persons: Person[];
   relations: Relation[];
   sources: HistoricalSource[];
+  actions?: PersonPanelActions;
 }
 
 function years(person: Person): string {
@@ -31,6 +46,7 @@ export function PersonPanel({
   persons,
   relations,
   sources,
+  actions,
 }: PersonPanelProps) {
   const peopleById = new Map(persons.map((person) => [person.id, person]));
   const sourcesById = new Map(sources.map((source) => [source.id, source]));
@@ -41,25 +57,94 @@ export function PersonPanel({
     const evidence = selectedRelation.sourceIds
       .map((id) => sourcesById.get(id))
       .filter((source): source is HistoricalSource => source !== undefined);
+    const claim = getRelationClaim(selectedRelation, persons);
+    const opposingEvidence = claim.opposingSourceIds
+      .map((id) => sourcesById.get(id))
+      .filter((source): source is HistoricalSource => source !== undefined);
 
     return (
       <aside className="panel-card person-panel" aria-labelledby="detail-title">
         <div className="panel-heading">
           <div>
-            <p className="eyebrow">关系证据</p>
-            <h2 id="detail-title">{from?.name} — {to?.name}</h2>
+            <p className="eyebrow">关系档案</p>
+            <h2 id="detail-title">
+              {from?.name} {selectedRelation.type === 'spouse_of' ? '—' : '→'}{' '}
+              {to?.name}
+            </h2>
           </div>
         </div>
+        <p className="relation-qualifier">{claim.relationshipQualifier}</p>
         <dl className="detail-metadata">
-          <div><dt>类型</dt><dd>{relationLabels[selectedRelation.type]}</dd></div>
-          <div><dt>来源层</dt><dd>{selectedRelation.origin}</dd></div>
-          <div><dt>可信度</dt><dd>{selectedRelation.certainty}</dd></div>
-          <div><dt>核验</dt><dd>{selectedRelation.reviewStatus}</dd></div>
+          <div>
+            <dt>关系类型</dt>
+            <dd>{relationTypeLabels[selectedRelation.type]}</dd>
+          </div>
+          <div>
+            <dt>关系方向</dt>
+            <dd>{relationDirectionLabel(selectedRelation)}</dd>
+          </div>
+          <div>
+            <dt>大致时期</dt>
+            <dd>{claim.periodLabel}</dd>
+          </div>
+          <div>
+            <dt>证据方式</dt>
+            <dd>{evidenceBasisLabels[claim.evidenceBasis]}</dd>
+          </div>
+          <div>
+            <dt>录入方式</dt>
+            <dd>{relationOriginLabels[selectedRelation.origin]}</dd>
+          </div>
+          <div>
+            <dt>可信度</dt>
+            <dd>{certaintyLabels[selectedRelation.certainty]}</dd>
+          </div>
+          <div>
+            <dt>争议情况</dt>
+            <dd>{disputeStatusLabels[claim.disputeStatus]}</dd>
+          </div>
+          <div>
+            <dt>数据状态</dt>
+            <dd>{decisionStatusLabels[claim.decisionStatus]}</dd>
+          </div>
+          <div>
+            <dt>核验状态</dt>
+            <dd>{reviewStatusLabels[selectedRelation.reviewStatus]}</dd>
+          </div>
         </dl>
         {selectedRelation.origin === 'candidate' && (
           <p className="candidate-warning">此边是 Wikidata 候选线索，未经过正史核验。</p>
         )}
+        <section className="relation-interpretation">
+          <h3 className="detail-subtitle">现代解释</h3>
+          <p>{claim.modernInterpretation}</p>
+          {selectedRelation.note && <p className="detail-note">{selectedRelation.note}</p>}
+        </section>
+        <h3 className="detail-subtitle">当前采用结论</h3>
+        <p className="detail-description">
+          {claim.relationshipQualifier}；当前判断为
+          {certaintyLabels[selectedRelation.certainty]}。
+        </p>
+        <h3 className="detail-subtitle">支持该关系的证据</h3>
         <EvidencePanel sources={evidence} />
+        <h3 className="detail-subtitle">反对或质疑证据</h3>
+        {opposingEvidence.length > 0 ? (
+          <EvidencePanel sources={opposingEvidence} />
+        ) : (
+          <p className="detail-note">
+            当前数据未登记反对材料；这不代表学界不存在其他观点。
+          </p>
+        )}
+        <h3 className="detail-subtitle">不同学者观点</h3>
+        {claim.scholarlyViews.length > 0 ? (
+          <ul className="scholarly-view-list">
+            {claim.scholarlyViews.map((view) => <li key={view}>{view}</li>)}
+          </ul>
+        ) : (
+          <p className="detail-note">
+            当前数据尚未录入可定位的现代学术观点。
+          </p>
+        )}
       </aside>
     );
   }
@@ -99,12 +184,47 @@ export function PersonPanel({
         <ul className="kin-list">
           {kin.map(({ relation, other }) => (
             <li key={relation.id}>
-              <span>{relationLabels[relation.type]}</span>
+              <span>{relationTypeLabels[relation.type]}</span>
               <strong>{other?.name ?? '未知人物'}</strong>
               {relation.origin === 'candidate' && <small>候选</small>}
             </li>
           ))}
         </ul>
+        {actions && (
+          <div className="person-actions" aria-label="人物图谱操作">
+            <h3 className="detail-subtitle">探索此人物</h3>
+            <div className="action-grid">
+              <button type="button" onClick={actions.onToggleExpand}>
+                展开／收起直接关系
+              </button>
+              <button type="button" onClick={actions.onToggleLock}>
+                {actions.isLocked ? '解除位置锁定' : '锁定节点位置'}
+              </button>
+              <button type="button" onClick={actions.onHide}>
+                隐藏此人物
+              </button>
+              <button type="button" onClick={actions.onKeepBranch}>
+                仅保留此人物与直接亲属
+              </button>
+              <button
+                type="button"
+                onClick={actions.onGoBack}
+                disabled={!actions.canGoBack}
+              >
+                返回上一步
+              </button>
+              <button type="button" onClick={actions.onResetCore}>
+                重置为核心人物
+              </button>
+              <button type="button" onClick={actions.onShowCompleteNetwork}>
+                查看完整关系网
+              </button>
+            </div>
+            <p className="detail-note">
+              也可以双击画布中的人物节点，展开或收起其直接关系。
+            </p>
+          </div>
+        )}
       </aside>
     );
   }

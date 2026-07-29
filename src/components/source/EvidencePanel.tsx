@@ -14,7 +14,24 @@ export function EvidencePanel({ sources }: EvidencePanelProps) {
       {sources.map((source) => (
         <article key={source.id}>
           <h4>{source.reference}</h4>
+          <dl className="evidence-metadata">
+            <div>
+              <dt>作者</dt>
+              <dd>{source.author ?? '未详'}</dd>
+            </div>
+            {source.commentator && (
+              <div>
+                <dt>注者</dt>
+                <dd>{source.commentator}</dd>
+              </div>
+            )}
+            <div>
+              <dt>篇章</dt>
+              <dd>{source.section}</dd>
+            </div>
+          </dl>
           {source.quotation && <blockquote>“{source.quotation}”</blockquote>}
+          {source.note && <p>{source.note}</p>}
           {source.url && (
             <a href={source.url} target="_blank" rel="noreferrer">
               查看原文

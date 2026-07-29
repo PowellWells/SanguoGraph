@@ -1,57 +1,91 @@
 import type { Person, RelationType } from '../../domain';
 import type { NeighborhoodDepth } from '../../services/graphSelectors';
+import {
+  sourceLayerOptions,
+  type SourceLayerKey,
+} from '../../services/sourceLayers';
 
 const relationOptions: ReadonlyArray<{ type: RelationType; label: string }> = [
   { type: 'father_of', label: '父亲' },
   { type: 'mother_of', label: '母亲' },
-  { type: 'spouse_of', label: '夫妻' },
+  { type: 'spouse_of', label: '夫妻／配偶' },
   { type: 'adoptive_father_of', label: '养父' },
   { type: 'adoptive_mother_of', label: '养母' },
 ];
 
+const neighborhoodOptions: ReadonlyArray<{
+  value: NeighborhoodDepth;
+  label: string;
+}> = [
+  { value: 'all', label: '查看当前完整图谱' },
+  { value: 1, label: '只看选中人物与直接亲属' },
+  { value: 2, label: '查看选中人物的两层关系' },
+];
+
 interface GraphControlsProps {
+  persons: Person[];
   query: string;
   searchResults: Person[];
   enabledTypes: ReadonlySet<RelationType>;
   depth: NeighborhoodDepth;
-  showCandidates: boolean;
+  enabledSourceLayers: ReadonlySet<SourceLayerKey>;
+  sourceLayerCounts: Record<SourceLayerKey, number>;
   candidateStatus: 'idle' | 'loading' | 'loaded' | 'error';
   candidateError: string | null;
+  pathStartId: string;
+  pathEndId: string;
   onQueryChange: (query: string) => void;
   onSelectPerson: (personId: string) => void;
   onToggleType: (type: RelationType) => void;
   onDepthChange: (depth: NeighborhoodDepth) => void;
-  onCandidateToggle: (enabled: boolean) => void;
+  onSourceLayerToggle: (layer: SourceLayerKey) => void;
+  onPathStartChange: (personId: string) => void;
+  onPathEndChange: (personId: string) => void;
+  onRunPathQuery: () => void;
+}
+
+function years(person: Person): string {
+  if (person.birthYear === null && person.deathYear === null) {
+    return '生卒年不详';
+  }
+  return `${person.birthYear ?? '？'}—${person.deathYear ?? '？'}`;
 }
 
 export function GraphControls({
+  persons,
   query,
   searchResults,
   enabledTypes,
   depth,
-  showCandidates,
+  enabledSourceLayers,
+  sourceLayerCounts,
   candidateStatus,
   candidateError,
+  pathStartId,
+  pathEndId,
   onQueryChange,
   onSelectPerson,
   onToggleType,
   onDepthChange,
-  onCandidateToggle,
+  onSourceLayerToggle,
+  onPathStartChange,
+  onPathEndChange,
+  onRunPathQuery,
 }: GraphControlsProps) {
   return (
     <aside className="panel-card controls-panel" aria-labelledby="controls-title">
       <div className="panel-heading">
         <div>
           <p className="eyebrow">浏览条件</p>
-          <h2 id="controls-title">筛选关系</h2>
+          <h2 id="controls-title">探索图谱</h2>
         </div>
       </div>
-      <label htmlFor="person-search">人物搜索</label>
+      <label htmlFor="person-search">人物搜索与消歧</label>
       <input
         id="person-search"
         type="search"
         value={query}
-        placeholder="姓名、字或别名"
+        placeholder="姓名、字、别名、拼音、身份或阵营"
         onChange={(event) => onQueryChange(event.target.value)}
       />
       {query && (
@@ -62,8 +96,21 @@ export function GraphControls({
             searchResults.map((person) => (
               <li key={person.id}>
                 <button type="button" onClick={() => onSelectPerson(person.id)}>
-                  <strong>{person.name}</strong>
-                  {person.courtesyName && <span>字{person.courtesyName}</span>}
+                  <span className="search-result-main">
+                    <strong>{person.name}</strong>
+                    <small>
+                      {person.courtesyName
+                        ? `字${person.courtesyName} · `
+                        : ''}
+                      {years(person)}
+                    </small>
+                    <small>
+                      {person.clan ?? '籍贯／族属未详'} ·{' '}
+                      {person.factions.join('、') || '阵营未详'}
+                    </small>
+                    <small>{person.description}</small>
+                  </span>
+                  <span>选择</span>
                 </button>
               </li>
             ))
@@ -85,34 +132,42 @@ export function GraphControls({
       </fieldset>
       <fieldset>
         <legend>查看范围</legend>
-        {[
-          { value: 'all', label: '全部' },
-          { value: 1, label: '1 跳' },
-          { value: 2, label: '2 跳' },
-        ].map((option) => (
+        {neighborhoodOptions.map((option) => (
           <label key={option.value}>
             <input
               type="radio"
               name="neighborhood"
               checked={depth === option.value}
-              onChange={() =>
-                onDepthChange(option.value as NeighborhoodDepth)
-              }
+              onChange={() => onDepthChange(option.value)}
             />
             {option.label}
           </label>
         ))}
       </fieldset>
-      <div className="candidate-toggle">
-        <label>
-          <input
-            type="checkbox"
-            checked={showCandidates}
-            onChange={(event) => onCandidateToggle(event.target.checked)}
-          />
-          显示 Wikidata 候选线索
-        </label>
-        <p>默认关闭；候选边不构成史实认定。</p>
+      <fieldset className="source-layer-filter">
+        <legend>史料来源层</legend>
+        {sourceLayerOptions.map((option) => {
+          const count = sourceLayerCounts[option.key];
+          const isCandidate = option.key === 'structured_candidate';
+          return (
+            <label key={option.key} title={option.description}>
+              <input
+                type="checkbox"
+                aria-label={option.label}
+                checked={enabledSourceLayers.has(option.key)}
+                disabled={count === 0 && !isCandidate}
+                onChange={() => onSourceLayerToggle(option.key)}
+              />
+              <span>
+                {option.label}
+                <small>
+                  {isCandidate && candidateStatus === 'idle' ? '按需' : count}
+                </small>
+              </span>
+            </label>
+          );
+        })}
+        <p>各层独立开关；开放知识库候选默认关闭，不等于史料确认。</p>
         {candidateStatus === 'loading' && (
           <p role="status">正在按需加载候选数据……</p>
         )}
@@ -121,7 +176,37 @@ export function GraphControls({
             {candidateError}
           </p>
         )}
-      </div>
+      </fieldset>
+      <details className="path-query">
+        <summary>双人物关系查询</summary>
+        <label htmlFor="path-start">人物 A</label>
+        <select
+          id="path-start"
+          value={pathStartId}
+          onChange={(event) => onPathStartChange(event.target.value)}
+        >
+          {persons.map((person) => (
+            <option key={person.id} value={person.id}>
+              {person.name}
+            </option>
+          ))}
+        </select>
+        <label htmlFor="path-end">人物 B</label>
+        <select
+          id="path-end"
+          value={pathEndId}
+          onChange={(event) => onPathEndChange(event.target.value)}
+        >
+          {persons.map((person) => (
+            <option key={person.id} value={person.id}>
+              {person.name}
+            </option>
+          ))}
+        </select>
+        <button type="button" onClick={onRunPathQuery}>
+          查询当前筛选下的最短路径
+        </button>
+      </details>
     </aside>
   );
 }

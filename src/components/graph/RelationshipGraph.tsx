@@ -1,6 +1,7 @@
 import type { Core, ElementDefinition, EventObject } from 'cytoscape';
 import { useEffect, useRef } from 'react';
 import type { Person, Relation, RelationType } from '../../domain';
+import { getRelationClaim } from '../../services/relationPresentation';
 import { GraphLegend } from './GraphLegend';
 import { GraphToolbar } from './GraphToolbar';
 
@@ -9,8 +10,11 @@ interface RelationshipGraphProps {
   relations: Relation[];
   selectedPersonId: string | null;
   selectedRelationId: string | null;
+  lockedPersonIds: ReadonlySet<string>;
+  highlightedRelationIds: ReadonlySet<string>;
   onSelectPerson: (personId: string) => void;
   onSelectRelation: (relationId: string) => void;
+  onToggleExpand: (personId: string) => void;
 }
 
 const personPositions: Readonly<Record<string, { x: number; y: number }>> = {
@@ -64,6 +68,8 @@ function buildElements(
   persons: Person[],
   relations: Relation[],
   compact: boolean,
+  lockedPersonIds: ReadonlySet<string>,
+  highlightedRelationIds: ReadonlySet<string>,
 ): ElementDefinition[] {
   const positions = compact ? compactPersonPositions : personPositions;
   const nodes: ElementDefinition[] = persons.map((person) => ({
@@ -79,7 +85,7 @@ function buildElements(
         person.id === 'person:sg:cao_cao',
     },
     position: positions[person.id],
-    classes: `person ${person.gender}`,
+    classes: `person ${person.gender}${lockedPersonIds.has(person.id) ? ' locked' : ''}`,
   }));
   const edges: ElementDefinition[] = relations.map((relation) => ({
     data: {
@@ -92,7 +98,7 @@ function buildElements(
           ? '候选'
           : relationLabels[relation.type],
     },
-    classes: `${relation.type} ${relation.origin}`,
+    classes: `${relation.type} ${relation.origin} ${getRelationClaim(relation, persons).evidenceBasis}${highlightedRelationIds.has(relation.id) ? ' path-highlight' : ''}`,
   }));
   return [...nodes, ...edges];
 }
@@ -120,8 +126,11 @@ export function RelationshipGraph({
   relations,
   selectedPersonId,
   selectedRelationId,
+  lockedPersonIds,
+  highlightedRelationIds,
   onSelectPerson,
   onSelectRelation,
+  onToggleExpand,
 }: RelationshipGraphProps) {
   const graphContainerRef = useRef<HTMLDivElement>(null);
   const graphRef = useRef<Core | null>(null);
@@ -162,7 +171,13 @@ export function RelationshipGraph({
       graphRef.current?.destroy();
       const graph = cytoscape({
         container,
-        elements: buildElements(persons, relations, container.clientWidth < 500),
+        elements: buildElements(
+          persons,
+          relations,
+          container.clientWidth < 500,
+          lockedPersonIds,
+          highlightedRelationIds,
+        ),
         minZoom: 0.2,
         maxZoom: 2.4,
         style: [
@@ -213,6 +228,13 @@ export function RelationshipGraph({
             },
           },
           {
+            selector: 'node.locked',
+            style: {
+              'border-style': 'double',
+              'border-width': 5,
+            },
+          },
+          {
             selector: 'edge',
             style: {
               width: 2,
@@ -257,6 +279,12 @@ export function RelationshipGraph({
             },
           },
           {
+            selector: 'edge.indirect_inference',
+            style: {
+              'line-style': 'dashed',
+            },
+          },
+          {
             selector: 'edge.candidate',
             style: {
               'line-color': '#aaa49a',
@@ -279,6 +307,15 @@ export function RelationshipGraph({
               'z-index': 10,
             },
           },
+          {
+            selector: 'edge.path-highlight',
+            style: {
+              width: 4,
+              'line-color': '#c08324',
+              'target-arrow-color': '#c08324',
+              'z-index': 9,
+            },
+          },
         ],
         layout: {
           name: 'preset',
@@ -288,8 +325,23 @@ export function RelationshipGraph({
         },
       });
       currentGraph = graph;
+      lockedPersonIds.forEach((personId) => {
+        graph.getElementById(personId).lock();
+      });
+      let lastTappedNodeId: string | null = null;
+      let lastTappedAt = 0;
       graph.on('tap', 'node', (event: EventObject) => {
-        onSelectPerson(event.target.id());
+        const personId = event.target.id();
+        const now = Date.now();
+        if (lastTappedNodeId === personId && now - lastTappedAt < 360) {
+          lastTappedNodeId = null;
+          lastTappedAt = 0;
+          onToggleExpand(personId);
+          return;
+        }
+        lastTappedNodeId = personId;
+        lastTappedAt = now;
+        onSelectPerson(personId);
       });
       graph.on('tap', 'edge', (event: EventObject) => {
         onSelectRelation(event.target.id());
@@ -311,7 +363,15 @@ export function RelationshipGraph({
       graphRef.current?.destroy();
       graphRef.current = null;
     };
-  }, [onSelectPerson, onSelectRelation, persons, relations]);
+  }, [
+    highlightedRelationIds,
+    lockedPersonIds,
+    onSelectPerson,
+    onSelectRelation,
+    onToggleExpand,
+    persons,
+    relations,
+  ]);
 
   useEffect(() => {
     const graph = graphRef.current;
