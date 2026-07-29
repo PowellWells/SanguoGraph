@@ -23,12 +23,13 @@ const graphElement = {
   isNode: () => true,
 };
 const positionNodes = vi.fn();
+const forEachNode = vi.fn();
 const fitGraph = vi.fn();
 const graphInstance = {
   destroy: destroyGraph,
   on: vi.fn(),
   elements: () => ({ unselect: vi.fn() }),
-  nodes: () => ({ positions: positionNodes }),
+  nodes: () => ({ positions: positionNodes, forEach: forEachNode }),
   getElementById: () => graphElement,
   animate: vi.fn(),
   resize: vi.fn(),

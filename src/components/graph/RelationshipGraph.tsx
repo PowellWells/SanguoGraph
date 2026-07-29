@@ -5,6 +5,11 @@ import {
   getPersonGraphClasses,
   getRelationGraphClasses,
 } from '../../services/graphVisualEncoding';
+import {
+  createGraphLayout,
+  type GraphLayout,
+  type GraphPosition,
+} from '../../services/graphLayout';
 import { getRelationClaim } from '../../services/relationPresentation';
 import { GraphLegend } from './GraphLegend';
 import { GraphToolbar } from './GraphToolbar';
@@ -21,44 +26,6 @@ interface RelationshipGraphProps {
   onToggleExpand: (personId: string) => void;
 }
 
-const personPositions: Readonly<Record<string, { x: number; y: number }>> = {
-  'person:sg:cao_teng': { x: 535, y: 35 },
-  'person:sg:cao_song': { x: 535, y: 120 },
-  'person:sg:cao_cao': { x: 535, y: 225 },
-  'person:sg:lady_ding': { x: 215, y: 210 },
-  'person:sg:lady_liu': { x: 345, y: 225 },
-  'person:sg:empress_bian': { x: 725, y: 225 },
-  'person:sg:lady_huan': { x: 855, y: 210 },
-  'person:sg:cao_ang': { x: 70, y: 420 },
-  'person:sg:cao_pi': { x: 205, y: 420 },
-  'person:sg:cao_zhang': { x: 340, y: 420 },
-  'person:sg:cao_zhi': { x: 475, y: 420 },
-  'person:sg:cao_xiong': { x: 610, y: 420 },
-  'person:sg:cao_chong': { x: 745, y: 420 },
-  'person:sg:cao_ju': { x: 880, y: 420 },
-  'person:sg:cao_yu': { x: 1015, y: 420 },
-};
-
-const compactPersonPositions: Readonly<
-  Record<string, { x: number; y: number }>
-> = {
-  'person:sg:cao_teng': { x: 260, y: 45 },
-  'person:sg:cao_song': { x: 260, y: 135 },
-  'person:sg:cao_cao': { x: 260, y: 230 },
-  'person:sg:lady_ding': { x: 80, y: 325 },
-  'person:sg:lady_liu': { x: 195, y: 325 },
-  'person:sg:empress_bian': { x: 325, y: 325 },
-  'person:sg:lady_huan': { x: 440, y: 325 },
-  'person:sg:cao_ang': { x: 65, y: 470 },
-  'person:sg:cao_pi': { x: 195, y: 470 },
-  'person:sg:cao_zhang': { x: 325, y: 470 },
-  'person:sg:cao_zhi': { x: 455, y: 470 },
-  'person:sg:cao_xiong': { x: 65, y: 610 },
-  'person:sg:cao_chong': { x: 195, y: 610 },
-  'person:sg:cao_ju': { x: 325, y: 610 },
-  'person:sg:cao_yu': { x: 455, y: 610 },
-};
-
 const relationLabels: Readonly<Record<RelationType, string>> = {
   father_of: '父',
   mother_of: '母',
@@ -71,11 +38,12 @@ const relationLabels: Readonly<Record<RelationType, string>> = {
 function buildElements(
   persons: Person[],
   relations: Relation[],
-  compact: boolean,
+  layout: GraphLayout,
   lockedPersonIds: ReadonlySet<string>,
   highlightedRelationIds: ReadonlySet<string>,
 ): ElementDefinition[] {
-  const positions = compact ? compactPersonPositions : personPositions;
+  const coreGeneration =
+    layout.generations['person:sg:cao_cao'] ?? Number.MAX_SAFE_INTEGER;
   const nodes: ElementDefinition[] = persons.map((person) => ({
     data: {
       id: person.id,
@@ -83,12 +51,9 @@ function buildElements(
         ? `${person.name}\n字${person.courtesyName}`
         : person.name,
       gender: person.gender,
-      ancestor:
-        person.id === 'person:sg:cao_teng' ||
-        person.id === 'person:sg:cao_song' ||
-        person.id === 'person:sg:cao_cao',
+      ancestor: (layout.generations[person.id] ?? 0) < coreGeneration,
     },
-    position: positions[person.id],
+    position: layout.positions[person.id],
     classes: getPersonGraphClasses(
       person,
       lockedPersonIds.has(person.id),
@@ -145,6 +110,7 @@ export function RelationshipGraph({
 }: RelationshipGraphProps) {
   const graphContainerRef = useRef<HTMLDivElement>(null);
   const graphRef = useRef<Core | null>(null);
+  const positionCacheRef = useRef<Record<string, GraphPosition>>({});
   const selectedPersonRef = useRef(selectedPersonId);
   const selectedRelationRef = useRef(selectedRelationId);
   selectedPersonRef.current = selectedPersonId;
@@ -158,15 +124,34 @@ export function RelationshipGraph({
 
     let disposed = false;
     let currentGraph: Core | null = null;
+    const rememberPositions = () => {
+      if (!currentGraph) {
+        return;
+      }
+      const nextPositions = { ...positionCacheRef.current };
+      currentGraph.nodes().forEach((node) => {
+        const position = node.position();
+        nextPositions[node.id()] = { x: position.x, y: position.y };
+      });
+      positionCacheRef.current = nextPositions;
+    };
+    const getLayout = () =>
+      createGraphLayout(persons, relations, {
+        compact: container.clientWidth < 500,
+        lockedPersonIds,
+        previousPositions: positionCacheRef.current,
+      });
     const fitToContainer = () => {
       if (currentGraph) {
-        const positions =
-          container.clientWidth < 500
-            ? compactPersonPositions
-            : personPositions;
+        rememberPositions();
+        const layout = getLayout();
         currentGraph
           .nodes()
-          .positions((node) => positions[node.id()] ?? { x: 0, y: 0 });
+          .positions(
+            (node) =>
+              layout.positions[node.id()] ??
+              positionCacheRef.current[node.id()] ?? { x: 0, y: 0 },
+          );
         currentGraph.resize();
         currentGraph.fit(undefined, 24);
       }
@@ -180,12 +165,13 @@ export function RelationshipGraph({
       }
 
       graphRef.current?.destroy();
+      const layout = getLayout();
       const graph = cytoscape({
         container,
         elements: buildElements(
           persons,
           relations,
-          container.clientWidth < 500,
+          layout,
           lockedPersonIds,
           highlightedRelationIds,
         ),
@@ -454,8 +440,11 @@ export function RelationshipGraph({
     return () => {
       disposed = true;
       window.removeEventListener('resize', fitToContainer);
-      graphRef.current?.destroy();
-      graphRef.current = null;
+      rememberPositions();
+      currentGraph?.destroy();
+      if (graphRef.current === currentGraph) {
+        graphRef.current = null;
+      }
     };
   }, [
     highlightedRelationIds,
