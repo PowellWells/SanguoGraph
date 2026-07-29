@@ -59,26 +59,26 @@ afterEach(() => {
 });
 
 describe('application routes and home interaction', () => {
-  it('renders the verified Cao family graph and keeps candidates off by default', async () => {
+  it('renders the verified Cao-Xiahou graph and keeps candidates off by default', async () => {
     renderRoute('/');
 
     expect(
       screen.getByRole('heading', {
-        name: '曹操核心家庭关系图谱',
+        name: '曹氏—夏侯氏人物关系图谱',
         level: 1,
       }),
     ).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'aria-label',
-      '曹操核心家庭人物关系图谱',
+      '曹氏与夏侯氏人物关系图谱',
     );
     expect(
       screen.getByRole('checkbox', { name: '开放知识库候选' }),
     ).not.toBeChecked();
     const summary = screen.getByLabelText('图谱数据摘要');
-    expect(within(summary).getByText('15')).toBeInTheDocument();
-    expect(within(summary).getByText('23')).toBeInTheDocument();
-    expect(within(summary).getByText('6')).toBeInTheDocument();
+    expect(within(summary).getByText('18')).toBeInTheDocument();
+    expect(within(summary).getByText('27')).toBeInTheDocument();
+    expect(within(summary).getByText('9')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: '适应画布' }),
     ).toBeInTheDocument();
@@ -101,6 +101,22 @@ describe('application routes and home interaction', () => {
     expect(screen.getByRole('heading', { name: '曹冲' })).toBeInTheDocument();
   });
 
+  it('reveals a hidden Xiahou branch through search', () => {
+    renderRoute('/');
+    fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索' }), {
+      target: { value: '夏侯惇' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /夏侯惇/ }));
+
+    expect(
+      screen.getByRole('heading', { name: '夏侯惇' }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-node-count',
+      '19',
+    );
+  });
+
   it('degrades safely when candidate loading fails', async () => {
     loadCandidateGraphMock.mockRejectedValue(
       new Error('离线测试：候选文件不可用'),
@@ -121,10 +137,10 @@ describe('application routes and home interaction', () => {
 
   it('opens the filtered source catalog from the live summary', () => {
     renderRoute('/');
-    fireEvent.click(screen.getByRole('button', { name: '6 查看列表' }));
+    fireEvent.click(screen.getByRole('button', { name: '9 查看列表' }));
 
     expect(
-      screen.getByRole('heading', { name: '史料记录（6）' }),
+      screen.getByRole('heading', { name: '史料记录（9）' }),
     ).toBeInTheDocument();
     expect(screen.getByText(/这里只统计当前画布/)).toBeInTheDocument();
     const relationButton = screen.getByRole('button', {
@@ -147,12 +163,12 @@ describe('application routes and home interaction', () => {
 
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '14',
+      '17',
     );
     fireEvent.click(screen.getByRole('button', { name: '返回上一步' }));
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '15',
+      '18',
     );
   });
 

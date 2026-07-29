@@ -37,6 +37,15 @@ describe('graph layout', () => {
           positions['person:sg:cao_cao'].x,
       ),
     ).toBeLessThanOrEqual(135);
+    expect(layout.generations['person:sg:cao_cao']).toBe(
+      layout.generations['person:sg:cao_ren'],
+    );
+    expect(layout.generations['person:sg:cao_zhen']).toBe(
+      layout.generations['person:sg:cao_cao'] + 1,
+    );
+    expect(layout.generations['person:sg:xiahou_xuan']).toBe(
+      layout.generations['person:sg:cao_shuang'],
+    );
   });
 
   it('wraps dense generations on compact screens without overlapping nodes', () => {

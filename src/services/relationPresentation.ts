@@ -209,7 +209,11 @@ export function getRelationClaim(
 }
 
 export function relationDirectionLabel(relation: Relation): string {
-  return relation.type === 'spouse_of'
-    ? '无方向；双方互为配偶'
-    : '有方向；箭头由关系主体指向关系对象';
+  if (relation.type === 'spouse_of') {
+    return '无方向；双方互为配偶';
+  }
+  if (relation.type === 'clan_relative_of') {
+    return '无方向；双方存在宗族或姻亲关系';
+  }
+  return '有方向；箭头由关系主体指向关系对象';
 }

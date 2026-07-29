@@ -33,8 +33,19 @@ const initialTypes = new Set<RelationType>([
   'spouse_of',
   'adoptive_father_of',
   'adoptive_mother_of',
+  'clan_relative_of',
 ]);
 const allFormalPersonIds = new Set(graphData.persons.map((person) => person.id));
+const initialCorePersonIds = new Set([corePersonId]);
+graphData.relations.forEach((relation) => {
+  if (
+    relation.sourcePersonId === corePersonId ||
+    relation.targetPersonId === corePersonId
+  ) {
+    initialCorePersonIds.add(relation.sourcePersonId);
+    initialCorePersonIds.add(relation.targetPersonId);
+  }
+});
 
 type DetailMode = 'record' | 'sources' | 'path';
 
@@ -60,7 +71,7 @@ export function HomePage() {
   >('idle');
   const [candidateError, setCandidateError] = useState<string | null>(null);
   const [explorationPersonIds, setExplorationPersonIds] = useState(
-    () => new Set(allFormalPersonIds),
+    () => new Set(initialCorePersonIds),
   );
   const [visibilityHistory, setVisibilityHistory] = useState<string[][]>([]);
   const [expandedPersonIds, setExpandedPersonIds] = useState(
@@ -162,6 +173,12 @@ export function HomePage() {
   );
 
   const selectPerson = useCallback((personId: string) => {
+    setExplorationPersonIds((current) => {
+      if (current.has(personId)) {
+        return current;
+      }
+      return new Set(current).add(personId);
+    });
     setSelectedPersonId(personId);
     setSelectedRelationId(null);
     setDetailMode('record');
@@ -367,7 +384,7 @@ export function HomePage() {
   };
 
   const resetToCore = () => {
-    commitVisibility(directNeighborIds(corePersonId));
+    commitVisibility(new Set(initialCorePersonIds));
     setSelectedPersonId(corePersonId);
     setSelectedRelationId(null);
     setDepth('all');
@@ -420,9 +437,9 @@ export function HomePage() {
       <div className="dashboard-content">
         <section className="dashboard-top">
           <div className="dashboard-intro">
-            <h1>曹操核心家庭关系图谱</h1>
+            <h1>曹氏—夏侯氏人物关系图谱</h1>
             <p>
-              以曹操为核心，展示其家庭成员、婚姻关系与宗缘网络。
+              以曹操为核心，分支展示曹氏、夏侯氏的亲属、婚姻与宗族网络。
               连线样式与颜色对应关系类型与史料可信度。
             </p>
           </div>

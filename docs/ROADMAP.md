@@ -38,9 +38,11 @@
 - seven independent source-system filters with candidates disabled by default
 - disambiguating search cards, pinyin/context search, and shortest-path queries
 
-## Milestone 2 — Cao and Xiahou clans
+## Milestone 2 — Cao and Xiahou clans (current)
 
-- expand the verified person set only where sources can be located
+- first verified expansion adds Cao Ren, Cao Hong, Cao Xiu, Cao Zhen,
+  Cao Shuang, Xiahou Dun, Xiahou Yuan, Xiahou Shang, and Xiahou Xuan
+- add only source-located parent, adoption, and bounded clan relationships
 - populate disputed-source comparison with independently reviewed claims
 - design, but do not silently persist, carefully scoped relationship inference
 

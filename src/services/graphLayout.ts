@@ -64,50 +64,76 @@ function createGenerations(
   persons: Person[],
   relations: Relation[],
 ): Map<string, number> {
-  const generations = new Map(persons.map((person) => [person.id, 0]));
-  const personIds = new Set(generations.keys());
+  const generations = new Map<string, number>();
+  const personIds = new Set(persons.map((person) => person.id));
   const structuralRelations = relations.filter(
     (relation) =>
       isStructuralRelation(relation) &&
       personIds.has(relation.sourcePersonId) &&
       personIds.has(relation.targetPersonId),
   );
-
-  for (let pass = 0; pass < persons.length; pass += 1) {
-    let changed = false;
-    structuralRelations.forEach((relation) => {
-      const sourceGeneration =
-        generations.get(relation.sourcePersonId) ?? 0;
-      const targetGeneration =
-        generations.get(relation.targetPersonId) ?? 0;
-      if (parentRelationTypes.has(relation.type)) {
-        const nextTargetGeneration = Math.max(
-          targetGeneration,
-          sourceGeneration + 1,
-        );
-        if (nextTargetGeneration !== targetGeneration) {
-          generations.set(relation.targetPersonId, nextTargetGeneration);
-          changed = true;
-        }
-      } else if (relation.type === 'spouse_of') {
-        const sharedGeneration = Math.max(
-          sourceGeneration,
-          targetGeneration,
-        );
-        if (sourceGeneration !== sharedGeneration) {
-          generations.set(relation.sourcePersonId, sharedGeneration);
-          changed = true;
-        }
-        if (targetGeneration !== sharedGeneration) {
-          generations.set(relation.targetPersonId, sharedGeneration);
-          changed = true;
-        }
-      }
-    });
-    if (!changed) {
-      break;
+  const adjacency = new Map<
+    string,
+    Array<{ personId: string; offset: number }>
+  >();
+  const generationOffset = (relation: Relation): number => {
+    if (parentRelationTypes.has(relation.type)) {
+      return 1;
     }
-  }
+    if (relation.type !== 'clan_relative_of') {
+      return 0;
+    }
+    const qualifier = relation.claim?.relationshipQualifier ?? '';
+    return qualifier.includes('族子') || qualifier.includes('从子') ? 1 : 0;
+  };
+  structuralRelations.forEach((relation) => {
+    const offset = generationOffset(relation);
+    adjacency.set(relation.sourcePersonId, [
+      ...(adjacency.get(relation.sourcePersonId) ?? []),
+      { personId: relation.targetPersonId, offset },
+    ]);
+    adjacency.set(relation.targetPersonId, [
+      ...(adjacency.get(relation.targetPersonId) ?? []),
+      { personId: relation.sourcePersonId, offset: -offset },
+    ]);
+  });
+
+  persons.forEach((person) => {
+    if (generations.has(person.id)) {
+      return;
+    }
+    const componentPersonIds: string[] = [];
+    const queue = [person.id];
+    generations.set(person.id, 0);
+    while (queue.length > 0) {
+      const currentPersonId = queue.shift();
+      if (!currentPersonId) {
+        continue;
+      }
+      componentPersonIds.push(currentPersonId);
+      const currentGeneration = generations.get(currentPersonId) ?? 0;
+      (adjacency.get(currentPersonId) ?? []).forEach((neighbor) => {
+        if (!generations.has(neighbor.personId)) {
+          generations.set(
+            neighbor.personId,
+            currentGeneration + neighbor.offset,
+          );
+          queue.push(neighbor.personId);
+        }
+      });
+    }
+    const minimumGeneration = Math.min(
+      ...componentPersonIds.map(
+        (personId) => generations.get(personId) ?? 0,
+      ),
+    );
+    componentPersonIds.forEach((personId) => {
+      generations.set(
+        personId,
+        (generations.get(personId) ?? 0) - minimumGeneration,
+      );
+    });
+  });
 
   return generations;
 }
@@ -324,24 +350,33 @@ function orderGeneration(
             (inputOrder.get(firstId) ?? 0) -
               (inputOrder.get(secondId) ?? 0),
         );
-      const parentRanks = component.flatMap((personId) =>
+      const parentRelations = component.flatMap((personId) =>
         relations
           .filter(
             (relation) =>
               isStructuralRelation(relation) &&
               parentRelationTypes.has(relation.type) &&
               relation.targetPersonId === personId,
-          )
-          .map(
-            (relation) =>
-              positionedOrder.get(relation.sourcePersonId) ??
-              Number.MAX_SAFE_INTEGER,
           ),
       );
+      const parentRanks = parentRelations.map(
+        (relation) =>
+          positionedOrder.get(relation.sourcePersonId) ??
+          Number.MAX_SAFE_INTEGER,
+      );
+      const parentKind = parentRelations.some(
+        (relation) =>
+          relation.type === 'father_of' || relation.type === 'mother_of',
+      )
+        ? 0
+        : parentRelations.length > 0
+          ? 1
+          : 2;
       return {
         anchor,
         partners,
         group: layoutGroups.get(anchor) ?? 0,
+        parentKind,
         parentRank:
           parentRanks.length > 0
             ? Math.max(...parentRanks)
@@ -357,6 +392,7 @@ function orderGeneration(
     .sort(
       (first, second) =>
         first.group - second.group ||
+        first.parentKind - second.parentKind ||
         first.parentRank - second.parentRank ||
         first.inputRank - second.inputRank,
     );

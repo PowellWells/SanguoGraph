@@ -13,9 +13,9 @@ function issueCodes(data: GraphData): ValidationCode[] {
 }
 
 describe('formal graph data', () => {
-  it('contains exactly the 15 Milestone 1 people and valid evidence', () => {
-    expect(graphData.persons).toHaveLength(15);
-    expect(graphData.relations).toHaveLength(23);
+  it('contains the 24 Milestone 2 people and valid evidence', () => {
+    expect(graphData.persons).toHaveLength(24);
+    expect(graphData.relations).toHaveLength(33);
     expect(validateGraphData(graphData)).toEqual([]);
   });
 
@@ -97,6 +97,26 @@ describe('formal graph data', () => {
     data.relations.push(spouse);
 
     expect(issueCodes(data)).toContain('DUPLICATE_SPOUSE');
+  });
+
+  it('rejects reverse duplicate clan relations', () => {
+    const data = copyGraphData();
+    const clanRelation = structuredClone(
+      data.relations.find(
+        (relation) => relation.type === 'clan_relative_of',
+      ),
+    );
+    if (!clanRelation) {
+      throw new Error('测试数据缺少宗族关系。');
+    }
+    [clanRelation.sourcePersonId, clanRelation.targetPersonId] = [
+      clanRelation.targetPersonId,
+      clanRelation.sourcePersonId,
+    ];
+    clanRelation.id = 'relation:sg:test_reverse_clan';
+    data.relations.push(clanRelation);
+
+    expect(issueCodes(data)).toContain('DUPLICATE_CLAN_RELATION');
   });
 
   it('rejects directed parent cycles', () => {

@@ -3,6 +3,7 @@ export function GraphLegend() {
     <div className="graph-legend" aria-label="关系图例">
       <span><i className="legend-line confirmed" />关系确凿</span>
       <span><i className="legend-line pending" />关系待定</span>
+      <span>宗族／婚姻为无向连线</span>
       <span><i className="legend-person confirmed" />人物确凿</span>
       <span><i className="legend-person pending" />人物待定</span>
       <span><i className="legend-color wei" />魏</span>

@@ -87,7 +87,11 @@ export function PersonPanel({
     return (
       <DetailFrame title="关系档案">
         <h3 className="relation-title">
-          {from?.name} {selectedRelation.type === 'spouse_of' ? '—' : '→'}{' '}
+          {from?.name}{' '}
+          {selectedRelation.type === 'spouse_of' ||
+          selectedRelation.type === 'clan_relative_of'
+            ? '—'
+            : '→'}{' '}
           {to?.name}
         </h3>
         <p className="relation-qualifier">{claim.relationshipQualifier}</p>

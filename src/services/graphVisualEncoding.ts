@@ -18,6 +18,15 @@ const visualFactionOverrides: Readonly<Record<string, FactionColorKey>> = {
   'person:sg:cao_chong': 'wei',
   'person:sg:cao_ju': 'wei',
   'person:sg:cao_yu': 'wei',
+  'person:sg:cao_ren': 'wei',
+  'person:sg:cao_hong': 'wei',
+  'person:sg:cao_xiu': 'wei',
+  'person:sg:cao_zhen': 'wei',
+  'person:sg:cao_shuang': 'wei',
+  'person:sg:xiahou_dun': 'wei',
+  'person:sg:xiahou_yuan': 'wei',
+  'person:sg:xiahou_shang': 'wei',
+  'person:sg:xiahou_xuan': 'wei',
 };
 
 export function getFactionColorKey(person: Person): FactionColorKey {

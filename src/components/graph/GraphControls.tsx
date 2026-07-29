@@ -11,6 +11,7 @@ const relationOptions: ReadonlyArray<{ type: RelationType; label: string }> = [
   { type: 'spouse_of', label: '夫妻／配偶' },
   { type: 'adoptive_father_of', label: '养父' },
   { type: 'adoptive_mother_of', label: '养母' },
+  { type: 'clan_relative_of', label: '宗族／姻亲' },
 ];
 
 const neighborhoodOptions: ReadonlyArray<{

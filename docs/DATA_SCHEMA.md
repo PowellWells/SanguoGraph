@@ -19,8 +19,10 @@ source.
 ## Relation
 
 Formal base types are `father_of`, `mother_of`, `spouse_of`,
-`adoptive_father_of`, and `adoptive_mother_of`. `clan_relative_of` remains
-reserved for a later milestone.
+`adoptive_father_of`, `adoptive_mother_of`, and `clan_relative_of`.
+`clan_relative_of` is undirected and records only a source-backed bounded
+kinship label such as 从弟、族子、从子 or 姑子. It must not be expanded into
+unrecorded intermediate ancestors.
 
 | Field | Meaning |
 | --- | --- |

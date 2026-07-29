@@ -3,8 +3,8 @@
 [简体中文](README.zh-CN.md)
 
 SanguoGraph is an early-stage, source-traceable knowledge graph for historical
-relationships in the Three Kingdoms period. Milestone 1 presents Cao Cao's core
-family while keeping verified historical records separate from external
+relationships in the Three Kingdoms period. Milestone 2 presents the Cao and
+Xiahou clan network while keeping verified historical records separate from external
 structured-data candidates.
 
 ## Open directly offline
@@ -22,10 +22,10 @@ npm run build:offline
 npm run validate:offline
 ```
 
-## Milestone 1
+## Milestone 2
 
-- 15 locally identified people (`person:sg:*`);
-- 23 recorded father, mother, spouse, and adoptive-parent relationships;
+- 24 locally identified people (`person:sg:*`);
+- 33 recorded father, mother, spouse, adoptive-parent, and clan relationships;
 - inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
   annotations;
 - Cytoscape.js graph with search, relation filters, and all/one-hop/two-hop
@@ -90,7 +90,8 @@ The checked-in `data/processed` layer contains 99 people and 738 unverified
 Wikidata-derived candidate relations. The regular website build loads the
 candidate module only when a reader enables the switch. The single-file offline
 build embeds the same candidate data but still keeps it hidden by default.
-Both builds adapt only records involving the 15 formal people.
+Both builds use the 24 formal people as their adaptation boundary; the current
+candidate snapshot covers only a subset of them.
 
 The reproducible Python pipeline and source/license registry are documented in
 [Candidate data pipeline](docs/CANDIDATE_PIPELINE.md). CI validates the

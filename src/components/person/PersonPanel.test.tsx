@@ -55,4 +55,40 @@ describe('PersonPanel', () => {
       'https://zh.wikisource.org/wiki/三國志/卷01',
     );
   });
+
+  it('shows an undirected, precisely qualified clan relation', () => {
+    const relation = graphData.relations.find(
+      (item) => item.id === 'relation:sg:cao_shuang_clan_xiahou_xuan',
+    );
+    if (!relation) {
+      throw new Error('测试关系不存在。');
+    }
+    render(
+      <PersonPanel
+        selectedPerson={null}
+        selectedRelation={relation}
+        persons={graphData.persons}
+        relations={graphData.relations}
+        sources={graphData.sources}
+      />,
+    );
+
+    expect(
+      screen.getByRole('heading', { name: '曹爽 — 夏侯玄' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('无方向；双方存在宗族或姻亲关系'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('姑表亲；夏侯玄为曹爽姑母之子'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/姑表亲；夏侯玄为曹爽姑母之子；当前判断为/),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText(/玄，爽之姑子也/)).toHaveLength(2);
+    expect(screen.getByRole('link', { name: '查看原文' })).toHaveAttribute(
+      'href',
+      'https://zh.wikisource.org/wiki/三國志/卷09',
+    );
+  });
 });

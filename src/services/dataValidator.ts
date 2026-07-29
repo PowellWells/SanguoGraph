@@ -18,6 +18,7 @@ export type ValidationCode =
   | 'CANDIDATE_NOT_PENDING'
   | 'RAW_RELATION_NOT_RECORDED'
   | 'DUPLICATE_SPOUSE'
+  | 'DUPLICATE_CLAN_RELATION'
   | 'PARENT_CYCLE'
   | 'UNKNOWN_OPPOSING_SOURCE'
   | 'CLAIM_DECISION_MISMATCH';
@@ -114,6 +115,7 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
   const personIds = new Set(data.persons.map((person) => person.id));
   const sourcesById = new Map(data.sources.map((source) => [source.id, source]));
   const spousePairs = new Map<string, string>();
+  const clanPairs = new Map<string, string>();
 
   for (const person of data.persons) {
     if (!/^person:sg:[a-z0-9_]+$/.test(person.id)) {
@@ -266,6 +268,23 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
         });
       } else {
         spousePairs.set(pair, relation.id);
+      }
+    }
+
+    if (relation.type === 'clan_relative_of') {
+      const pair = [relation.sourcePersonId, relation.targetPersonId]
+        .sort()
+        .join('|');
+      const previous = clanPairs.get(pair);
+      if (previous) {
+        issues.push({
+          code: 'DUPLICATE_CLAN_RELATION',
+          collection: 'relations',
+          entityId: relation.id,
+          message: `${relation.id} 与 ${previous} 重复表达同一宗族关系。`,
+        });
+      } else {
+        clanPairs.set(pair, relation.id);
       }
     }
   }
