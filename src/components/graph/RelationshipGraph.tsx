@@ -18,21 +18,21 @@ interface RelationshipGraphProps {
 }
 
 const personPositions: Readonly<Record<string, { x: number; y: number }>> = {
-  'person:sg:cao_teng': { x: 560, y: 55 },
-  'person:sg:cao_song': { x: 560, y: 155 },
-  'person:sg:cao_cao': { x: 560, y: 275 },
-  'person:sg:lady_ding': { x: 250, y: 275 },
-  'person:sg:lady_liu': { x: 355, y: 275 },
-  'person:sg:empress_bian': { x: 765, y: 275 },
-  'person:sg:lady_huan': { x: 870, y: 275 },
-  'person:sg:cao_ang': { x: 90, y: 500 },
-  'person:sg:cao_pi': { x: 225, y: 500 },
-  'person:sg:cao_zhang': { x: 360, y: 500 },
-  'person:sg:cao_zhi': { x: 495, y: 500 },
-  'person:sg:cao_xiong': { x: 630, y: 500 },
-  'person:sg:cao_chong': { x: 765, y: 500 },
-  'person:sg:cao_ju': { x: 900, y: 500 },
-  'person:sg:cao_yu': { x: 1035, y: 500 },
+  'person:sg:cao_teng': { x: 535, y: 35 },
+  'person:sg:cao_song': { x: 535, y: 120 },
+  'person:sg:cao_cao': { x: 535, y: 225 },
+  'person:sg:lady_ding': { x: 215, y: 210 },
+  'person:sg:lady_liu': { x: 345, y: 225 },
+  'person:sg:empress_bian': { x: 725, y: 225 },
+  'person:sg:lady_huan': { x: 855, y: 210 },
+  'person:sg:cao_ang': { x: 70, y: 420 },
+  'person:sg:cao_pi': { x: 205, y: 420 },
+  'person:sg:cao_zhang': { x: 340, y: 420 },
+  'person:sg:cao_zhi': { x: 475, y: 420 },
+  'person:sg:cao_xiong': { x: 610, y: 420 },
+  'person:sg:cao_chong': { x: 745, y: 420 },
+  'person:sg:cao_ju': { x: 880, y: 420 },
+  'person:sg:cao_yu': { x: 1015, y: 420 },
 };
 
 const compactPersonPositions: Readonly<
@@ -85,7 +85,7 @@ function buildElements(
         person.id === 'person:sg:cao_cao',
     },
     position: positions[person.id],
-    classes: `person ${person.gender}${lockedPersonIds.has(person.id) ? ' locked' : ''}`,
+    classes: `person ${person.gender}${person.id === 'person:sg:cao_cao' ? ' core' : ''}${lockedPersonIds.has(person.id) ? ' locked' : ''}`,
   }));
   const edges: ElementDefinition[] = relations.map((relation) => ({
     data: {
@@ -157,7 +157,7 @@ export function RelationshipGraph({
           .nodes()
           .positions((node) => positions[node.id()] ?? { x: 0, y: 0 });
         currentGraph.resize();
-        currentGraph.fit(undefined, 36);
+        currentGraph.fit(undefined, 24);
       }
     };
     window.addEventListener('resize', fitToContainer);
@@ -184,17 +184,17 @@ export function RelationshipGraph({
           {
             selector: 'node',
             style: {
-              width: 72,
-              height: 72,
-              'background-color': '#f8f3e9',
-              'border-color': '#7e7567',
+              width: 54,
+              height: 54,
+              'background-color': '#fbf7ee',
+              'border-color': '#b88a42',
               'border-width': 2,
-              color: '#292720',
+              color: '#20242a',
               label: 'data(label)',
-              'font-family': 'Microsoft YaHei, sans-serif',
-              'font-size': 11,
+              'font-family': 'Songti SC, Microsoft YaHei, serif',
+              'font-size': 10,
               'font-weight': 700,
-              'line-height': 1.45,
+              'line-height': 1.25,
               'text-wrap': 'wrap',
               'text-valign': 'center',
               'text-halign': 'center',
@@ -203,28 +203,46 @@ export function RelationshipGraph({
           {
             selector: 'node[ancestor]',
             style: {
-              'background-color': '#efe7d8',
-              'border-color': '#6b6255',
-              'border-width': 3,
+              'background-color': '#f8f2e7',
+              'border-color': '#b37a2e',
+              'border-width': 2,
             },
           },
           {
             selector: 'node.female',
             style: {
-              'background-color': '#f4e3de',
-              'border-color': '#a65b52',
-              shape: 'round-diamond',
+              'background-color': '#e8edf3',
+              'border-color': '#27466f',
+              shape: 'ellipse',
+            },
+          },
+          {
+            selector: 'node.core',
+            style: {
+              width: 66,
+              height: 66,
+              'background-color': '#b51217',
+              'border-color': '#9c0e13',
+              'border-width': 3,
+              color: '#ffffff',
+              'font-size': 13,
             },
           },
           {
             selector: 'node:selected',
             style: {
-              'background-color': '#fffaf0',
-              'border-color': '#9f312a',
+              'border-color': '#b51217',
               'border-width': 4,
-              'underlay-color': '#9f312a',
-              'underlay-opacity': 0.1,
-              'underlay-padding': 10,
+              'underlay-color': '#b51217',
+              'underlay-opacity': 0.12,
+              'underlay-padding': 7,
+            },
+          },
+          {
+            selector: 'node.core:selected',
+            style: {
+              'background-color': '#b51217',
+              color: '#ffffff',
             },
           },
           {
@@ -237,18 +255,18 @@ export function RelationshipGraph({
           {
             selector: 'edge',
             style: {
-              width: 2,
-              'line-color': '#6f685e',
-              'target-arrow-color': '#6f685e',
+              width: 1.8,
+              'line-color': '#b51217',
+              'target-arrow-color': '#b51217',
               'target-arrow-shape': 'triangle',
               'arrow-scale': 0.8,
               'curve-style': 'bezier',
               label: 'data(label)',
-              color: '#655f56',
+              color: '#4e5054',
               'font-family': 'Microsoft YaHei, sans-serif',
-              'font-size': 8,
+              'font-size': 8.5,
               'font-weight': 700,
-              'text-background-color': '#faf7f0',
+              'text-background-color': '#ffffff',
               'text-background-opacity': 0.94,
               'text-background-padding': '3px',
               'text-rotation': 'autorotate',
@@ -257,15 +275,15 @@ export function RelationshipGraph({
           {
             selector: 'edge.mother_of',
             style: {
-              'line-color': '#b16056',
-              'target-arrow-color': '#b16056',
+              'line-color': '#b51217',
+              'target-arrow-color': '#b51217',
             },
           },
           {
             selector: 'edge.spouse_of',
             style: {
-              width: 2.4,
-              'line-color': '#9f312a',
+              width: 1.8,
+              'line-color': '#34383d',
               'target-arrow-shape': 'none',
               'line-style': 'solid',
               'text-rotation': 'none',
@@ -275,6 +293,8 @@ export function RelationshipGraph({
             selector: 'edge.adoptive_father_of, edge.adoptive_mother_of',
             style: {
               'line-style': 'dashed',
+              'line-color': '#b51217',
+              'target-arrow-color': '#b51217',
               'target-arrow-shape': 'triangle',
             },
           },
@@ -282,19 +302,21 @@ export function RelationshipGraph({
             selector: 'edge.indirect_inference',
             style: {
               'line-style': 'dashed',
+              'line-color': '#b51217',
+              'target-arrow-color': '#b51217',
             },
           },
           {
             selector: 'edge.candidate',
             style: {
-              'line-color': '#aaa49a',
-              'target-arrow-color': '#aaa49a',
+              'line-color': '#8d9299',
+              'target-arrow-color': '#8d9299',
               'line-style': 'dashed',
               'curve-style': 'unbundled-bezier',
               'control-point-distances': 28,
               'control-point-weights': 0.5,
-              color: '#817b72',
-              width: 1.5,
+              color: '#71767d',
+              width: 1.4,
               opacity: 0.82,
             },
           },
@@ -302,8 +324,8 @@ export function RelationshipGraph({
             selector: 'edge:selected',
             style: {
               width: 4,
-              'line-color': '#9f312a',
-              'target-arrow-color': '#9f312a',
+              'line-color': '#b51217',
+              'target-arrow-color': '#b51217',
               'z-index': 10,
             },
           },
@@ -320,7 +342,7 @@ export function RelationshipGraph({
         layout: {
           name: 'preset',
           fit: true,
-          padding: 42,
+          padding: 24,
           animate: false,
         },
       });
@@ -381,7 +403,7 @@ export function RelationshipGraph({
   }, [selectedPersonId, selectedRelationId]);
 
   const fitGraph = () => {
-    graphRef.current?.fit(undefined, 42);
+    graphRef.current?.fit(undefined, 24);
   };
   const zoomGraph = (factor: number) => {
     const graph = graphRef.current;
@@ -396,16 +418,11 @@ export function RelationshipGraph({
 
   return (
     <section className="graph-card" aria-labelledby="graph-title">
-      <div className="panel-heading graph-heading">
-        <div>
-          <p className="eyebrow">关系画布</p>
-          <h2 id="graph-title">曹操核心家庭</h2>
-        </div>
-        <span className="status-badge">史料核验层</span>
-      </div>
+      <h2 id="graph-title" className="visually-hidden">曹操核心家庭关系图谱</h2>
       <div className="graph-meta-row">
         <GraphLegend />
         <GraphToolbar
+          onHome={() => onSelectPerson('person:sg:cao_cao')}
           onZoomIn={() => zoomGraph(1.18)}
           onZoomOut={() => zoomGraph(0.84)}
           onFit={fitGraph}

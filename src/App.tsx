@@ -40,11 +40,14 @@ export function App() {
     );
 
   return (
-    <div className="app-shell">
+    <div
+      className={`app-shell route-${route === '/' ? 'home' : route.slice(1)}`}
+    >
       <Header currentRoute={route} />
       <main className="main-content">{page}</main>
       <footer className="site-footer">
-        <p>Milestone 1.3 · 关系档案 · 节点探索 · 史料分层与路径查询</p>
+        <p>SanguoGraph / 三国人物关系谱 · 开源项目</p>
+        <p>代码 MIT · 数据许可待定</p>
       </footer>
     </div>
   );

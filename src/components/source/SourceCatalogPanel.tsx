@@ -20,19 +20,20 @@ export function SourceCatalogPanel({
 
   return (
     <aside className="panel-card person-panel" aria-labelledby="source-panel-title">
-      <div className="panel-heading">
-        <div>
-          <p className="eyebrow">当前筛选</p>
-          <h2 id="source-panel-title">史料记录（{sources.length}）</h2>
-        </div>
+      <header className="panel-titlebar">
+        <h2 id="source-panel-title">
+          <span aria-hidden="true">▤</span>
+          史料记录（{sources.length}）
+        </h2>
         <button className="panel-close" type="button" onClick={onClose}>
-          返回档案
+          返回
         </button>
-      </div>
-      <p className="detail-note">
-        这里只统计当前画布中关系实际引用的史料；更改关系类型、来源层或查看范围后会同步更新。
-      </p>
-      <div className="source-panel-list">
+      </header>
+      <div className="panel-scroll-body detail-body">
+        <p className="detail-note">
+          这里只统计当前画布中人物与关系实际引用的史料，筛选后会同步更新。
+        </p>
+        <div className="source-panel-list">
         {sources.map((source) => {
           const related = relations.filter((relation) =>
             relation.sourceIds.includes(source.id),
@@ -84,6 +85,7 @@ export function SourceCatalogPanel({
             </article>
           );
         })}
+        </div>
       </div>
     </aside>
   );

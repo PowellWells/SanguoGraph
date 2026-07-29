@@ -63,7 +63,8 @@ describe('application routes and home interaction', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: '从史料出发，看见曹操核心家庭的关系',
+        name: '曹操核心家庭关系图谱',
+        level: 1,
       }),
     ).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
@@ -80,13 +81,18 @@ describe('application routes and home interaction', () => {
     expect(
       screen.getByRole('button', { name: '适应画布' }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: '曹操' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: '曹操 — 环夫人' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: '图谱方法与阅读指南' }),
+    ).toBeInTheDocument();
     await waitFor(() => expect(createGraph).toHaveBeenCalledOnce());
   });
 
   it('searches by a traditional alias and selects the result', () => {
     renderRoute('/');
-    fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索与消歧' }), {
+    fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索' }), {
       target: { value: '曹沖' },
     });
     fireEvent.click(screen.getByRole('button', { name: /曹冲/ }));
@@ -107,7 +113,9 @@ describe('application routes and home interaction', () => {
       await screen.findByRole('alert'),
     ).toHaveTextContent('离线测试：候选文件不可用');
     expect(screen.getByTestId('relationship-graph')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: '曹操' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: '曹操 — 环夫人' }),
+    ).toBeInTheDocument();
   });
 
   it('opens the filtered source catalog from the live summary', () => {
@@ -133,6 +141,7 @@ describe('application routes and home interaction', () => {
 
   it('supports hiding a person and returning to the previous graph state', () => {
     renderRoute('/');
+    fireEvent.click(screen.getByRole('button', { name: '返回核心人物' }));
     fireEvent.click(screen.getByRole('button', { name: '隐藏此人物' }));
 
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
@@ -156,7 +165,7 @@ describe('application routes and home interaction', () => {
       target: { value: 'person:sg:cao_pi' },
     });
     fireEvent.click(
-      screen.getByRole('button', { name: '查询当前筛选下的最短路径' }),
+      screen.getByRole('button', { name: '查询关系' }),
     );
 
     expect(

@@ -1,4 +1,5 @@
 import type { HistoricalSource, Person, Relation } from '../../domain';
+import type { ReactNode } from 'react';
 import {
   certaintyLabels,
   decisionStatusLabels,
@@ -33,6 +34,27 @@ interface PersonPanelProps {
   actions?: PersonPanelActions;
 }
 
+function DetailFrame({
+  title,
+  children,
+}: {
+  title: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <aside className="panel-card person-panel" aria-labelledby="detail-title">
+      <header className="panel-titlebar">
+        <h2 id="detail-title">
+          <span aria-hidden="true">▣</span>
+          {title}
+        </h2>
+        <span aria-hidden="true">⌃</span>
+      </header>
+      <div className="panel-scroll-body detail-body">{children}</div>
+    </aside>
+  );
+}
+
 function years(person: Person): string {
   if (person.birthYear === null && person.deathYear === null) {
     return '生卒年不详';
@@ -63,16 +85,11 @@ export function PersonPanel({
       .filter((source): source is HistoricalSource => source !== undefined);
 
     return (
-      <aside className="panel-card person-panel" aria-labelledby="detail-title">
-        <div className="panel-heading">
-          <div>
-            <p className="eyebrow">关系档案</p>
-            <h2 id="detail-title">
-              {from?.name} {selectedRelation.type === 'spouse_of' ? '—' : '→'}{' '}
-              {to?.name}
-            </h2>
-          </div>
-        </div>
+      <DetailFrame title="关系档案">
+        <h3 className="relation-title">
+          {from?.name} {selectedRelation.type === 'spouse_of' ? '—' : '→'}{' '}
+          {to?.name}
+        </h3>
         <p className="relation-qualifier">{claim.relationshipQualifier}</p>
         <dl className="detail-metadata">
           <div>
@@ -145,7 +162,7 @@ export function PersonPanel({
             当前数据尚未录入可定位的现代学术观点。
           </p>
         )}
-      </aside>
+      </DetailFrame>
     );
   }
 
@@ -165,13 +182,8 @@ export function PersonPanel({
       });
 
     return (
-      <aside className="panel-card person-panel" aria-labelledby="detail-title">
-        <div className="panel-heading">
-          <div>
-            <p className="eyebrow">人物档案</p>
-            <h2 id="detail-title">{selectedPerson.name}</h2>
-          </div>
-        </div>
+      <DetailFrame title="人物档案">
+        <h3 className="relation-title">{selectedPerson.name}</h3>
         <p className="person-years">
           {selectedPerson.courtesyName && `字${selectedPerson.courtesyName} · `}
           {years(selectedPerson)}
@@ -225,22 +237,16 @@ export function PersonPanel({
             </p>
           </div>
         )}
-      </aside>
+      </DetailFrame>
     );
   }
 
   return (
-    <aside className="panel-card person-panel" aria-labelledby="detail-title">
-      <div className="panel-heading">
-        <div>
-          <p className="eyebrow">人物档案</p>
-          <h2 id="detail-title">详情</h2>
-        </div>
-      </div>
+    <DetailFrame title="人物档案">
       <div className="person-placeholder">
         <span aria-hidden="true">人</span>
         <p>选择人物或关系后查看亲属与史料证据。</p>
       </div>
-    </aside>
+    </DetailFrame>
   );
 }

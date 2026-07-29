@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { GraphControls } from '../components/graph/GraphControls';
+import { GraphGuide } from '../components/graph/GraphGuide';
 import { GraphSummary } from '../components/graph/GraphSummary';
 import { RelationshipGraph } from '../components/graph/RelationshipGraph';
 import { PathResultPanel } from '../components/person/PathResultPanel';
@@ -48,7 +49,7 @@ export function HomePage() {
     corePersonId,
   );
   const [selectedRelationId, setSelectedRelationId] = useState<string | null>(
-    null,
+    'relation:sg:cao_cao_spouse_lady_huan',
   );
   const [candidateRelations, setCandidateRelations] = useState<Relation[]>([]);
   const [candidateSources, setCandidateSources] = useState<HistoricalSource[]>(
@@ -394,98 +395,100 @@ export function HomePage() {
   };
 
   return (
-    <>
-      <section className="page-intro">
-        <div className="intro-copy">
-          <p className="eyebrow">可追溯史料 · 分层表达 · 开放协作</p>
-          <h1>从史料出发，看见曹操核心家庭的关系</h1>
-          <p>
-            沿着父母、夫妻与收养连线阅读家族结构；点击节点查看人物，
-            点击连线打开关系档案并回到具体史料。
-          </p>
-        </div>
-        <GraphSummary
-          personCount={visiblePersons.length}
-          relationCount={visibleRelations.length}
-          sourceCount={visibleSources.length}
-          onOpenSources={() => setDetailMode('sources')}
-        />
-      </section>
-      <section className="workspace" aria-label="人物关系图谱工作区">
-        <GraphControls
-          persons={graphData.persons}
-          query={query}
-          searchResults={searchResults}
-          enabledTypes={enabledTypes}
-          depth={depth}
-          enabledSourceLayers={enabledSourceLayers}
-          sourceLayerCounts={sourceLayerCounts}
-          candidateStatus={candidateStatus}
-          candidateError={candidateError}
-          pathStartId={pathStartId}
-          pathEndId={pathEndId}
-          onQueryChange={setQuery}
-          onSelectPerson={selectPerson}
-          onToggleType={toggleType}
-          onDepthChange={setDepth}
-          onSourceLayerToggle={(layer) => void toggleSourceLayer(layer)}
-          onPathStartChange={setPathStartId}
-          onPathEndChange={setPathEndId}
-          onRunPathQuery={runPathQuery}
-        />
-        <RelationshipGraph
-          persons={visiblePersons}
-          relations={visibleRelations}
-          selectedPersonId={selectedPersonId}
-          selectedRelationId={selectedRelationId}
-          lockedPersonIds={lockedPersonIds}
-          highlightedRelationIds={highlightedRelationIds}
-          onSelectPerson={selectPerson}
-          onSelectRelation={selectRelation}
-          onToggleExpand={toggleExpand}
-        />
-        {detailMode === 'sources' ? (
-          <SourceCatalogPanel
-            sources={visibleSources}
+    <section className="home-dashboard" aria-label="人物关系图谱工作区">
+      <GraphControls
+        persons={graphData.persons}
+        query={query}
+        searchResults={searchResults}
+        enabledTypes={enabledTypes}
+        depth={depth}
+        enabledSourceLayers={enabledSourceLayers}
+        sourceLayerCounts={sourceLayerCounts}
+        candidateStatus={candidateStatus}
+        candidateError={candidateError}
+        pathStartId={pathStartId}
+        pathEndId={pathEndId}
+        onQueryChange={setQuery}
+        onSelectPerson={selectPerson}
+        onToggleType={toggleType}
+        onDepthChange={setDepth}
+        onSourceLayerToggle={(layer) => void toggleSourceLayer(layer)}
+        onPathStartChange={setPathStartId}
+        onPathEndChange={setPathEndId}
+        onRunPathQuery={runPathQuery}
+      />
+      <div className="dashboard-content">
+        <section className="dashboard-top">
+          <div className="dashboard-intro">
+            <h1>曹操核心家庭关系图谱</h1>
+            <p>
+              以曹操为核心，展示其家庭成员、婚姻关系与宗缘网络。
+              连线样式与颜色对应关系类型与史料可信度。
+            </p>
+          </div>
+          <GraphSummary
+            personCount={visiblePersons.length}
+            relationCount={visibleRelations.length}
+            sourceCount={visibleSources.length}
+            onOpenSources={() => setDetailMode('sources')}
+          />
+        </section>
+        <div className="dashboard-lower">
+          <RelationshipGraph
+            persons={visiblePersons}
             relations={visibleRelations}
-            persons={graphData.persons}
+            selectedPersonId={selectedPersonId}
+            selectedRelationId={selectedRelationId}
+            lockedPersonIds={lockedPersonIds}
+            highlightedRelationIds={highlightedRelationIds}
+            onSelectPerson={selectPerson}
             onSelectRelation={selectRelation}
-            onClose={() => setDetailMode('record')}
+            onToggleExpand={toggleExpand}
           />
-        ) : detailMode === 'path' ? (
-          <PathResultPanel
-            path={pathResult}
-            persons={graphData.persons}
-            startPersonId={pathStartId}
-            endPersonId={pathEndId}
-            onSelectRelation={selectRelation}
-            onClose={() => setDetailMode('record')}
-          />
-        ) : (
-          <PersonPanel
-            selectedPerson={selectedRelation ? null : selectedPerson}
-            selectedRelation={selectedRelation}
-            persons={graphData.persons}
-            relations={combinedRelations}
-            sources={combinedSources}
-            actions={
-              selectedPerson
-                ? {
-                    isLocked: lockedPersonIds.has(selectedPerson.id),
-                    canGoBack: visibilityHistory.length > 0,
-                    onToggleExpand: () => toggleExpand(selectedPerson.id),
-                    onToggleLock: toggleSelectedLock,
-                    onHide: hideSelectedPerson,
-                    onKeepBranch: keepSelectedBranch,
-                    onGoBack: goBack,
-                    onResetCore: resetToCore,
-                    onShowCompleteNetwork: showCompleteNetwork,
-                  }
-                : undefined
-            }
-          />
-        )}
-      </section>
-    </>
+          <GraphGuide />
+          {detailMode === 'sources' ? (
+            <SourceCatalogPanel
+              sources={visibleSources}
+              relations={visibleRelations}
+              persons={graphData.persons}
+              onSelectRelation={selectRelation}
+              onClose={() => setDetailMode('record')}
+            />
+          ) : detailMode === 'path' ? (
+            <PathResultPanel
+              path={pathResult}
+              persons={graphData.persons}
+              startPersonId={pathStartId}
+              endPersonId={pathEndId}
+              onSelectRelation={selectRelation}
+              onClose={() => setDetailMode('record')}
+            />
+          ) : (
+            <PersonPanel
+              selectedPerson={selectedRelation ? null : selectedPerson}
+              selectedRelation={selectedRelation}
+              persons={graphData.persons}
+              relations={combinedRelations}
+              sources={combinedSources}
+              actions={
+                selectedPerson
+                  ? {
+                      isLocked: lockedPersonIds.has(selectedPerson.id),
+                      canGoBack: visibilityHistory.length > 0,
+                      onToggleExpand: () => toggleExpand(selectedPerson.id),
+                      onToggleLock: toggleSelectedLock,
+                      onHide: hideSelectedPerson,
+                      onKeepBranch: keepSelectedBranch,
+                      onGoBack: goBack,
+                      onResetCore: resetToCore,
+                      onShowCompleteNetwork: showCompleteNetwork,
+                    }
+                  : undefined
+              }
+            />
+          )}
+        </div>
+      </div>
+    </section>
   );
 }
