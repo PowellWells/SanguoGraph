@@ -1,82 +1,313 @@
 import { describe, expect, it } from 'vitest';
 import { graphData } from '../data';
-import type { Relation } from '../domain';
-import { createGraphLayout } from './graphLayout';
+import type { Person, Relation } from '../domain';
+import {
+  createGraphLayout,
+  sampleGraphEdgeRoute,
+  type GraphLayout,
+  type GraphPosition,
+} from './graphLayout';
+
+const corePersonId = 'person:sg:cao_cao';
 
 function distance(
-  first: { x: number; y: number },
-  second: { x: number; y: number },
+  first: GraphPosition,
+  second: GraphPosition,
 ): number {
   return Math.hypot(first.x - second.x, first.y - second.y);
 }
 
+function pointToSegmentDistance(
+  point: GraphPosition,
+  source: GraphPosition,
+  target: GraphPosition,
+): number {
+  const dx = target.x - source.x;
+  const dy = target.y - source.y;
+  const denominator = dx * dx + dy * dy;
+  if (denominator === 0) {
+    return distance(point, source);
+  }
+  const progress = Math.max(
+    0,
+    Math.min(
+      1,
+      ((point.x - source.x) * dx +
+        (point.y - source.y) * dy) /
+        denominator,
+    ),
+  );
+  return distance(point, {
+    x: source.x + progress * dx,
+    y: source.y + progress * dy,
+  });
+}
+
+function polylineDistanceToPoint(
+  points: GraphPosition[],
+  point: GraphPosition,
+): number {
+  let minimum = Number.POSITIVE_INFINITY;
+  for (let index = 1; index < points.length; index += 1) {
+    const source = points[index - 1];
+    const target = points[index];
+    if (source && target) {
+      minimum = Math.min(
+        minimum,
+        pointToSegmentDistance(point, source, target),
+      );
+    }
+  }
+  return minimum;
+}
+
+function expectNoNodeOverlap(
+  layout: GraphLayout,
+  persons: Person[],
+  minimumDistance: number,
+) {
+  persons.forEach((firstPerson, firstIndex) => {
+    persons.slice(firstIndex + 1).forEach((secondPerson) => {
+      const requiredDistance =
+        minimumDistance +
+        (firstPerson.id === corePersonId ||
+        secondPerson.id === corePersonId
+          ? 12
+          : 0);
+      expect(
+        distance(
+          layout.positions[firstPerson.id],
+          layout.positions[secondPerson.id],
+        ),
+      ).toBeGreaterThanOrEqual(requiredDistance - 0.001);
+    });
+  });
+}
+
+function expectRoutesAvoidUnrelatedNodes(
+  layout: GraphLayout,
+  persons: Person[],
+  relations: Relation[],
+) {
+  relations
+    .filter((relation) => relation.origin !== 'candidate')
+    .forEach((relation) => {
+      const points = sampleGraphEdgeRoute(
+        layout.positions[relation.sourcePersonId],
+        layout.positions[relation.targetPersonId],
+        layout.edgeRoutes[relation.id],
+        64,
+      );
+      persons
+        .filter(
+          (person) =>
+            person.id !== relation.sourcePersonId &&
+            person.id !== relation.targetPersonId,
+        )
+        .forEach((person) => {
+          expect(
+            polylineDistanceToPoint(
+              points,
+              layout.positions[person.id],
+            ),
+          ).toBeGreaterThanOrEqual(
+            person.id === corePersonId ? 47 : 41,
+          );
+        });
+    });
+}
+
+function getDefaultGraph() {
+  const personIds = new Set([corePersonId]);
+  graphData.relations.forEach((relation) => {
+    if (
+      relation.sourcePersonId === corePersonId ||
+      relation.targetPersonId === corePersonId
+    ) {
+      personIds.add(relation.sourcePersonId);
+      personIds.add(relation.targetPersonId);
+    }
+  });
+  const persons = graphData.persons.filter((person) =>
+    personIds.has(person.id),
+  );
+  const relations = graphData.relations.filter(
+    (relation) =>
+      personIds.has(relation.sourcePersonId) &&
+      personIds.has(relation.targetPersonId),
+  );
+  return { persons, relations };
+}
+
+function createLargeSyntheticGraph(): {
+  persons: Person[];
+  relations: Relation[];
+} {
+  const personTemplate = graphData.persons[0];
+  const fatherTemplate = graphData.relations.find(
+    (relation) => relation.type === 'father_of',
+  );
+  const clanTemplate = graphData.relations.find(
+    (relation) => relation.type === 'clan_relative_of',
+  );
+  if (!personTemplate || !fatherTemplate || !clanTemplate) {
+    throw new Error('合成布局测试缺少正式数据模板。');
+  }
+
+  const anchorId = 'person:test:anchor';
+  const persons: Person[] = [
+    {
+      ...personTemplate,
+      id: anchorId,
+      name: '合成核心',
+      courtesyName: null,
+      externalIds: {},
+    },
+  ];
+  const relations: Relation[] = [];
+
+  for (let branchIndex = 0; branchIndex < 8; branchIndex += 1) {
+    const branchId = `person:test:branch_${branchIndex}`;
+    persons.push({
+      ...personTemplate,
+      id: branchId,
+      name: `分支${branchIndex}`,
+      courtesyName: null,
+      externalIds: {},
+    });
+    relations.push({
+      ...clanTemplate,
+      id: `relation:test:clan_${branchIndex}`,
+      sourcePersonId: anchorId,
+      targetPersonId: branchId,
+      claim: clanTemplate.claim
+        ? {
+            ...clanTemplate.claim,
+            relationshipQualifier: '同代宗族',
+          }
+        : undefined,
+    });
+
+    let parentId = branchId;
+    for (let depth = 0; depth < 14; depth += 1) {
+      const childId = `person:test:branch_${branchIndex}_child_${depth}`;
+      persons.push({
+        ...personTemplate,
+        id: childId,
+        name: `分支${branchIndex}后代${depth}`,
+        courtesyName: null,
+        externalIds: {},
+      });
+      relations.push({
+        ...fatherTemplate,
+        id: `relation:test:branch_${branchIndex}_father_${depth}`,
+        sourcePersonId: parentId,
+        targetPersonId: childId,
+      });
+      parentId = childId;
+    }
+  }
+
+  return { persons, relations };
+}
+
 describe('graph layout', () => {
-  it('places parents above children and keeps spouses near the core person', () => {
+  it('fans the current family graph into semantic directions', () => {
     const layout = createGraphLayout(
       graphData.persons,
       graphData.relations,
       { compact: false },
     );
-    const positions = layout.positions;
+    const core = layout.positions[corePersonId];
 
-    expect(positions['person:sg:cao_teng'].y).toBeLessThan(
-      positions['person:sg:cao_song'].y,
+    expect(layout.positions['person:sg:cao_song'].y).toBeLessThan(
+      core.y,
     );
-    expect(positions['person:sg:cao_song'].y).toBeLessThan(
-      positions['person:sg:cao_cao'].y,
+    expect(layout.positions['person:sg:cao_pi'].y).toBeGreaterThan(
+      core.y,
     );
-    expect(positions['person:sg:cao_cao'].y).toBeLessThan(
-      positions['person:sg:cao_pi'].y,
+    expect(layout.positions['person:sg:cao_ren'].x).toBeGreaterThan(
+      core.x,
     );
-    expect(positions['person:sg:lady_liu'].y).toBe(
-      positions['person:sg:cao_cao'].y,
+    expect(layout.positions['person:sg:cao_hong'].x).toBeLessThan(
+      core.x,
     );
-    expect(
-      Math.abs(
-        positions['person:sg:lady_liu'].x -
-          positions['person:sg:cao_cao'].x,
-      ),
-    ).toBeLessThanOrEqual(135);
-    expect(layout.generations['person:sg:cao_cao']).toBe(
-      layout.generations['person:sg:cao_ren'],
+    expect(layout.generations['person:sg:lady_liu']).toBe(
+      layout.generations[corePersonId],
     );
     expect(layout.generations['person:sg:cao_zhen']).toBe(
-      layout.generations['person:sg:cao_cao'] + 1,
+      layout.generations[corePersonId] + 1,
     );
     expect(layout.generations['person:sg:xiahou_xuan']).toBe(
       layout.generations['person:sg:cao_shuang'],
     );
   });
 
-  it('wraps dense generations on compact screens without overlapping nodes', () => {
-    const layout = createGraphLayout(
+  it('keeps the default and complete graphs collision free', () => {
+    const defaultGraph = getDefaultGraph();
+    const defaultLayout = createGraphLayout(
+      defaultGraph.persons,
+      defaultGraph.relations,
+      { compact: false },
+    );
+    const completeLayout = createGraphLayout(
+      graphData.persons,
+      graphData.relations,
+      { compact: false },
+    );
+    const compactLayout = createGraphLayout(
       graphData.persons,
       graphData.relations,
       { compact: true },
     );
-    const descendantRows = new Set(
-      [
-        'person:sg:cao_ang',
-        'person:sg:cao_pi',
-        'person:sg:cao_zhang',
-        'person:sg:cao_zhi',
-        'person:sg:cao_xiong',
-        'person:sg:cao_chong',
-        'person:sg:cao_ju',
-        'person:sg:cao_yu',
-      ].map((personId) => layout.positions[personId].y),
-    );
-    const positions = Object.values(layout.positions);
 
-    expect(descendantRows.size).toBe(2);
-    positions.forEach((firstPosition, firstIndex) => {
-      positions.slice(firstIndex + 1).forEach((secondPosition) => {
-        expect(distance(firstPosition, secondPosition)).toBeGreaterThan(75);
-      });
-    });
+    expect(defaultGraph.persons).toHaveLength(18);
+    expectNoNodeOverlap(defaultLayout, defaultGraph.persons, 112);
+    expectNoNodeOverlap(completeLayout, graphData.persons, 112);
+    expectNoNodeOverlap(compactLayout, graphData.persons, 104);
   });
 
-  it('ignores candidate edges when assigning formal generations', () => {
+  it('routes every formal edge around unrelated nodes', () => {
+    const layout = createGraphLayout(
+      graphData.persons,
+      graphData.relations,
+      { compact: false },
+    );
+
+    expectRoutesAvoidUnrelatedNodes(
+      layout,
+      graphData.persons,
+      graphData.relations,
+    );
+    const clanRoute =
+      layout.edgeRoutes['relation:sg:cao_cao_clan_cao_zhen'];
+    const adoptionRoute =
+      layout.edgeRoutes[
+        'relation:sg:cao_cao_adoptive_father_cao_zhen'
+      ];
+    expect(clanRoute.kind).toBe('parallel');
+    expect(adoptionRoute.kind).toBe('parallel');
+    expect(
+      Math.sign(clanRoute.controlPointDistance),
+    ).toBe(-Math.sign(adoptionRoute.controlPointDistance));
+  });
+
+  it('is deterministic for the same graph', () => {
+    const first = createGraphLayout(
+      graphData.persons,
+      graphData.relations,
+      { compact: false },
+    );
+    const second = createGraphLayout(
+      graphData.persons,
+      graphData.relations,
+      { compact: false },
+    );
+
+    expect(second).toEqual(first);
+  });
+
+  it('ignores candidate edges when assigning formal layout and routes', () => {
     const candidateRelation: Relation = {
       id: 'relation:sg:candidate_generation_noise',
       sourcePersonId: 'person:sg:cao_yu',
@@ -100,10 +331,17 @@ describe('graph layout', () => {
       { compact: false },
     );
 
-    expect(withCandidate).toEqual(baseline);
+    expect(withCandidate.positions).toEqual(baseline.positions);
+    expect(withCandidate.generations).toEqual(baseline.generations);
+    expect(withCandidate.bounds).toEqual(baseline.bounds);
+    graphData.relations.forEach((relation) => {
+      expect(withCandidate.edgeRoutes[relation.id]).toEqual(
+        baseline.edgeRoutes[relation.id],
+      );
+    });
   });
 
-  it('adds separation between disconnected family groups', () => {
+  it('separates disconnected family components', () => {
     const firstPerson = {
       ...graphData.persons[0],
       id: 'person:sg:first_family',
@@ -121,32 +359,60 @@ describe('graph layout', () => {
     );
 
     expect(
-      Math.abs(
-        layout.positions[firstPerson.id].x -
-          layout.positions[secondPerson.id].x,
+      distance(
+        layout.positions[firstPerson.id],
+        layout.positions[secondPerson.id],
       ),
-    ).toBeGreaterThan(135);
+    ).toBeGreaterThanOrEqual(180);
   });
 
-  it('preserves locked positions across a relayout', () => {
+  it('preserves locked positions and moves unlocked nodes around them', () => {
     const lockedPosition = { x: 880, y: 90 };
     const layout = createGraphLayout(
       graphData.persons,
       graphData.relations,
       {
         compact: true,
-        lockedPersonIds: new Set(['person:sg:cao_cao']),
+        lockedPersonIds: new Set([corePersonId]),
         previousPositions: {
-          'person:sg:cao_cao': lockedPosition,
+          [corePersonId]: lockedPosition,
         },
       },
     );
 
-    expect(layout.positions['person:sg:cao_cao']).toEqual(lockedPosition);
+    expect(layout.positions[corePersonId]).toEqual(lockedPosition);
     Object.entries(layout.positions)
-      .filter(([personId]) => personId !== 'person:sg:cao_cao')
+      .filter(([personId]) => personId !== corePersonId)
       .forEach(([, position]) => {
-        expect(distance(position, lockedPosition)).toBeGreaterThanOrEqual(78);
+        expect(distance(position, lockedPosition)).toBeGreaterThanOrEqual(
+          116,
+        );
       });
+  });
+
+  it('scales deterministically to a 120-person multi-branch graph', () => {
+    const synthetic = createLargeSyntheticGraph();
+    const first = createGraphLayout(
+      synthetic.persons,
+      synthetic.relations,
+      {
+        compact: false,
+        anchorPersonId: 'person:test:anchor',
+      },
+    );
+    const second = createGraphLayout(
+      synthetic.persons,
+      synthetic.relations,
+      {
+        compact: false,
+        anchorPersonId: 'person:test:anchor',
+      },
+    );
+
+    expect(synthetic.persons.length).toBeGreaterThanOrEqual(120);
+    expectNoNodeOverlap(first, synthetic.persons, 112);
+    expect(first.bounds.width).toBeGreaterThan(1_000);
+    expect(first.bounds.height).toBeGreaterThan(1_000);
+    expect(second).toEqual(first);
   });
 });

@@ -1,5 +1,5 @@
 import type { Core, ElementDefinition, EventObject } from 'cytoscape';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Person, Relation, RelationType } from '../../domain';
 import {
   getPersonGraphClasses,
@@ -10,6 +10,11 @@ import {
   type GraphLayout,
   type GraphPosition,
 } from '../../services/graphLayout';
+import {
+  coreReturnGraphZoom,
+  ensureReadableGraphZoom,
+  shouldShowAllRelationLabels,
+} from '../../services/graphViewport';
 import { getRelationClaim } from '../../services/relationPresentation';
 import { GraphLegend } from './GraphLegend';
 import { GraphToolbar } from './GraphToolbar';
@@ -34,6 +39,7 @@ const relationLabels: Readonly<Record<RelationType, string>> = {
   adoptive_mother_of: '养母',
   clan_relative_of: '宗族',
 };
+const corePersonId = 'person:sg:cao_cao';
 
 function buildElements(
   persons: Person[],
@@ -59,23 +65,39 @@ function buildElements(
       lockedPersonIds.has(person.id),
     ),
   }));
-  const edges: ElementDefinition[] = relations.map((relation) => ({
-    data: {
-      id: relation.id,
-      source: relation.sourcePersonId,
-      target: relation.targetPersonId,
-      type: relation.type,
-      label:
-        relation.origin === 'candidate'
-          ? '候选'
-          : relationLabels[relation.type],
-    },
-    classes: getRelationGraphClasses(
-      relation,
-      getRelationClaim(relation, persons).evidenceBasis,
-      highlightedRelationIds.has(relation.id),
-    ),
-  }));
+  const edges: ElementDefinition[] = relations.map((relation) => {
+    const route = layout.edgeRoutes[relation.id] ?? {
+      kind: 'secondary',
+      curveStyle: 'unbundled-bezier',
+      controlPointDistance: 36,
+      controlPointWeight: 0.5,
+    };
+    return {
+      data: {
+        id: relation.id,
+        source: relation.sourcePersonId,
+        target: relation.targetPersonId,
+        type: relation.type,
+        label:
+          relation.origin === 'candidate'
+            ? '候选'
+            : relationLabels[relation.type],
+        controlPointDistance: route.controlPointDistance,
+        controlPointWeight: route.controlPointWeight,
+      },
+      classes: [
+        getRelationGraphClasses(
+          relation,
+          getRelationClaim(relation, persons).evidenceBasis,
+          highlightedRelationIds.has(relation.id),
+        ),
+        `route-${route.kind}`,
+        route.curveStyle === 'straight'
+          ? 'route-straight'
+          : 'route-curved',
+      ].join(' '),
+    };
+  });
   return [...nodes, ...edges];
 }
 
@@ -97,6 +119,40 @@ function selectGraphElement(
   }
 }
 
+function updateGraphLabelVisibility(
+  graph: Core,
+  showAllLabels: boolean,
+) {
+  const edges = graph.edges();
+  edges.removeClass('label-visible');
+  if (
+    shouldShowAllRelationLabels(graph.zoom(), showAllLabels)
+  ) {
+    edges.addClass('label-visible');
+    return;
+  }
+  graph.edges('.path-highlight').addClass('label-visible');
+  graph.edges('.hover-label').addClass('label-visible');
+  graph.edges(':selected').addClass('label-visible');
+  graph.nodes(':selected').connectedEdges().addClass('label-visible');
+}
+
+function fitReadableGraph(graph: Core, focusPersonId: string) {
+  graph.fit(undefined, 24);
+  const fittedZoom = graph.zoom();
+  const readableZoom = ensureReadableGraphZoom(fittedZoom);
+  if (readableZoom === fittedZoom) {
+    return;
+  }
+  graph.zoom(readableZoom);
+  const focus = graph.getElementById(focusPersonId);
+  if (focus.nonempty()) {
+    graph.center(focus);
+  } else {
+    graph.center();
+  }
+}
+
 export function RelationshipGraph({
   persons,
   relations,
@@ -108,13 +164,20 @@ export function RelationshipGraph({
   onSelectRelation,
   onToggleExpand,
 }: RelationshipGraphProps) {
+  const [showAllLabels, setShowAllLabels] = useState(false);
   const graphContainerRef = useRef<HTMLDivElement>(null);
   const graphRef = useRef<Core | null>(null);
   const positionCacheRef = useRef<Record<string, GraphPosition>>({});
+  const viewportCacheRef = useRef<{
+    zoom: number;
+    pan: GraphPosition;
+  } | null>(null);
   const selectedPersonRef = useRef(selectedPersonId);
   const selectedRelationRef = useRef(selectedRelationId);
+  const showAllLabelsRef = useRef(showAllLabels);
   selectedPersonRef.current = selectedPersonId;
   selectedRelationRef.current = selectedRelationId;
+  showAllLabelsRef.current = showAllLabels;
 
   useEffect(() => {
     const container = graphContainerRef.current;
@@ -135,15 +198,27 @@ export function RelationshipGraph({
       });
       positionCacheRef.current = nextPositions;
     };
+    const rememberViewport = () => {
+      if (!currentGraph) {
+        return;
+      }
+      const pan = currentGraph.pan();
+      viewportCacheRef.current = {
+        zoom: currentGraph.zoom(),
+        pan: { x: pan.x, y: pan.y },
+      };
+    };
     const getLayout = () =>
       createGraphLayout(persons, relations, {
         compact: container.clientWidth < 500,
+        anchorPersonId: corePersonId,
         lockedPersonIds,
         previousPositions: positionCacheRef.current,
       });
-    const fitToContainer = () => {
+    const resizePreservingViewport = () => {
       if (currentGraph) {
         rememberPositions();
+        rememberViewport();
         const layout = getLayout();
         currentGraph
           .nodes()
@@ -153,10 +228,18 @@ export function RelationshipGraph({
               positionCacheRef.current[node.id()] ?? { x: 0, y: 0 },
           );
         currentGraph.resize();
-        currentGraph.fit(undefined, 24);
+        const cachedViewport = viewportCacheRef.current;
+        if (cachedViewport) {
+          currentGraph.zoom(cachedViewport.zoom);
+          currentGraph.pan(cachedViewport.pan);
+        }
+        updateGraphLabelVisibility(
+          currentGraph,
+          showAllLabelsRef.current,
+        );
       }
     };
-    window.addEventListener('resize', fitToContainer);
+    window.addEventListener('resize', resizePreservingViewport);
 
     const initializeGraph = async () => {
       const { default: cytoscape } = await import('cytoscape');
@@ -308,8 +391,8 @@ export function RelationshipGraph({
               'target-arrow-color': '#b51217',
               'target-arrow-shape': 'triangle',
               'arrow-scale': 0.8,
-              'curve-style': 'bezier',
-              label: 'data(label)',
+              'curve-style': 'straight',
+              label: '',
               color: '#4e5054',
               'font-family': 'Microsoft YaHei, sans-serif',
               'font-size': 8.5,
@@ -318,6 +401,12 @@ export function RelationshipGraph({
               'text-background-opacity': 0.94,
               'text-background-padding': '3px',
               'text-rotation': 'autorotate',
+            },
+          },
+          {
+            selector: 'edge.label-visible',
+            style: {
+              label: 'data(label)',
             },
           },
           {
@@ -365,12 +454,25 @@ export function RelationshipGraph({
             style: {
               'line-color': '#8d9299',
               'target-arrow-color': '#8d9299',
-              'curve-style': 'unbundled-bezier',
-              'control-point-distances': 28,
-              'control-point-weights': 0.5,
               color: '#71767d',
               width: 1.4,
               opacity: 0.82,
+            },
+          },
+          {
+            selector: 'edge.route-straight',
+            style: {
+              'curve-style': 'straight',
+            },
+          },
+          {
+            selector: 'edge.route-curved',
+            style: {
+              'curve-style': 'unbundled-bezier',
+              'control-point-distances':
+                'data(controlPointDistance)',
+              'control-point-weights':
+                'data(controlPointWeight)',
             },
           },
           {
@@ -408,7 +510,7 @@ export function RelationshipGraph({
         ],
         layout: {
           name: 'preset',
-          fit: true,
+          fit: false,
           padding: 24,
           animate: false,
         },
@@ -435,21 +537,70 @@ export function RelationshipGraph({
       graph.on('tap', 'edge', (event: EventObject) => {
         onSelectRelation(event.target.id());
       });
+      graph.on('mouseover', 'edge', (event: EventObject) => {
+        event.target.addClass('hover-label');
+        updateGraphLabelVisibility(
+          graph,
+          showAllLabelsRef.current,
+        );
+      });
+      graph.on('mouseout', 'edge', (event: EventObject) => {
+        event.target.removeClass('hover-label');
+        updateGraphLabelVisibility(
+          graph,
+          showAllLabelsRef.current,
+        );
+      });
+      graph.on('zoom', () => {
+        updateGraphLabelVisibility(
+          graph,
+          showAllLabelsRef.current,
+        );
+      });
       graphRef.current = graph;
+      const cachedViewport = viewportCacheRef.current;
       selectGraphElement(
         graph,
         selectedPersonRef.current,
         selectedRelationRef.current,
-        false,
+        cachedViewport !== null &&
+          selectedPersonRef.current !== null,
       );
-      window.requestAnimationFrame(fitToContainer);
+      window.requestAnimationFrame(() => {
+        graph.resize();
+        if (cachedViewport) {
+          graph.zoom(cachedViewport.zoom);
+          graph.pan(cachedViewport.pan);
+          if (selectedPersonRef.current) {
+            const selected = graph.getElementById(
+              selectedPersonRef.current,
+            );
+            if (selected.nonempty()) {
+              graph.center(selected);
+            }
+          }
+        } else {
+          fitReadableGraph(
+            graph,
+            selectedPersonRef.current ?? corePersonId,
+          );
+        }
+        updateGraphLabelVisibility(
+          graph,
+          showAllLabelsRef.current,
+        );
+      });
     };
 
     void initializeGraph();
     return () => {
       disposed = true;
-      window.removeEventListener('resize', fitToContainer);
+      window.removeEventListener(
+        'resize',
+        resizePreservingViewport,
+      );
       rememberPositions();
+      rememberViewport();
       currentGraph?.destroy();
       if (graphRef.current === currentGraph) {
         graphRef.current = null;
@@ -469,17 +620,43 @@ export function RelationshipGraph({
     const graph = graphRef.current;
     if (graph) {
       selectGraphElement(graph, selectedPersonId, selectedRelationId, true);
+      updateGraphLabelVisibility(graph, showAllLabelsRef.current);
     }
   }, [selectedPersonId, selectedRelationId]);
 
+  useEffect(() => {
+    const graph = graphRef.current;
+    if (graph) {
+      updateGraphLabelVisibility(graph, showAllLabels);
+    }
+  }, [showAllLabels]);
+
   const fitGraph = () => {
-    graphRef.current?.fit(undefined, 24);
+    const graph = graphRef.current;
+    if (graph) {
+      graph.fit(undefined, 24);
+      updateGraphLabelVisibility(graph, showAllLabelsRef.current);
+    }
   };
   const zoomGraph = (factor: number) => {
     const graph = graphRef.current;
     if (graph) {
       graph.zoom(Math.min(2.4, Math.max(0.2, graph.zoom() * factor)));
-      graph.center();
+      updateGraphLabelVisibility(graph, showAllLabelsRef.current);
+    }
+  };
+  const returnToCore = () => {
+    onSelectPerson(corePersonId);
+    const graph = graphRef.current;
+    if (graph) {
+      const core = graph.getElementById(corePersonId);
+      if (core.nonempty()) {
+        graph.animate({
+          center: { eles: core },
+          zoom: Math.max(graph.zoom(), coreReturnGraphZoom),
+          duration: 240,
+        });
+      }
     }
   };
   const candidateCount = relations.filter(
@@ -492,10 +669,14 @@ export function RelationshipGraph({
       <div className="graph-meta-row">
         <GraphLegend />
         <GraphToolbar
-          onHome={() => onSelectPerson('person:sg:cao_cao')}
+          onHome={returnToCore}
           onZoomIn={() => zoomGraph(1.18)}
           onZoomOut={() => zoomGraph(0.84)}
           onFit={fitGraph}
+          showAllLabels={showAllLabels}
+          onToggleLabels={() =>
+            setShowAllLabels((current) => !current)
+          }
         />
       </div>
       <div className="graph-stage">

@@ -30,8 +30,10 @@ npm run validate:offline
   annotations;
 - Cytoscape.js graph with search, relation filters, and all/one-hop/two-hop
   views;
-- generation-aware desktop and compact mobile layouts with zoom and fit
-  controls;
+- deterministic radial family-branch layouts with collision-free spacing,
+  routed cross-branch edges, readable focus zoom, and full-map fit controls;
+- smart relation labels that declutter at distant zoom and can be forced on
+  from the graph toolbar;
 - relation dossiers covering direction, period, qualification, evidence basis,
   interpretation, certainty, dispute, decision, and review state;
 - node expansion/collapse, locking, hiding, branch isolation, undo, and reset;

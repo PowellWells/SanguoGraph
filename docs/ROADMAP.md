@@ -16,9 +16,9 @@
 ## Milestone 1.1 — visual frontend completed
 
 - generation-aware family-tree composition instead of generic auto-layout
-- visible relationship labels, canvas controls, and live graph counts
+- canvas controls, smart relationship labels, and live graph counts
 - compact first-page data summary
-- graph-first mobile reading order with a dedicated two-row descendant layout
+- graph-first mobile reading order with responsive graph controls
 
 ## Milestone 1.2 — offline single-file distribution completed
 
@@ -43,6 +43,8 @@
 - first verified expansion adds Cao Ren, Cao Hong, Cao Xiu, Cao Zhen,
   Cao Shuang, Xiahou Dun, Xiahou Yuan, Xiahou Shang, and Xiahou Xuan
 - add only source-located parent, adoption, and bounded clan relationships
+- scale through deterministic radial family branches, collision avoidance,
+  routed secondary edges, and readable focus-first navigation
 - populate disputed-source comparison with independently reviewed claims
 - design, but do not silently persist, carefully scoped relationship inference
 

@@ -21,20 +21,33 @@ const selectElement = vi.fn();
 const graphElement = {
   select: selectElement,
   isNode: () => true,
+  nonempty: () => true,
+  lock: vi.fn(),
 };
 const positionNodes = vi.fn();
 const forEachNode = vi.fn();
 const fitGraph = vi.fn();
+const edgeCollection = {
+  addClass: vi.fn(),
+  removeClass: vi.fn(),
+};
+const nodeCollection = {
+  positions: positionNodes,
+  forEach: forEachNode,
+  connectedEdges: () => edgeCollection,
+};
 const graphInstance = {
   destroy: destroyGraph,
   on: vi.fn(),
   elements: () => ({ unselect: vi.fn() }),
-  nodes: () => ({ positions: positionNodes, forEach: forEachNode }),
+  nodes: () => nodeCollection,
+  edges: () => edgeCollection,
   getElementById: () => graphElement,
   animate: vi.fn(),
   resize: vi.fn(),
   fit: fitGraph,
   zoom: vi.fn(() => 1),
+  pan: vi.fn(() => ({ x: 0, y: 0 })),
   center: vi.fn(),
 };
 const createGraph = vi.fn(() => graphInstance);
@@ -82,6 +95,14 @@ describe('application routes and home interaction', () => {
     expect(
       screen.getByRole('button', { name: '适应画布' }),
     ).toBeInTheDocument();
+    const labelButton = screen.getByRole('button', {
+      name: '显示全部关系标签',
+    });
+    expect(labelButton).toHaveAttribute('aria-pressed', 'false');
+    fireEvent.click(labelButton);
+    expect(
+      screen.getByRole('button', { name: '恢复智能关系标签' }),
+    ).toHaveAttribute('aria-pressed', 'true');
     expect(
       screen.getByRole('heading', { name: '曹操 — 环夫人' }),
     ).toBeInTheDocument();
