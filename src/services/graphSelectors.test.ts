@@ -17,6 +17,7 @@ describe('graph selectors', () => {
       graphData.relations,
       'person:sg:cao_ang',
       'all',
+      graphData.persons.map((person) => person.id),
     );
     const oneHop = selectNeighborhood(
       graphData.relations,
@@ -29,7 +30,7 @@ describe('graph selectors', () => {
       2,
     );
 
-    expect(all.personIds.size).toBe(24);
+    expect(all.personIds.size).toBe(200);
     expect(oneHop.personIds).toEqual(
       new Set([
         'person:sg:cao_ang',
@@ -40,5 +41,17 @@ describe('graph selectors', () => {
     );
     expect(twoHop.personIds.size).toBeGreaterThan(oneHop.personIds.size);
     expect(twoHop.personIds.has('person:sg:cao_pi')).toBe(true);
+  });
+
+  it('keeps a selected person without relation lines visible', () => {
+    const isolated = selectNeighborhood(
+      graphData.relations,
+      'person:sg:liu_bei',
+      1,
+      graphData.persons.map((person) => person.id),
+    );
+
+    expect(isolated.personIds).toEqual(new Set(['person:sg:liu_bei']));
+    expect(isolated.relations).toEqual([]);
   });
 });

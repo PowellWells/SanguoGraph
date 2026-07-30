@@ -1,6 +1,8 @@
 # Data schema
 
-Formal source files live in `src/data`; strict TypeScript interfaces in
+Formal source files live in `src/data`; the original 24-person family data
+remains in JSON, while the reviewed major-person expansion is maintained in
+`majorPersons.ts` and `majorSources.ts`. Strict TypeScript interfaces in
 `src/domain` are the application model.
 
 ## Person
@@ -11,6 +13,7 @@ Formal source files live in `src/data`; strict TypeScript interfaces in
 | `name`, `courtesyName`, `otherNames` | Display name, courtesy name, and search aliases |
 | `reviewStatus` | `pending_review` or `verified` |
 | `sourceIds` | Historical sources used to verify the person record |
+| `visualFaction` | Optional presentation-only `wei`, `shu`, `wu`, or `other`; never a formal political-affiliation claim |
 | `externalIds.wikidata` | Optional external QID; never a primary key |
 
 A verified formal person must cite at least one non-structured historical

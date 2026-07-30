@@ -72,18 +72,18 @@ afterEach(() => {
 });
 
 describe('application routes and home interaction', () => {
-  it('renders the verified Cao-Xiahou graph and keeps candidates off by default', async () => {
+  it('renders the verified major-person graph and keeps candidates off by default', async () => {
     renderRoute('/');
 
     expect(
       screen.getByRole('heading', {
-        name: '曹氏—夏侯氏人物关系图谱',
+        name: '三国主要人物关系图谱',
         level: 1,
       }),
     ).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'aria-label',
-      '曹氏与夏侯氏人物关系图谱',
+      '三国主要人物关系图谱',
     );
     expect(
       screen.getByRole('checkbox', { name: '开放知识库候选' }),
@@ -135,6 +135,63 @@ describe('application routes and home interaction', () => {
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
       '19',
+    );
+  });
+
+  it('finds a major person without inventing a relationship line', () => {
+    renderRoute('/');
+    fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索' }), {
+      target: { value: '刘备' },
+    });
+    const liuBeiResult = screen.getByText('刘备', { selector: 'strong' });
+    const liuBeiButton = liuBeiResult.closest('button');
+    if (!liuBeiButton) {
+      throw new Error('刘备搜索结果缺少选择按钮。');
+    }
+    fireEvent.click(liuBeiButton);
+
+    expect(screen.getByRole('heading', { name: '刘备' })).toBeInTheDocument();
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-node-count',
+      '19',
+    );
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-relation-count',
+      '27',
+    );
+  });
+
+  it('can show the complete 200-person roster while keeping 33 relations', () => {
+    renderRoute('/');
+    fireEvent.click(screen.getByRole('button', { name: '返回核心人物' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: '查看完整关系网' }),
+    );
+
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-node-count',
+      '200',
+    );
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-relation-count',
+      '33',
+    );
+  });
+
+  it('browses a visual faction without creating relationship lines', () => {
+    renderRoute('/');
+    fireEvent.click(
+      screen.getByRole('button', { name: /^蜀 45$/ }),
+    );
+
+    expect(screen.getByRole('heading', { name: '刘备' })).toBeInTheDocument();
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-node-count',
+      '45',
+    );
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-relation-count',
+      '0',
     );
   });
 

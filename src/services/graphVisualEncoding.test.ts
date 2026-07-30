@@ -24,6 +24,9 @@ const caoSong = graphData.persons.find(
 const xiahouYuan = graphData.persons.find(
   (person) => person.id === 'person:sg:xiahou_yuan',
 );
+const liuBei = graphData.persons.find(
+  (person) => person.id === 'person:sg:liu_bei',
+);
 const confirmedRelation = graphData.relations.find(
   (relation) => relation.id === 'relation:sg:cao_cao_spouse_lady_huan',
 );
@@ -37,6 +40,7 @@ if (
   !caoAng ||
   !caoSong ||
   !xiahouYuan ||
+  !liuBei ||
   !confirmedRelation ||
   !probableRelation
 ) {
@@ -53,6 +57,7 @@ describe('graph visual encoding', () => {
   });
 
   it('maps non-overridden factions to Wei, Shu, Wu and other', () => {
+    expect(getFactionColorKey(liuBei)).toBe('shu');
     expect(
       getFactionColorKey({
         ...caoSong,

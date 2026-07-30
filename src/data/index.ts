@@ -3,10 +3,11 @@ import relationsJson from './relations.json';
 import sourcesJson from './sources.json';
 import type { GraphData } from '../services/dataValidator';
 import type { HistoricalSource, Person, Relation } from '../domain';
+import { majorPersons } from './majorPersons';
+import { majorSources } from './majorSources';
 
 export const graphData: GraphData = {
-  persons: personsJson as Person[],
+  persons: [...(personsJson as Person[]), ...majorPersons],
   relations: relationsJson as Relation[],
-  sources: sourcesJson as HistoricalSource[],
+  sources: [...(sourcesJson as HistoricalSource[]), ...majorSources],
 };
-

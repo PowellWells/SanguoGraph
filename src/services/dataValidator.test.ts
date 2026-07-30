@@ -13,9 +13,21 @@ function issueCodes(data: GraphData): ValidationCode[] {
 }
 
 describe('formal graph data', () => {
-  it('contains the 24 Milestone 2 people and valid evidence', () => {
-    expect(graphData.persons).toHaveLength(24);
+  it('contains the 200-person major historical roster without adding relations', () => {
+    expect(graphData.persons).toHaveLength(200);
     expect(graphData.relations).toHaveLength(33);
+    expect(
+      graphData.persons.filter((person) => person.visualFaction === 'wei'),
+    ).toHaveLength(48);
+    expect(
+      graphData.persons.filter((person) => person.visualFaction === 'shu'),
+    ).toHaveLength(45);
+    expect(
+      graphData.persons.filter((person) => person.visualFaction === 'wu'),
+    ).toHaveLength(53);
+    expect(
+      graphData.persons.filter((person) => person.visualFaction === 'other'),
+    ).toHaveLength(30);
     expect(validateGraphData(graphData)).toEqual([]);
   });
 

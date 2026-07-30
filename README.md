@@ -3,9 +3,9 @@
 [简体中文](README.zh-CN.md)
 
 SanguoGraph is an early-stage, source-traceable knowledge graph for historical
-relationships in the Three Kingdoms period. Milestone 2 presents the Cao and
-Xiahou clan network while keeping verified historical records separate from external
-structured-data candidates.
+relationships in the Three Kingdoms period. The formal layer now covers 200
+major historical people across Wei, Shu, Wu, and late-Han groups while keeping
+verified records, presentation factions, and external candidates separate.
 
 ## Open directly offline
 
@@ -22,10 +22,13 @@ npm run build:offline
 npm run validate:offline
 ```
 
-## Milestone 2
+## Current milestone
 
-- 24 locally identified people (`person:sg:*`);
-- 33 recorded father, mother, spouse, adoptive-parent, and clan relationships;
+- 200 locally identified people (`person:sg:*`);
+- the existing 33 recorded father, mother, spouse, adoptive-parent, and clan
+  relationships, with no added political or battle edges;
+- people without an in-scope relation remain searchable and available in the
+  explicit complete-map view;
 - inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
   annotations;
 - Cytoscape.js graph with search, relation filters, and all/one-hop/two-hop
@@ -58,8 +61,9 @@ keys and cannot establish a `confirmed` relationship.
   relationship JSON.
 - Quotations and references must not be invented.
 
-See [Source policy](docs/SOURCE_POLICY.md) and
-[Data schema](docs/DATA_SCHEMA.md).
+See the [major-person scope](docs/MAJOR_PERSON_SCOPE.md),
+[source policy](docs/SOURCE_POLICY.md), and
+[data schema](docs/DATA_SCHEMA.md).
 
 ## Local development
 
@@ -92,7 +96,7 @@ The checked-in `data/processed` layer contains 99 people and 738 unverified
 Wikidata-derived candidate relations. The regular website build loads the
 candidate module only when a reader enables the switch. The single-file offline
 build embeds the same candidate data but still keeps it hidden by default.
-Both builds use the 24 formal people as their adaptation boundary; the current
+Both builds use the 200 formal people as their adaptation boundary; the current
 candidate snapshot covers only a subset of them.
 
 The reproducible Python pipeline and source/license registry are documented in

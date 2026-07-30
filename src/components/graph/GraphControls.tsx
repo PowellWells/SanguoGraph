@@ -1,4 +1,8 @@
-import type { Person, RelationType } from '../../domain';
+import type {
+  Person,
+  RelationType,
+  VisualFaction,
+} from '../../domain';
 import type { NeighborhoodDepth } from '../../services/graphSelectors';
 import {
   sourceLayerOptions,
@@ -22,6 +26,15 @@ const neighborhoodOptions: ReadonlyArray<{
   { value: 1, label: '只看选中人物与直接亲属' },
   { value: 2, label: '查看选中人物的两层关系' },
 ];
+const visualFactionOptions: ReadonlyArray<{
+  key: VisualFaction;
+  label: string;
+}> = [
+  { key: 'wei', label: '魏' },
+  { key: 'shu', label: '蜀' },
+  { key: 'wu', label: '吴' },
+  { key: 'other', label: '其他' },
+];
 
 interface GraphControlsProps {
   persons: Person[];
@@ -33,6 +46,7 @@ interface GraphControlsProps {
   sourceLayerCounts: Record<SourceLayerKey, number>;
   candidateStatus: 'idle' | 'loading' | 'loaded' | 'error';
   candidateError: string | null;
+  visualFactionCounts: Record<VisualFaction, number>;
   pathStartId: string;
   pathEndId: string;
   onQueryChange: (query: string) => void;
@@ -40,6 +54,7 @@ interface GraphControlsProps {
   onToggleType: (type: RelationType) => void;
   onDepthChange: (depth: NeighborhoodDepth) => void;
   onSourceLayerToggle: (layer: SourceLayerKey) => void;
+  onShowVisualFaction: (visualFaction: VisualFaction) => void;
   onPathStartChange: (personId: string) => void;
   onPathEndChange: (personId: string) => void;
   onRunPathQuery: () => void;
@@ -62,6 +77,7 @@ export function GraphControls({
   sourceLayerCounts,
   candidateStatus,
   candidateError,
+  visualFactionCounts,
   pathStartId,
   pathEndId,
   onQueryChange,
@@ -69,6 +85,7 @@ export function GraphControls({
   onToggleType,
   onDepthChange,
   onSourceLayerToggle,
+  onShowVisualFaction,
   onPathStartChange,
   onPathEndChange,
   onRunPathQuery,
@@ -127,6 +144,25 @@ export function GraphControls({
               )}
             </ul>
           )}
+        </section>
+        <section
+          className="control-section faction-scope"
+          aria-labelledby="faction-scope-title"
+        >
+          <h3 id="faction-scope-title">按展示阵营浏览</h3>
+          <div>
+            {visualFactionOptions.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                onClick={() => onShowVisualFaction(option.key)}
+              >
+                <span>{option.label}</span>
+                <small>{visualFactionCounts[option.key]}</small>
+              </button>
+            ))}
+          </div>
+          <p>只改变人物范围，不产生阵营关系线。</p>
         </section>
         <fieldset className="control-section">
           <legend>关系类型筛选</legend>

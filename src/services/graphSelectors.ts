@@ -13,13 +13,13 @@ export function selectNeighborhood(
   relations: Relation[],
   selectedPersonId: string | null,
   depth: NeighborhoodDepth,
+  formalPersonIds?: Iterable<string>,
 ): { personIds: Set<string>; relations: Relation[] } {
-  const allPersonIds = new Set(
-    relations.flatMap((relation) => [
-      relation.sourcePersonId,
-      relation.targetPersonId,
-    ]),
-  );
+  const allPersonIds = new Set(formalPersonIds);
+  relations.forEach((relation) => {
+    allPersonIds.add(relation.sourcePersonId);
+    allPersonIds.add(relation.targetPersonId);
+  });
   if (!selectedPersonId || depth === 'all') {
     return { personIds: allPersonIds, relations };
   }

@@ -1622,6 +1622,51 @@ select {
   line-height: 1.45;
 }
 
+.faction-scope h3 {
+  margin: 0 0 6px;
+  color: #243246;
+  font-family: "Songti SC", "Microsoft YaHei", serif;
+  font-size: 0.75rem;
+}
+
+.faction-scope > div {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.faction-scope button {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3px;
+  padding: 5px 6px;
+  border: 1px solid #d9d6d0;
+  border-radius: 3px;
+  background: #fff;
+  color: #343a40;
+  cursor: pointer;
+  font-size: 0.65rem;
+}
+
+.faction-scope button:hover,
+.faction-scope button:focus-visible {
+  border-color: #a91419;
+  color: #9c1418;
+}
+
+.faction-scope small {
+  color: #777b80;
+  font-size: 0.55rem;
+}
+
+.faction-scope p {
+  margin: 5px 0 0;
+  color: #83868b;
+  font-size: 0.58rem;
+}
+
 .controls-panel fieldset label {
   display: flex;
   min-height: 18px;

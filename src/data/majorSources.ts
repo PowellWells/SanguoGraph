@@ -1,0 +1,184 @@
+import type { HistoricalSource } from '../domain';
+
+interface SanguozhiVolumeSeed {
+  volume: number;
+  book: string;
+  section: string;
+}
+
+const sanguozhiVolumeSeeds: readonly SanguozhiVolumeSeed[] = [
+  { volume: 3, book: '魏书三', section: '明帝纪' },
+  { volume: 4, book: '魏书四', section: '三少帝纪' },
+  { volume: 5, book: '魏书五', section: '后妃传' },
+  { volume: 6, book: '魏书六', section: '董二袁刘传' },
+  { volume: 7, book: '魏书七', section: '吕布臧洪传' },
+  { volume: 8, book: '魏书八', section: '二公孙陶四张传' },
+  { volume: 9, book: '魏书九', section: '诸夏侯曹传' },
+  { volume: 10, book: '魏书十', section: '二荀贾传' },
+  { volume: 12, book: '魏书十二', section: '崔毛徐何邢鲍司马传' },
+  { volume: 13, book: '魏书十三', section: '钟繇华歆王朗传' },
+  { volume: 14, book: '魏书十四', section: '程郭董刘蒋刘传' },
+  { volume: 15, book: '魏书十五', section: '刘司马梁张温贾传' },
+  { volume: 17, book: '魏书十七', section: '二张乐于徐传' },
+  {
+    volume: 18,
+    book: '魏书十八',
+    section: '二李臧文吕许典二庞阎传',
+  },
+  { volume: 21, book: '魏书二十一', section: '王卫二刘傅传' },
+  { volume: 22, book: '魏书二十二', section: '桓二陈徐卫卢传' },
+  { volume: 26, book: '魏书二十六', section: '满田牵郭传' },
+  { volume: 28, book: '魏书二十八', section: '王毌丘诸葛邓钟传' },
+  { volume: 31, book: '蜀书一', section: '刘二牧传' },
+  { volume: 32, book: '蜀书二', section: '先主传' },
+  { volume: 33, book: '蜀书三', section: '后主传' },
+  { volume: 34, book: '蜀书四', section: '二主妃子传' },
+  { volume: 35, book: '蜀书五', section: '诸葛亮传' },
+  { volume: 36, book: '蜀书六', section: '关张马黄赵传' },
+  { volume: 37, book: '蜀书七', section: '庞统法正传' },
+  { volume: 38, book: '蜀书八', section: '许麋孙简伊秦传' },
+  { volume: 39, book: '蜀书九', section: '董刘马陈董吕传' },
+  { volume: 40, book: '蜀书十', section: '刘彭廖李刘魏杨传' },
+  { volume: 41, book: '蜀书十一', section: '霍王向张杨费传' },
+  { volume: 43, book: '蜀书十三', section: '黄李吕马王张传' },
+  { volume: 44, book: '蜀书十四', section: '蒋琬费祎姜维传' },
+  { volume: 45, book: '蜀书十五', section: '邓张宗杨传' },
+  { volume: 46, book: '吴书一', section: '孙破虏讨逆传' },
+  { volume: 47, book: '吴书二', section: '吴主传' },
+  { volume: 48, book: '吴书三', section: '三嗣主传' },
+  { volume: 49, book: '吴书四', section: '刘繇太史慈士燮传' },
+  { volume: 50, book: '吴书五', section: '妃嫔传' },
+  { volume: 51, book: '吴书六', section: '宗室传' },
+  { volume: 52, book: '吴书七', section: '张顾诸葛步传' },
+  { volume: 53, book: '吴书八', section: '张严程阚薛传' },
+  { volume: 54, book: '吴书九', section: '周瑜鲁肃吕蒙传' },
+  {
+    volume: 55,
+    book: '吴书十',
+    section: '程黄韩蒋周陈董甘凌徐潘丁传',
+  },
+  { volume: 56, book: '吴书十一', section: '朱治朱然吕范朱桓传' },
+  { volume: 57, book: '吴书十二', section: '虞陆张骆陆吾朱传' },
+  { volume: 58, book: '吴书十三', section: '陆逊传' },
+  { volume: 59, book: '吴书十四', section: '吴主五子传' },
+  { volume: 60, book: '吴书十五', section: '贺全吕周钟离传' },
+  { volume: 61, book: '吴书十六', section: '潘濬陆凯传' },
+  { volume: 64, book: '吴书十九', section: '诸葛滕二孙濮阳传' },
+];
+
+export function sanguozhiSourceId(volume: number): string {
+  return `source:sg:sgz_volume_${String(volume).padStart(2, '0')}`;
+}
+
+function createSanguozhiSource(
+  seed: SanguozhiVolumeSeed,
+): HistoricalSource {
+  const paddedVolume = String(seed.volume).padStart(2, '0');
+  const reference = `《三国志》卷${seed.volume}《${seed.book}·${seed.section}》`;
+  return {
+    id: sanguozhiSourceId(seed.volume),
+    work: '三国志',
+    section: `卷${seed.volume}·${seed.book}·${seed.section}`,
+    author: '陈寿',
+    commentator: null,
+    quotation: null,
+    reference,
+    url: `https://zh.wikisource.org/wiki/三國志/卷${paddedVolume}`,
+    sourceType: 'primary',
+    historicalLayer: 'official_history',
+    reviewStatus: 'verified',
+    note: '用于核验本批主要人物的身份与传记定位；未摘录原文，不据此自动建立人物关系。',
+  };
+}
+
+const additionalHistoricalSources: HistoricalSource[] = [
+  {
+    id: 'source:sg:hhs_09_xiandi',
+    work: '后汉书',
+    section: '卷九·帝纪第九·孝献帝纪',
+    author: '范晔',
+    commentator: null,
+    quotation: null,
+    reference: '《后汉书》卷九《孝献帝纪》',
+    url: 'https://zh.wikisource.org/wiki/後漢書/卷9',
+    sourceType: 'primary',
+    historicalLayer: 'official_history',
+    reviewStatus: 'verified',
+    note: '用于核验汉献帝刘协的人物身份；本批不据此增加政治关系。',
+  },
+  {
+    id: 'source:sg:hhs_66_wang_yun',
+    work: '后汉书',
+    section: '卷六十六·陈王列传·王允',
+    author: '范晔',
+    commentator: null,
+    quotation: null,
+    reference: '《后汉书》卷六十六《陈王列传·王允》',
+    url: 'https://zh.wikisource.org/wiki/後漢書/卷66',
+    sourceType: 'primary',
+    historicalLayer: 'official_history',
+    reviewStatus: 'verified',
+    note: '用于核验王允的人物身份；本批不据此增加政治关系。',
+  },
+  {
+    id: 'source:sg:hhs_69_he_jin',
+    work: '后汉书',
+    section: '卷六十九·窦何列传·何进',
+    author: '范晔',
+    commentator: null,
+    quotation: null,
+    reference: '《后汉书》卷六十九《窦何列传·何进》',
+    url: 'https://zh.wikisource.org/wiki/後漢書/卷69',
+    sourceType: 'primary',
+    historicalLayer: 'official_history',
+    reviewStatus: 'verified',
+    note: '用于核验何进的人物身份；本批不据此增加政治关系。',
+  },
+  {
+    id: 'source:sg:hhs_71_zhang_jiao',
+    work: '后汉书',
+    section: '卷七十一·皇甫嵩朱儁列传·张角',
+    author: '范晔',
+    commentator: null,
+    quotation: null,
+    reference: '《后汉书》卷七十一《皇甫嵩朱儁列传》',
+    url: 'https://zh.wikisource.org/wiki/後漢書/卷71',
+    sourceType: 'primary',
+    historicalLayer: 'official_history',
+    reviewStatus: 'verified',
+    note: '用于核验张角的人物身份；本批不据此增加战争或敌对关系。',
+  },
+  {
+    id: 'source:sg:jinshu_001_xuandi',
+    work: '晋书',
+    section: '卷一·帝纪第一·宣帝纪',
+    author: '房玄龄等',
+    commentator: null,
+    quotation: null,
+    reference: '《晋书》卷一《宣帝纪》',
+    url: 'https://zh.wikisource.org/wiki/晉書/卷001',
+    sourceType: 'primary',
+    historicalLayer: 'official_history',
+    reviewStatus: 'verified',
+    note: '用于核验司马懿的人物身份；本批不据此增加政治关系。',
+  },
+  {
+    id: 'source:sg:jinshu_002_jingwen',
+    work: '晋书',
+    section: '卷二·帝纪第二·景帝、文帝纪',
+    author: '房玄龄等',
+    commentator: null,
+    quotation: null,
+    reference: '《晋书》卷二《景帝、文帝纪》',
+    url: 'https://zh.wikisource.org/wiki/晉書/卷002',
+    sourceType: 'primary',
+    historicalLayer: 'official_history',
+    reviewStatus: 'verified',
+    note: '用于核验司马师、司马昭的人物身份；本批不据此增加政治关系。',
+  },
+];
+
+export const majorSources: HistoricalSource[] = [
+  ...sanguozhiVolumeSeeds.map(createSanguozhiSource),
+  ...additionalHistoricalSources,
+];

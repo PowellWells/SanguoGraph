@@ -665,7 +665,7 @@ export function RelationshipGraph({
 
   return (
     <section className="graph-card" aria-labelledby="graph-title">
-      <h2 id="graph-title" className="visually-hidden">曹氏—夏侯氏人物关系图谱</h2>
+      <h2 id="graph-title" className="visually-hidden">三国主要人物关系图谱</h2>
       <div className="graph-meta-row">
         <GraphLegend />
         <GraphToolbar
@@ -688,7 +688,7 @@ export function RelationshipGraph({
           data-relation-count={relations.length}
           data-candidate-count={candidateCount}
           role="img"
-          aria-label="曹氏与夏侯氏人物关系图谱"
+          aria-label="三国主要人物关系图谱"
         />
         <div className="graph-readout" aria-live="polite">
           <span>{persons.length} 人物</span>

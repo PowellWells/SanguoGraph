@@ -7,7 +7,12 @@ import { PathResultPanel } from '../components/person/PathResultPanel';
 import { PersonPanel } from '../components/person/PersonPanel';
 import { SourceCatalogPanel } from '../components/source/SourceCatalogPanel';
 import { graphData } from '../data';
-import type { HistoricalSource, Relation, RelationType } from '../domain';
+import type {
+  HistoricalSource,
+  Relation,
+  RelationType,
+  VisualFaction,
+} from '../domain';
 import { loadCandidateGraph } from '../services/candidateDataLoader';
 import {
   filterRelations,
@@ -15,6 +20,7 @@ import {
   type NeighborhoodDepth,
 } from '../services/graphSelectors';
 import { searchPersons } from '../services/personSearch';
+import { getFactionColorKey } from '../services/graphVisualEncoding';
 import {
   findShortestRelationshipPath,
   type RelationshipPath,
@@ -46,6 +52,21 @@ graphData.relations.forEach((relation) => {
     initialCorePersonIds.add(relation.targetPersonId);
   }
 });
+const visualFactionCounts = graphData.persons.reduce<
+  Record<VisualFaction, number>
+>(
+  (counts, person) => {
+    counts[getFactionColorKey(person)] += 1;
+    return counts;
+  },
+  { wei: 0, shu: 0, wu: 0, other: 0 },
+);
+const visualFactionFocus: Record<VisualFaction, string> = {
+  wei: corePersonId,
+  shu: 'person:sg:liu_bei',
+  wu: 'person:sg:sun_quan',
+  other: 'person:sg:liu_xie',
+};
 
 type DetailMode = 'record' | 'sources' | 'path';
 
@@ -123,7 +144,13 @@ export function HomePage() {
     [enabledSourceLayers, typeFilteredRelations],
   );
   const neighborhood = useMemo(
-    () => selectNeighborhood(filteredRelations, selectedPersonId, depth),
+    () =>
+      selectNeighborhood(
+        filteredRelations,
+        selectedPersonId,
+        depth,
+        allFormalPersonIds,
+      ),
     [depth, filteredRelations, selectedPersonId],
   );
   const visiblePersonIds = useMemo(() => {
@@ -213,6 +240,24 @@ export function HomePage() {
       return ids;
     },
     [filteredRelations],
+  );
+
+  const showVisualFaction = useCallback(
+    (visualFaction: VisualFaction) => {
+      const next = new Set(
+        graphData.persons
+          .filter(
+            (person) => getFactionColorKey(person) === visualFaction,
+          )
+          .map((person) => person.id),
+      );
+      commitVisibility(next);
+      setSelectedPersonId(visualFactionFocus[visualFaction]);
+      setSelectedRelationId(null);
+      setDepth('all');
+      setDetailMode('record');
+    },
+    [commitVisibility],
   );
 
   const toggleExpand = useCallback(
@@ -423,6 +468,7 @@ export function HomePage() {
         sourceLayerCounts={sourceLayerCounts}
         candidateStatus={candidateStatus}
         candidateError={candidateError}
+        visualFactionCounts={visualFactionCounts}
         pathStartId={pathStartId}
         pathEndId={pathEndId}
         onQueryChange={setQuery}
@@ -430,6 +476,7 @@ export function HomePage() {
         onToggleType={toggleType}
         onDepthChange={setDepth}
         onSourceLayerToggle={(layer) => void toggleSourceLayer(layer)}
+        onShowVisualFaction={showVisualFaction}
         onPathStartChange={setPathStartId}
         onPathEndChange={setPathEndId}
         onRunPathQuery={runPathQuery}
@@ -437,10 +484,11 @@ export function HomePage() {
       <div className="dashboard-content">
         <section className="dashboard-top">
           <div className="dashboard-intro">
-            <h1>曹氏—夏侯氏人物关系图谱</h1>
+            <h1>三国主要人物关系图谱</h1>
             <p>
-              以曹操为核心，分支展示曹氏、夏侯氏的亲属、婚姻与宗族网络。
-              连线样式与颜色对应关系类型与史料可信度。
+              收录魏、蜀、吴及汉末群雄的主要历史人物；默认以曹操家庭为核心，
+              其他人物通过搜索或完整地图按需查看。连线只保留亲属、婚姻、收养
+              与宗族关系，不用政治或战争关系增加画面密度。
             </p>
           </div>
           <GraphSummary

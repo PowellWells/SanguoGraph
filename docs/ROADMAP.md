@@ -38,7 +38,7 @@
 - seven independent source-system filters with candidates disabled by default
 - disambiguating search cards, pinyin/context search, and shortest-path queries
 
-## Milestone 2 — Cao and Xiahou clans (current)
+## Milestone 2 — Cao and Xiahou clans (completed)
 
 - first verified expansion adds Cao Ren, Cao Hong, Cao Xiu, Cao Zhen,
   Cao Shuang, Xiahou Dun, Xiahou Yuan, Xiahou Shang, and Xiahou Xuan
@@ -47,6 +47,19 @@
   routed secondary edges, and readable focus-first navigation
 - populate disputed-source comparison with independently reviewed claims
 - design, but do not silently persist, carefully scoped relationship inference
+
+## Milestone 2.1 — major historical roster (completed)
+
+- expand the verified formal roster from 24 to 200 major historical people
+- keep the formal relationship set fixed at 33 family, marriage, adoption,
+  and bounded clan relations
+- keep people without an in-scope relationship searchable and available in
+  the explicit complete-map view
+- store visual faction independently from historical affiliation
+- locate new people in *Records of the Three Kingdoms*, *Book of the Later
+  Han*, or *Book of Jin* without importing structured-candidate claims
+- leave unreviewed dates and relationships unknown rather than filling them
+  from Wikidata
 
 ## Milestone 3 — evidence system
 

@@ -49,10 +49,14 @@ export function searchPersons(persons: Person[], query: string): Person[] {
 
   return persons
     .map((person) => {
+      const localIdAlias = person.id.startsWith('person:sg:')
+        ? person.id.slice('person:sg:'.length).replace(/_/g, '')
+        : '';
       const primaryValues = [
         person.name,
         person.courtesyName ?? '',
         ...person.otherNames,
+        localIdAlias,
         ...(pinyinAliases[person.id] ?? []),
       ].map(normalize);
       const contextualValues = [

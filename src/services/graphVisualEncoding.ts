@@ -1,6 +1,11 @@
-import type { EvidenceBasis, Person, Relation } from '../domain';
+import type {
+  EvidenceBasis,
+  Person,
+  Relation,
+  VisualFaction,
+} from '../domain';
 
-export type FactionColorKey = 'wei' | 'shu' | 'wu' | 'other';
+export type FactionColorKey = VisualFaction;
 
 const visualFactionOverrides: Readonly<Record<string, FactionColorKey>> = {
   'person:sg:cao_teng': 'other',
@@ -30,6 +35,9 @@ const visualFactionOverrides: Readonly<Record<string, FactionColorKey>> = {
 };
 
 export function getFactionColorKey(person: Person): FactionColorKey {
+  if (person.visualFaction) {
+    return person.visualFaction;
+  }
   const override = visualFactionOverrides[person.id];
   if (override) {
     return override;
