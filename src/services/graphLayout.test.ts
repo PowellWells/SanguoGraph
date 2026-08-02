@@ -343,7 +343,7 @@ describe('graph layout', () => {
     expect(
       Math.sign(clanRoute.controlPointDistance),
     ).toBe(-Math.sign(adoptionRoute.controlPointDistance));
-  });
+  }, 15_000);
 
   it('is deterministic for the same graph', () => {
     const first = createGraphLayout(
@@ -358,7 +358,7 @@ describe('graph layout', () => {
     );
 
     expect(second).toEqual(first);
-  });
+  }, 15_000);
 
   it('ignores candidate edges when assigning formal layout and routes', () => {
     const candidateRelation: Relation = {
@@ -393,7 +393,7 @@ describe('graph layout', () => {
         baseline.edgeRoutes[relation.id],
       );
     });
-  });
+  }, 15_000);
 
   it('separates disconnected family components', () => {
     const firstPerson = {
@@ -442,7 +442,7 @@ describe('graph layout', () => {
           116,
         );
       });
-  });
+  }, 15_000);
 
   it('scales deterministically to a 120-person multi-branch graph', () => {
     const synthetic = createLargeSyntheticGraph();

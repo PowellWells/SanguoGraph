@@ -11,9 +11,12 @@ import {
   type GraphPosition,
 } from '../../services/graphLayout';
 import {
+  absoluteMinimumGraphZoom,
   coreReturnGraphZoom,
   ensureReadableGraphZoom,
+  maximumGraphZoom,
   shouldShowAllRelationLabels,
+  shouldUseGraphOverview,
 } from '../../services/graphViewport';
 import { getRelationClaim } from '../../services/relationPresentation';
 import { GraphLegend } from './GraphLegend';
@@ -128,6 +131,14 @@ function updateGraphLabelVisibility(
   showAllLabels: boolean,
 ) {
   const edges = graph.edges();
+  const nodes = graph.nodes();
+  if (shouldUseGraphOverview(graph.zoom())) {
+    nodes.addClass('overview');
+    edges.addClass('overview');
+  } else {
+    nodes.removeClass('overview');
+    edges.removeClass('overview');
+  }
   edges.removeClass('label-visible');
   if (
     shouldShowAllRelationLabels(graph.zoom(), showAllLabels)
@@ -141,9 +152,16 @@ function updateGraphLabelVisibility(
   graph.nodes(':selected').connectedEdges().addClass('label-visible');
 }
 
-function fitReadableGraph(graph: Core, focusPersonId: string) {
+function fitWholeGraph(graph: Core): number {
+  graph.minZoom(absoluteMinimumGraphZoom);
   graph.fit(undefined, 24);
   const fittedZoom = graph.zoom();
+  graph.minZoom(fittedZoom);
+  return fittedZoom;
+}
+
+function fitReadableGraph(graph: Core, focusPersonId: string) {
+  const fittedZoom = fitWholeGraph(graph);
   const readableZoom = ensureReadableGraphZoom(fittedZoom);
   if (readableZoom === fittedZoom) {
     return;
@@ -232,9 +250,10 @@ export function RelationshipGraph({
               positionCacheRef.current[node.id()] ?? { x: 0, y: 0 },
           );
         currentGraph.resize();
+        const fittedZoom = fitWholeGraph(currentGraph);
         const cachedViewport = viewportCacheRef.current;
         if (cachedViewport) {
-          currentGraph.zoom(cachedViewport.zoom);
+          currentGraph.zoom(Math.max(fittedZoom, cachedViewport.zoom));
           currentGraph.pan(cachedViewport.pan);
         }
         updateGraphLabelVisibility(
@@ -262,8 +281,8 @@ export function RelationshipGraph({
           lockedPersonIds,
           highlightedRelationIds,
         ),
-        minZoom: 0.2,
-        maxZoom: 2.4,
+        minZoom: absoluteMinimumGraphZoom,
+        maxZoom: maximumGraphZoom,
         style: [
           {
             selector: 'node',
@@ -511,6 +530,30 @@ export function RelationshipGraph({
               'z-index': 9,
             },
           },
+          {
+            selector: 'node.overview',
+            style: {
+              width: 96,
+              height: 96,
+              label: '',
+              'border-width': 0,
+            },
+          },
+          {
+            selector: 'node.overview.core',
+            style: {
+              width: 108,
+              height: 108,
+            },
+          },
+          {
+            selector: 'edge.overview',
+            style: {
+              width: 28,
+              'arrow-scale': 0.42,
+              opacity: 0.58,
+            },
+          },
         ],
         layout: {
           name: 'preset',
@@ -573,7 +616,8 @@ export function RelationshipGraph({
       window.requestAnimationFrame(() => {
         graph.resize();
         if (cachedViewport) {
-          graph.zoom(cachedViewport.zoom);
+          const fittedZoom = fitWholeGraph(graph);
+          graph.zoom(Math.max(fittedZoom, cachedViewport.zoom));
           graph.pan(cachedViewport.pan);
           if (selectedPersonRef.current) {
             const selected = graph.getElementById(
@@ -638,14 +682,19 @@ export function RelationshipGraph({
   const fitGraph = () => {
     const graph = graphRef.current;
     if (graph) {
-      graph.fit(undefined, 24);
+      fitWholeGraph(graph);
       updateGraphLabelVisibility(graph, showAllLabelsRef.current);
     }
   };
   const zoomGraph = (factor: number) => {
     const graph = graphRef.current;
     if (graph) {
-      graph.zoom(Math.min(2.4, Math.max(0.2, graph.zoom() * factor)));
+      graph.zoom(
+        Math.min(
+          graph.maxZoom(),
+          Math.max(graph.minZoom(), graph.zoom() * factor),
+        ),
+      );
       updateGraphLabelVisibility(graph, showAllLabelsRef.current);
     }
   };

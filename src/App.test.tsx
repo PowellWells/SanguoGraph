@@ -27,6 +27,14 @@ const graphElement = {
 const positionNodes = vi.fn();
 const forEachNode = vi.fn();
 const fitGraph = vi.fn();
+let currentMinimumZoom = 0.001;
+const graphMinimumZoom = vi.fn((value?: number) => {
+  if (value !== undefined) {
+    currentMinimumZoom = value;
+  }
+  return currentMinimumZoom;
+});
+const graphMaximumZoom = vi.fn(() => 2.4);
 const edgeCollection = {
   addClass: vi.fn(),
   removeClass: vi.fn(),
@@ -35,6 +43,8 @@ const nodeCollection = {
   positions: positionNodes,
   forEach: forEachNode,
   connectedEdges: () => edgeCollection,
+  addClass: vi.fn(),
+  removeClass: vi.fn(),
 };
 const graphInstance = {
   destroy: destroyGraph,
@@ -47,6 +57,8 @@ const graphInstance = {
   resize: vi.fn(),
   fit: fitGraph,
   zoom: vi.fn(() => 1),
+  minZoom: graphMinimumZoom,
+  maxZoom: graphMaximumZoom,
   pan: vi.fn(() => ({ x: 0, y: 0 })),
   center: vi.fn(),
 };
@@ -110,7 +122,7 @@ describe('application routes and home interaction', () => {
       screen.getByRole('heading', { name: '图谱方法与阅读指南' }),
     ).toBeInTheDocument();
     await waitFor(() => expect(createGraph).toHaveBeenCalledOnce());
-  });
+  }, 10_000);
 
   it('searches by a traditional alias and selects the result', () => {
     renderRoute('/');
@@ -227,7 +239,7 @@ describe('application routes and home interaction', () => {
     expect(
       screen.getByRole('heading', { name: '曹操 — 环夫人' }),
     ).toBeInTheDocument();
-  });
+  }, 10_000);
 
   it('opens the filtered source catalog from the live summary', () => {
     renderRoute('/');

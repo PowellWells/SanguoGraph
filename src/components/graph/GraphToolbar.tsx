@@ -20,7 +20,7 @@ export function GraphToolbar({
       <button type="button" onClick={onHome} aria-label="返回核心人物" title="返回曹操">
         ◆
       </button>
-      <button type="button" onClick={onFit} aria-label="适应画布" title="显示全部">
+      <button type="button" onClick={onFit} aria-label="适应画布" title="显示全部人物">
         ⛶
       </button>
       <button type="button" onClick={onZoomIn} aria-label="放大图谱" title="放大">
