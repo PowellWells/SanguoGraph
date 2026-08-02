@@ -13,9 +13,9 @@ function issueCodes(data: GraphData): ValidationCode[] {
 }
 
 describe('formal graph data', () => {
-  it('contains the 200-person major historical roster without adding relations', () => {
-    expect(graphData.persons).toHaveLength(200);
-    expect(graphData.relations).toHaveLength(33);
+  it('contains the three reviewed import batches and family-only relations', () => {
+    expect(graphData.persons).toHaveLength(235);
+    expect(graphData.relations).toHaveLength(110);
     expect(
       graphData.persons.filter((person) => person.importBatch === 1),
     ).toHaveLength(24);
@@ -23,17 +23,20 @@ describe('formal graph data', () => {
       graphData.persons.filter((person) => person.importBatch === 2),
     ).toHaveLength(176);
     expect(
+      graphData.persons.filter((person) => person.importBatch === 3),
+    ).toHaveLength(35);
+    expect(
       graphData.persons.filter((person) => person.visualFaction === 'wei'),
-    ).toHaveLength(48);
-    expect(
-      graphData.persons.filter((person) => person.visualFaction === 'shu'),
-    ).toHaveLength(45);
-    expect(
-      graphData.persons.filter((person) => person.visualFaction === 'wu'),
     ).toHaveLength(53);
     expect(
+      graphData.persons.filter((person) => person.visualFaction === 'shu'),
+    ).toHaveLength(58);
+    expect(
+      graphData.persons.filter((person) => person.visualFaction === 'wu'),
+    ).toHaveLength(68);
+    expect(
       graphData.persons.filter((person) => person.visualFaction === 'other'),
-    ).toHaveLength(30);
+    ).toHaveLength(32);
     expect(validateGraphData(graphData)).toEqual([]);
   });
 
@@ -53,7 +56,7 @@ describe('formal graph data', () => {
     const invalidPerson = data.persons[0] as unknown as {
       importBatch: number;
     };
-    invalidPerson.importBatch = 3;
+    invalidPerson.importBatch = 4;
 
     expect(issueCodes(data)).toContain('INVALID_IMPORT_BATCH');
   });

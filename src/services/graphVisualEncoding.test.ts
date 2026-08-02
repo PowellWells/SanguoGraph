@@ -33,6 +33,9 @@ const confirmedRelation = graphData.relations.find(
 const probableRelation = graphData.relations.find(
   (relation) => relation.certainty === 'probable',
 );
+const literaryRelation = graphData.relations.find(
+  (relation) => relation.certainty === 'fictional',
+);
 
 if (
   !caoCao ||
@@ -42,7 +45,8 @@ if (
   !xiahouYuan ||
   !liuBei ||
   !confirmedRelation ||
-  !probableRelation
+  !probableRelation ||
+  !literaryRelation
 ) {
   throw new Error('图谱视觉编码测试缺少所需的正式数据。');
 }
@@ -106,6 +110,10 @@ describe('graph visual encoding', () => {
     expect(isConfirmedRelation(probableRelation)).toBe(false);
     expect(
       getRelationGraphClasses(probableRelation, 'indirect_inference', false),
+    ).toContain('relation-pending');
+    expect(isConfirmedRelation(literaryRelation)).toBe(false);
+    expect(
+      getRelationGraphClasses(literaryRelation, 'direct_record', false),
     ).toContain('relation-pending');
 
     const candidate: Relation = {

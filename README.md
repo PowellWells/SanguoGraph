@@ -3,9 +3,10 @@
 [简体中文](README.zh-CN.md)
 
 SanguoGraph is an early-stage, source-traceable knowledge graph for historical
-relationships in the Three Kingdoms period. The formal layer now covers 200
-major historical people across Wei, Shu, Wu, and late-Han groups while keeping
-verified records, presentation factions, and external candidates separate.
+relationships in the Three Kingdoms period. The formal layer now covers 235
+historical or explicitly literary-layer people across Wei, Shu, Wu, and
+late-Han groups while keeping verified records, presentation factions,
+literary claims, and external candidates separate.
 
 ## Open directly offline
 
@@ -24,10 +25,10 @@ npm run validate:offline
 
 ## Current milestone
 
-- 200 locally identified people (`person:sg:*`);
-- the existing 33 recorded father, mother, spouse, adoptive-parent, and clan
-  relationships, with no added political or battle edges;
-- all 200 formal people load into the front-end map on first entry; people
+- 235 locally identified people (`person:sg:*`) across three import batches;
+- 110 recorded father, mother, spouse, adoptive-parent, and clan relationships,
+  with no political or battle edges;
+- all 235 formal people load into the front-end map on first entry; people
   without an in-scope relation remain visible as independent nodes;
 - inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
   annotations;
@@ -96,7 +97,7 @@ The checked-in `data/processed` layer contains 99 people and 738 unverified
 Wikidata-derived candidate relations. The regular website build loads the
 candidate module only when a reader enables the switch. The single-file offline
 build embeds the same candidate data but still keeps it hidden by default.
-Both builds use the 200 formal people as their adaptation boundary; the current
+Both builds use the 235 formal people as their adaptation boundary; the current
 candidate snapshot covers only a subset of them.
 
 The reproducible Python pipeline and source/license registry are documented in

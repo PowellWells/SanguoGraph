@@ -110,6 +110,7 @@ function expectRoutesAvoidUnrelatedNodes(
               points,
               layout.positions[person.id],
             ),
+            `${relation.id} 不应穿过 ${person.id}`,
           ).toBeGreaterThanOrEqual(
             person.id === corePersonId ? 47 : 41,
           );

@@ -1295,27 +1295,25 @@ function createEdgeRoutes(
       distance(negativeControl, { x: 0, y: 0 })
         ? 1
         : -1;
-    let candidateDistances: number[];
+    let candidateDistanceBatches: number[][];
     if (isParallel) {
       const pairSign = pairIndex % 2 === 0 ? -1 : 1;
       const pairLevel = Math.floor(pairIndex / 2) + 1;
-      candidateDistances = [
+      candidateDistanceBatches = [
         pairSign * 36 * pairLevel,
         pairSign * 72 * pairLevel,
         pairSign * 108 * pairLevel,
         pairSign * 144 * pairLevel,
         pairSign * 180 * pairLevel,
-      ];
+      ].map((distanceValue) => [distanceValue]);
     } else {
-      const curvedDistances = [
-        36, 72, 108, 144, 180, 216, 252, 288, 324, 360,
-      ].flatMap(
-        (magnitude) => [
+      candidateDistanceBatches = Array.from(
+        { length: 24 },
+        (_, index) => (index + 1) * 36,
+      ).map((magnitude) => [
           magnitude * outwardSign,
           -magnitude * outwardSign,
-        ],
-      );
-      candidateDistances = curvedDistances;
+        ]);
     }
 
     let best:
@@ -1325,31 +1323,47 @@ function createEdgeRoutes(
           score: number;
         }
       | undefined;
-    candidateDistances.forEach((controlPointDistance) => {
-      const route: GraphEdgeRoute = {
-        kind,
-        curveStyle:
-          controlPointDistance === 0
-            ? 'straight'
-            : 'unbundled-bezier',
-        controlPointDistance,
-        controlPointWeight: 0.5,
-      };
-      const points = sampleGraphEdgeRoute(source, target, route);
-      const collisions = routeCollisionCount(
-        points,
-        relation,
-        positions,
-        anchorPersonId,
-      );
-      const crossings = polylineCrossings(points, routed, relation);
-      const bendPenalty = Math.abs(controlPointDistance) / 180;
-      const score =
-        collisions * 10_000 + crossings * 10 + bendPenalty;
-      if (!best || score < best.score) {
-        best = { route, points, score };
+    const candidateWeights = isParallel
+      ? [0.5]
+      : [0.5, 0.35, 0.65, 0.2, 0.8];
+    for (const distanceBatch of candidateDistanceBatches) {
+      let foundCollisionFreeRoute = false;
+      for (const controlPointDistance of distanceBatch) {
+        for (const controlPointWeight of candidateWeights) {
+          const route: GraphEdgeRoute = {
+            kind,
+            curveStyle:
+              controlPointDistance === 0
+                ? 'straight'
+                : 'unbundled-bezier',
+            controlPointDistance,
+            controlPointWeight,
+          };
+          const points = sampleGraphEdgeRoute(source, target, route);
+          const collisions = routeCollisionCount(
+            points,
+            relation,
+            positions,
+            anchorPersonId,
+          );
+          const crossings = polylineCrossings(points, routed, relation);
+          const bendPenalty =
+            Math.abs(controlPointDistance) / 180 +
+            Math.abs(controlPointWeight - 0.5);
+          const score =
+            collisions * 10_000 + crossings * 10 + bendPenalty;
+          if (!best || score < best.score) {
+            best = { route, points, score };
+          }
+          if (collisions === 0) {
+            foundCollisionFreeRoute = true;
+          }
+        }
       }
-    });
+      if (foundCollisionFreeRoute) {
+        break;
+      }
+    }
     const selected =
       best ?? {
         route: {

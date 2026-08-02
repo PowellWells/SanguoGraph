@@ -8,7 +8,7 @@ describe('graph selectors', () => {
       graphData.relations,
       new Set(['spouse_of']),
     );
-    expect(result).toHaveLength(4);
+    expect(result).toHaveLength(24);
     expect(result.every((relation) => relation.type === 'spouse_of')).toBe(true);
   });
 
@@ -30,7 +30,7 @@ describe('graph selectors', () => {
       2,
     );
 
-    expect(all.personIds.size).toBe(200);
+    expect(all.personIds.size).toBe(235);
     expect(oneHop.personIds).toEqual(
       new Set([
         'person:sg:cao_ang',
@@ -46,12 +46,12 @@ describe('graph selectors', () => {
   it('keeps a selected person without relation lines visible', () => {
     const isolated = selectNeighborhood(
       graphData.relations,
-      'person:sg:liu_bei',
+      'person:sg:jiang_wei',
       1,
       graphData.persons.map((person) => person.id),
     );
 
-    expect(isolated.personIds).toEqual(new Set(['person:sg:liu_bei']));
+    expect(isolated.personIds).toEqual(new Set(['person:sg:jiang_wei']));
     expect(isolated.relations).toEqual([]);
   });
 });

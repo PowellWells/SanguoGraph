@@ -115,7 +115,11 @@ function selectGraphElement(
   const selected = graph.getElementById(selectedId);
   selected.select();
   if (shouldCenter && selected.isNode()) {
-    graph.animate({ center: { eles: selected }, duration: 240 });
+    graph.animate({
+      center: { eles: selected },
+      zoom: Math.max(graph.zoom(), coreReturnGraphZoom),
+      duration: 240,
+    });
   }
 }
 

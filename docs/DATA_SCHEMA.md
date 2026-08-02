@@ -1,9 +1,10 @@
 # Data schema
 
 Formal source files live in `src/data`; the original 24-person family data
-remains in JSON, while the reviewed major-person expansion is maintained in
-`majorPersons.ts` and `majorSources.ts`. Strict TypeScript interfaces in
-`src/domain` are the application model.
+remains in JSON, the 176-person major roster is maintained in `majorPersons.ts`
+and `majorSources.ts`, and the third family batch is maintained in
+`familyPersons.ts`, `familyRelations.ts`, and `familySources.ts`. Strict
+TypeScript interfaces in `src/domain` are the application model.
 
 ## Person
 
@@ -14,7 +15,7 @@ remains in JSON, while the reviewed major-person expansion is maintained in
 | `reviewStatus` | `pending_review` or `verified` |
 | `sourceIds` | Historical sources used to verify the person record |
 | `visualFaction` | Optional presentation-only `wei`, `shu`, `wu`, or `other`; never a formal political-affiliation claim |
-| `importBatch` | Project ingestion batch: `1` for the original 24 people, `2` for the 176-person major-roster expansion |
+| `importBatch` | Project ingestion batch: `1` for the original 24 people, `2` for the 176-person major-roster expansion, `3` for the 35-person family expansion |
 | `externalIds.wikidata` | Optional external QID; never a primary key |
 
 A verified formal person must cite at least one non-structured historical

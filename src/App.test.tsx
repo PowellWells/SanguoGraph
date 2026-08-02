@@ -89,9 +89,9 @@ describe('application routes and home interaction', () => {
       screen.getByRole('checkbox', { name: '开放知识库候选' }),
     ).not.toBeChecked();
     const summary = screen.getByLabelText('图谱数据摘要');
-    expect(within(summary).getByText('200')).toBeInTheDocument();
-    expect(within(summary).getByText('33')).toBeInTheDocument();
-    expect(within(summary).getByText('66')).toBeInTheDocument();
+    expect(within(summary).getByText('235')).toBeInTheDocument();
+    expect(within(summary).getByText('110')).toBeInTheDocument();
+    expect(within(summary).getByText('79')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: '适应画布' }),
     ).toBeInTheDocument();
@@ -134,11 +134,11 @@ describe('application routes and home interaction', () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '200',
+      '235',
     );
   });
 
-  it('finds a major person without inventing a relationship line', () => {
+  it('finds a major person while keeping the full family graph loaded', () => {
     renderRoute('/');
     fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索' }), {
       target: { value: '刘备' },
@@ -153,15 +153,15 @@ describe('application routes and home interaction', () => {
     expect(screen.getByRole('heading', { name: '刘备' })).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '200',
+      '235',
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '33',
+      '110',
     );
   });
 
-  it('can show the complete 200-person roster while keeping 33 relations', () => {
+  it('can restore the complete third-batch family network', () => {
     renderRoute('/');
     fireEvent.click(screen.getByRole('button', { name: '返回核心人物' }));
     fireEvent.click(
@@ -170,28 +170,28 @@ describe('application routes and home interaction', () => {
 
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '200',
+      '235',
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '33',
+      '110',
     );
   });
 
-  it('browses a visual faction without creating relationship lines', () => {
+  it('browses a visual faction without creating faction relationship lines', () => {
     renderRoute('/');
     fireEvent.click(
-      screen.getByRole('button', { name: /^蜀 45$/ }),
+      screen.getByRole('button', { name: /^蜀 58$/ }),
     );
 
     expect(screen.getByRole('heading', { name: '刘备' })).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '45',
+      '58',
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '0',
+      '20',
     );
   });
 
@@ -215,10 +215,10 @@ describe('application routes and home interaction', () => {
 
   it('opens the filtered source catalog from the live summary', () => {
     renderRoute('/');
-    fireEvent.click(screen.getByRole('button', { name: '66 查看列表' }));
+    fireEvent.click(screen.getByRole('button', { name: '79 查看列表' }));
 
     expect(
-      screen.getByRole('heading', { name: '史料记录（66）' }),
+      screen.getByRole('heading', { name: '史料记录（79）' }),
     ).toBeInTheDocument();
     expect(screen.getByText(/这里只统计当前画布/)).toBeInTheDocument();
     const relationButton = screen.getByRole('button', {
@@ -241,12 +241,12 @@ describe('application routes and home interaction', () => {
 
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '199',
+      '234',
     );
     fireEvent.click(screen.getByRole('button', { name: '返回上一步' }));
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '200',
+      '235',
     );
   });
 

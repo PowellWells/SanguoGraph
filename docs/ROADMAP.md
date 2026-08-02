@@ -61,6 +61,14 @@
 - leave unreviewed dates and relationships unknown rather than filling them
   from Wikidata
 
+## Milestone 2.2 — family expansion batch three (completed)
+
+- add 35 close-family people around the reviewed major roster
+- expand the six existing family relation types to 110 source-linked edges
+- keep political, battle, office, alliance, and faction edges out of scope
+- display probable, later-tradition, and literary claims as dashed lines
+- keep literary identity and presentation faction separate from formal history
+
 ## Milestone 3 — evidence system
 
 - improve source browsing and claim comparison

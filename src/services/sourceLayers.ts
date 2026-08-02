@@ -40,7 +40,7 @@ export const sourceLayerOptions: readonly SourceLayerOption[] = [
   {
     key: 'literature',
     label: '文学作品',
-    description: '《三国演义》等文学叙事，当前数据尚未收录。',
+    description: '《三国演义》等文学叙事，与正史关系分层并以虚线展示。',
   },
   {
     key: 'structured_candidate',
@@ -58,6 +58,7 @@ export const initialSourceLayers = new Set<SourceLayerKey>([
   'official_direct',
   'official_inferred',
   'ancient_other',
+  'literature',
 ]);
 
 export function getRelationSourceLayer(

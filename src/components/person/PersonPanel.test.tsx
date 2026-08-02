@@ -49,6 +49,52 @@ describe('PersonPanel', () => {
     expect(screen.getByText('录入批次：第二批导入')).toBeInTheDocument();
   });
 
+  it('identifies a person from the third family import batch', () => {
+    const person = graphData.persons.find(
+      (item) => item.id === 'person:sg:zhang_chunhua',
+    );
+    if (!person) {
+      throw new Error('第三批测试人物不存在。');
+    }
+
+    render(
+      <PersonPanel
+        selectedPerson={person}
+        selectedRelation={null}
+        persons={graphData.persons}
+        relations={graphData.relations}
+        sources={graphData.sources}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: '张春华' })).toBeInTheDocument();
+    expect(screen.getByText('录入批次：第三批导入')).toBeInTheDocument();
+  });
+
+  it('keeps literary family claims visibly separate from history', () => {
+    const relation = graphData.relations.find(
+      (item) => item.id === 'relation:sg:lv_bu_spouse_diaochan_literature',
+    );
+    if (!relation) {
+      throw new Error('文学关系测试数据不存在。');
+    }
+
+    render(
+      <PersonPanel
+        selectedPerson={null}
+        selectedRelation={relation}
+        persons={graphData.persons}
+        relations={graphData.relations}
+        sources={graphData.sources}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: '吕布 — 貂蝉' })).toBeInTheDocument();
+    expect(screen.getByText('文学关系')).toBeInTheDocument();
+    expect(screen.getAllByText('待核验')).not.toHaveLength(0);
+    expect(screen.getByText(/只存在于《三国演义》叙事/)).toBeInTheDocument();
+  });
+
   it('shows relation status, quotation and source link', () => {
     const relation = graphData.relations.find(
       (item) => item.id === 'relation:sg:cao_song_father_cao_cao',
