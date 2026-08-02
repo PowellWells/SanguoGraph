@@ -77,6 +77,14 @@
 - distinguish main-text records from relationships supplied by Pei annotations
 - preserve the fixed Wei-top, Shu-lower-left, and Wu-lower-right map sectors
 
+## Milestone 2.4 — Shu family expansion batch five (completed)
+
+- add 35 named relatives around the Liu, Zhuge, and major Shu families
+- add exactly one necessary family edge for each new person
+- keep additions within father, adoptive-father, and bounded clan relations
+- show six Liu Shan son claims from Pei annotations as probable dashed edges
+- keep visual Shu placement separate from each person's recorded affiliations
+
 ## Milestone 3 — evidence system
 
 - improve source browsing and claim comparison

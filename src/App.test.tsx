@@ -89,9 +89,9 @@ describe('application routes and home interaction', () => {
       screen.getByRole('checkbox', { name: '开放知识库候选' }),
     ).not.toBeChecked();
     const summary = screen.getByLabelText('图谱数据摘要');
-    expect(within(summary).getByText('270')).toBeInTheDocument();
-    expect(within(summary).getByText('145')).toBeInTheDocument();
-    expect(within(summary).getByText('82')).toBeInTheDocument();
+    expect(within(summary).getByText('305')).toBeInTheDocument();
+    expect(within(summary).getByText('180')).toBeInTheDocument();
+    expect(within(summary).getByText('91')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: '适应画布' }),
     ).toBeInTheDocument();
@@ -135,7 +135,22 @@ describe('application routes and home interaction', () => {
     expect(screen.getByText('录入批次：第四批导入')).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '270',
+      '305',
+    );
+  });
+
+  it('selects a fifth-batch Shu-family person already loaded in the complete graph', () => {
+    renderRoute('/');
+    fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索' }), {
+      target: { value: '刘谌' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /刘谌/ }));
+
+    expect(screen.getByRole('heading', { name: '刘谌' })).toBeInTheDocument();
+    expect(screen.getByText('录入批次：第五批导入')).toBeInTheDocument();
+    expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
+      'data-node-count',
+      '305',
     );
   });
 
@@ -154,15 +169,15 @@ describe('application routes and home interaction', () => {
     expect(screen.getByRole('heading', { name: '刘备' })).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '270',
+      '305',
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '145',
+      '180',
     );
   });
 
-  it('can restore the complete fourth-batch family network', () => {
+  it('can restore the complete fifth-batch family network', () => {
     renderRoute('/');
     fireEvent.click(screen.getByRole('button', { name: '返回核心人物' }));
     fireEvent.click(
@@ -171,28 +186,28 @@ describe('application routes and home interaction', () => {
 
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '270',
+      '305',
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '145',
+      '180',
     );
   });
 
   it('browses a visual faction without creating faction relationship lines', () => {
     renderRoute('/');
     fireEvent.click(
-      screen.getByRole('button', { name: /^蜀 58$/ }),
+      screen.getByRole('button', { name: /^蜀 93$/ }),
     );
 
     expect(screen.getByRole('heading', { name: '刘备' })).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '58',
+      '93',
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '20',
+      '55',
     );
   });
 
@@ -216,10 +231,10 @@ describe('application routes and home interaction', () => {
 
   it('opens the filtered source catalog from the live summary', () => {
     renderRoute('/');
-    fireEvent.click(screen.getByRole('button', { name: '82 查看列表' }));
+    fireEvent.click(screen.getByRole('button', { name: '91 查看列表' }));
 
     expect(
-      screen.getByRole('heading', { name: '史料记录（82）' }),
+      screen.getByRole('heading', { name: '史料记录（91）' }),
     ).toBeInTheDocument();
     expect(screen.getByText(/这里只统计当前画布/)).toBeInTheDocument();
     const relationButton = screen.getByRole('button', {
@@ -242,12 +257,12 @@ describe('application routes and home interaction', () => {
 
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '269',
+      '304',
     );
     fireEvent.click(screen.getByRole('button', { name: '返回上一步' }));
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '270',
+      '305',
     );
   });
 

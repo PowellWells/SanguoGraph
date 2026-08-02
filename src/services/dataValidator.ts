@@ -133,13 +133,14 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
       importBatch !== 1 &&
       importBatch !== 2 &&
       importBatch !== 3 &&
-      importBatch !== 4
+      importBatch !== 4 &&
+      importBatch !== 5
     ) {
       issues.push({
         code: 'INVALID_IMPORT_BATCH',
         collection: 'persons',
         entityId: person.id,
-        message: `${person.id} 的导入批次必须为 1、2、3 或 4。`,
+        message: `${person.id} 的导入批次必须为 1、2、3、4 或 5。`,
       });
     }
 

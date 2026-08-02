@@ -13,9 +13,9 @@ function issueCodes(data: GraphData): ValidationCode[] {
 }
 
 describe('formal graph data', () => {
-  it('contains the four reviewed import batches and family-only relations', () => {
-    expect(graphData.persons).toHaveLength(270);
-    expect(graphData.relations).toHaveLength(145);
+  it('contains the five reviewed import batches and family-only relations', () => {
+    expect(graphData.persons).toHaveLength(305);
+    expect(graphData.relations).toHaveLength(180);
     expect(
       graphData.persons.filter((person) => person.importBatch === 1),
     ).toHaveLength(24);
@@ -29,11 +29,14 @@ describe('formal graph data', () => {
       graphData.persons.filter((person) => person.importBatch === 4),
     ).toHaveLength(35);
     expect(
+      graphData.persons.filter((person) => person.importBatch === 5),
+    ).toHaveLength(35);
+    expect(
       graphData.persons.filter((person) => person.visualFaction === 'wei'),
     ).toHaveLength(88);
     expect(
       graphData.persons.filter((person) => person.visualFaction === 'shu'),
-    ).toHaveLength(58);
+    ).toHaveLength(93);
     expect(
       graphData.persons.filter((person) => person.visualFaction === 'wu'),
     ).toHaveLength(68);
@@ -59,7 +62,7 @@ describe('formal graph data', () => {
     const invalidPerson = data.persons[0] as unknown as {
       importBatch: number;
     };
-    invalidPerson.importBatch = 5;
+    invalidPerson.importBatch = 6;
 
     expect(issueCodes(data)).toContain('INVALID_IMPORT_BATCH');
   });

@@ -94,6 +94,29 @@ describe('PersonPanel', () => {
     expect(screen.getByText('夏侯渊')).toBeInTheDocument();
   });
 
+  it('identifies a person from the fifth Shu-family import batch', () => {
+    const person = graphData.persons.find(
+      (item) => item.id === 'person:sg:liu_chen',
+    );
+    if (!person) {
+      throw new Error('第五批测试人物不存在。');
+    }
+
+    render(
+      <PersonPanel
+        selectedPerson={person}
+        selectedRelation={null}
+        persons={graphData.persons}
+        relations={graphData.relations}
+        sources={graphData.sources}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: '刘谌' })).toBeInTheDocument();
+    expect(screen.getByText('录入批次：第五批导入')).toBeInTheDocument();
+    expect(screen.getByText('刘禅')).toBeInTheDocument();
+  });
+
   it('keeps literary family claims visibly separate from history', () => {
     const relation = graphData.relations.find(
       (item) => item.id === 'relation:sg:lv_bu_spouse_diaochan_literature',

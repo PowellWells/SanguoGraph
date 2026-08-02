@@ -68,6 +68,7 @@ function importBatchLabel(person: Person): string {
     2: '第二批导入',
     3: '第三批导入',
     4: '第四批导入',
+    5: '第五批导入',
   } as const;
   return labels[person.importBatch];
 }

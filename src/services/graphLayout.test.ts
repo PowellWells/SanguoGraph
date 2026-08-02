@@ -318,7 +318,7 @@ describe('graph layout', () => {
     expectNoNodeOverlap(defaultLayout, defaultGraph.persons, 112);
     expectNoNodeOverlap(completeLayout, graphData.persons, 112);
     expectNoNodeOverlap(compactLayout, graphData.persons, 104);
-  }, 10_000);
+  }, 15_000);
 
   it('routes every formal edge around unrelated nodes', () => {
     const layout = createGraphLayout(
