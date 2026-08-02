@@ -129,12 +129,17 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
     }
 
     const importBatch: unknown = person.importBatch;
-    if (importBatch !== 1 && importBatch !== 2 && importBatch !== 3) {
+    if (
+      importBatch !== 1 &&
+      importBatch !== 2 &&
+      importBatch !== 3 &&
+      importBatch !== 4
+    ) {
       issues.push({
         code: 'INVALID_IMPORT_BATCH',
         collection: 'persons',
         entityId: person.id,
-        message: `${person.id} 的导入批次必须为 1、2 或 3。`,
+        message: `${person.id} 的导入批次必须为 1、2、3 或 4。`,
       });
     }
 

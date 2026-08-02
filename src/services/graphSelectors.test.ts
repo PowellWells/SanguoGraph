@@ -30,7 +30,7 @@ describe('graph selectors', () => {
       2,
     );
 
-    expect(all.personIds.size).toBe(235);
+    expect(all.personIds.size).toBe(270);
     expect(oneHop.personIds).toEqual(
       new Set([
         'person:sg:cao_ang',

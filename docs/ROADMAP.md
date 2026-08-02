@@ -69,6 +69,14 @@
 - display probable, later-tradition, and literary claims as dashed lines
 - keep literary identity and presentation faction separate from formal history
 
+## Milestone 2.3 — Wei family expansion batch four (completed)
+
+- add 35 named relatives around existing Xiahou, Cao, and major Wei generals
+- add exactly one necessary family edge for each new person
+- keep all additions within father and bounded clan relationships
+- distinguish main-text records from relationships supplied by Pei annotations
+- preserve the fixed Wei-top, Shu-lower-left, and Wu-lower-right map sectors
+
 ## Milestone 3 — evidence system
 
 - improve source browsing and claim comparison

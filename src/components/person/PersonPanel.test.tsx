@@ -71,6 +71,29 @@ describe('PersonPanel', () => {
     expect(screen.getByText('录入批次：第三批导入')).toBeInTheDocument();
   });
 
+  it('identifies a person from the fourth Wei-family import batch', () => {
+    const person = graphData.persons.find(
+      (item) => item.id === 'person:sg:xiahou_ba',
+    );
+    if (!person) {
+      throw new Error('第四批测试人物不存在。');
+    }
+
+    render(
+      <PersonPanel
+        selectedPerson={person}
+        selectedRelation={null}
+        persons={graphData.persons}
+        relations={graphData.relations}
+        sources={graphData.sources}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: '夏侯霸' })).toBeInTheDocument();
+    expect(screen.getByText('录入批次：第四批导入')).toBeInTheDocument();
+    expect(screen.getByText('夏侯渊')).toBeInTheDocument();
+  });
+
   it('keeps literary family claims visibly separate from history', () => {
     const relation = graphData.relations.find(
       (item) => item.id === 'relation:sg:lv_bu_spouse_diaochan_literature',

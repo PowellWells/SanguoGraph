@@ -8,13 +8,26 @@ import { majorSources } from './majorSources';
 import { familyPersons } from './familyPersons';
 import { familyRelations } from './familyRelations';
 import { familySources } from './familySources';
+import { fourthFamilyPersons } from './fourthFamilyPersons';
+import { fourthFamilyRelations } from './fourthFamilyRelations';
+import { fourthFamilySources } from './fourthFamilySources';
 
 export const graphData: GraphData = {
-  persons: [...(personsJson as Person[]), ...majorPersons, ...familyPersons],
-  relations: [...(relationsJson as Relation[]), ...familyRelations],
+  persons: [
+    ...(personsJson as Person[]),
+    ...majorPersons,
+    ...familyPersons,
+    ...fourthFamilyPersons,
+  ],
+  relations: [
+    ...(relationsJson as Relation[]),
+    ...familyRelations,
+    ...fourthFamilyRelations,
+  ],
   sources: [
     ...(sourcesJson as HistoricalSource[]),
     ...majorSources,
     ...familySources,
+    ...fourthFamilySources,
   ],
 };

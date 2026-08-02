@@ -63,10 +63,13 @@ function years(person: Person): string {
 }
 
 function importBatchLabel(person: Person): string {
-  if (person.importBatch === 1) {
-    return '第一批导入';
-  }
-  return person.importBatch === 2 ? '第二批导入' : '第三批导入';
+  const labels = {
+    1: '第一批导入',
+    2: '第二批导入',
+    3: '第三批导入',
+    4: '第四批导入',
+  } as const;
+  return labels[person.importBatch];
 }
 
 export function PersonPanel({

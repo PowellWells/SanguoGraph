@@ -1493,7 +1493,7 @@ function createEdgeRoutes(
       ].map((distanceValue) => [distanceValue]);
     } else {
       const distanceLevelCount = Math.min(
-        72,
+        160,
         Math.max(24, Math.ceil((length * 0.55) / 36)),
       );
       candidateDistanceBatches = Array.from(
