@@ -27,8 +27,8 @@ npm run validate:offline
 - 200 locally identified people (`person:sg:*`);
 - the existing 33 recorded father, mother, spouse, adoptive-parent, and clan
   relationships, with no added political or battle edges;
-- people without an in-scope relation remain searchable and available in the
-  explicit complete-map view;
+- all 200 formal people load into the front-end map on first entry; people
+  without an in-scope relation remain visible as independent nodes;
 - inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
   annotations;
 - Cytoscape.js graph with search, relation filters, and all/one-hop/two-hop

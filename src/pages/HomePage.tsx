@@ -92,7 +92,7 @@ export function HomePage() {
   >('idle');
   const [candidateError, setCandidateError] = useState<string | null>(null);
   const [explorationPersonIds, setExplorationPersonIds] = useState(
-    () => new Set(initialCorePersonIds),
+    () => new Set(allFormalPersonIds),
   );
   const [visibilityHistory, setVisibilityHistory] = useState<string[][]>([]);
   const [expandedPersonIds, setExpandedPersonIds] = useState(
@@ -486,9 +486,9 @@ export function HomePage() {
           <div className="dashboard-intro">
             <h1>三国主要人物关系图谱</h1>
             <p>
-              收录魏、蜀、吴及汉末群雄的主要历史人物；默认以曹操家庭为核心，
-              其他人物通过搜索或完整地图按需查看。连线只保留亲属、婚姻、收养
-              与宗族关系，不用政治或战争关系增加画面密度。
+              前端已加载魏、蜀、吴及汉末群雄共 200 位主要历史人物；首次进入
+              即可在完整地图中浏览。连线仍只保留亲属、婚姻、收养与宗族关系，
+              不用政治或战争关系增加画面密度。
             </p>
           </div>
           <GraphSummary
