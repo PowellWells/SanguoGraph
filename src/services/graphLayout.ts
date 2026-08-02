@@ -1,4 +1,5 @@
 import type { Person, Relation } from '../domain';
+import { getFactionColorKey } from './graphVisualEncoding';
 
 export interface GraphPosition {
   x: number;
@@ -16,6 +17,7 @@ export interface GraphBounds {
 
 export type GraphEdgeRouteKind = 'primary' | 'secondary' | 'parallel';
 export type GraphEdgeCurveStyle = 'straight' | 'unbundled-bezier';
+export type LayoutSector = 'wei' | 'shu' | 'wu' | 'neutral';
 
 export interface GraphEdgeRoute {
   kind: GraphEdgeRouteKind;
@@ -27,6 +29,7 @@ export interface GraphEdgeRoute {
 export interface GraphLayout {
   positions: Readonly<Record<string, GraphPosition>>;
   generations: Readonly<Record<string, number>>;
+  sectors: Readonly<Record<string, LayoutSector>>;
   bounds: GraphBounds;
   edgeRoutes: Readonly<Record<string, GraphEdgeRoute>>;
 }
@@ -254,6 +257,72 @@ function createConnectedComponents(
   });
 
   return components;
+}
+
+const majorLayoutSectors: ReadonlyArray<Exclude<LayoutSector, 'neutral'>> = [
+  'wei',
+  'shu',
+  'wu',
+];
+
+function createLayoutSectors(
+  persons: Person[],
+  relations: Relation[],
+): Record<string, LayoutSector> {
+  const personById = new Map(persons.map((person) => [person.id, person]));
+  const personIds = new Set(personById.keys());
+  const adjacency = createRelationAdjacency(personIds, relations);
+  const sectors: Record<string, LayoutSector> = {};
+
+  persons.forEach((person) => {
+    const visualFaction = getFactionColorKey(person);
+    if (visualFaction !== 'other') {
+      sectors[person.id] = visualFaction;
+      return;
+    }
+
+    const visited = new Set([person.id]);
+    let frontier = [person.id];
+    const nearestSectors: LayoutSector[] = [];
+    while (frontier.length > 0 && nearestSectors.length === 0) {
+      const nextFrontier: string[] = [];
+      frontier.forEach((currentPersonId) => {
+        (adjacency.get(currentPersonId) ?? []).forEach((relation) => {
+          const neighborId = otherPersonId(relation, currentPersonId);
+          if (visited.has(neighborId)) {
+            return;
+          }
+          visited.add(neighborId);
+          const neighbor = personById.get(neighborId);
+          if (!neighbor) {
+            return;
+          }
+          const neighborFaction = getFactionColorKey(neighbor);
+          if (neighborFaction === 'other') {
+            nextFrontier.push(neighborId);
+          } else {
+            nearestSectors.push(neighborFaction);
+          }
+        });
+      });
+      frontier = nextFrontier;
+    }
+
+    const sectorCounts = new Map<LayoutSector, number>();
+    nearestSectors.forEach((sector) => {
+      sectorCounts.set(sector, (sectorCounts.get(sector) ?? 0) + 1);
+    });
+    sectors[person.id] = [...majorLayoutSectors].sort(
+      (first, second) =>
+        (sectorCounts.get(second) ?? 0) -
+        (sectorCounts.get(first) ?? 0),
+    )[0] ?? 'neutral';
+    if (nearestSectors.length === 0) {
+      sectors[person.id] = 'neutral';
+    }
+  });
+
+  return sectors;
 }
 
 function createDegreeMap(
@@ -885,6 +954,122 @@ function translateComponents(
   return { positions, componentCenters };
 }
 
+function translateComponentsBySector(
+  components: ComponentLayout[],
+  sectors: Readonly<Record<string, LayoutSector>>,
+  profile: LayoutProfile,
+  lockedPersonIds: ReadonlySet<string>,
+  previousPositions: Readonly<Record<string, GraphPosition>>,
+): {
+  positions: Record<string, GraphPosition>;
+  componentCenters: ReadonlyMap<string, GraphPosition>;
+} {
+  const positions: Record<string, GraphPosition> = {};
+  const componentCenters = new Map<string, GraphPosition>();
+  const sectorOrder: LayoutSector[] = ['wei', 'shu', 'wu', 'neutral'];
+
+  sectorOrder.forEach((sector) => {
+    const sectorComponents = components.filter(
+      (component) =>
+        sectors[component.anchorPersonId] === sector,
+    );
+    if (sectorComponents.length === 0) {
+      return;
+    }
+    const translated = translateComponents(
+      sectorComponents,
+      profile,
+      lockedPersonIds,
+      previousPositions,
+    );
+    Object.assign(positions, translated.positions);
+    translated.componentCenters.forEach((center, personId) => {
+      componentCenters.set(personId, center);
+    });
+  });
+
+  return { positions, componentCenters };
+}
+
+function applyFactionSectors(
+  initialPositions: Record<string, GraphPosition>,
+  initialComponentCenters: ReadonlyMap<string, GraphPosition>,
+  sectors: Readonly<Record<string, LayoutSector>>,
+  profile: LayoutProfile,
+): {
+  positions: Record<string, GraphPosition>;
+  componentCenters: ReadonlyMap<string, GraphPosition>;
+} {
+  const sectorPersonIds = new Map<LayoutSector, string[]>();
+  Object.keys(initialPositions).forEach((personId) => {
+    const sector = sectors[personId] ?? 'neutral';
+    sectorPersonIds.set(sector, [
+      ...(sectorPersonIds.get(sector) ?? []),
+      personId,
+    ]);
+  });
+  const sectorBounds = new Map<LayoutSector, GraphBounds>();
+  sectorPersonIds.forEach((personIds, sector) => {
+    sectorBounds.set(
+      sector,
+      positionsBounds(
+        Object.fromEntries(
+          personIds.map((personId) => [
+            personId,
+            initialPositions[personId] ?? { x: 0, y: 0 },
+          ]),
+        ),
+      ),
+    );
+  });
+
+  const maximumHalfWidth = Math.max(
+    profile.radialGap,
+    ...[...sectorBounds.values()].map((bounds) => bounds.width / 2),
+  );
+  const maximumHalfHeight = Math.max(
+    profile.radialGap,
+    ...[...sectorBounds.values()].map((bounds) => bounds.height / 2),
+  );
+  const horizontalOffset =
+    maximumHalfWidth + profile.componentGap + profile.minimumDistance;
+  const verticalOffset =
+    maximumHalfHeight + profile.componentGap + profile.minimumDistance;
+  const targetCenters: Readonly<Record<LayoutSector, GraphPosition>> = {
+    wei: { x: 0, y: -verticalOffset },
+    shu: { x: -horizontalOffset, y: verticalOffset },
+    wu: { x: horizontalOffset, y: verticalOffset },
+    neutral: { x: 0, y: verticalOffset * 3 },
+  };
+  const translations = new Map<LayoutSector, GraphPosition>();
+  sectorBounds.forEach((bounds, sector) => {
+    const target = targetCenters[sector];
+    translations.set(sector, {
+      x: target.x - (bounds.x1 + bounds.x2) / 2,
+      y: target.y - (bounds.y1 + bounds.y2) / 2,
+    });
+  });
+
+  const positions: Record<string, GraphPosition> = {};
+  const componentCenters = new Map<string, GraphPosition>();
+  Object.entries(initialPositions).forEach(([personId, position]) => {
+    const sector = sectors[personId] ?? 'neutral';
+    const translation = translations.get(sector) ?? { x: 0, y: 0 };
+    positions[personId] = {
+      x: position.x + translation.x,
+      y: position.y + translation.y,
+    };
+    const componentCenter =
+      initialComponentCenters.get(personId) ?? { x: 0, y: 0 };
+    componentCenters.set(personId, {
+      x: componentCenter.x + translation.x,
+      y: componentCenter.y + translation.y,
+    });
+  });
+
+  return { positions, componentCenters };
+}
+
 function spatialCellKey(
   position: GraphPosition,
   cellSize: number,
@@ -1045,7 +1230,7 @@ export function sampleGraphEdgeRoute(
   source: GraphPosition,
   target: GraphPosition,
   route: GraphEdgeRoute,
-  segmentCount = 24,
+  segmentCount = 64,
 ): GraphPosition[] {
   if (
     route.curveStyle === 'straight' ||
@@ -1307,8 +1492,12 @@ function createEdgeRoutes(
         pairSign * 180 * pairLevel,
       ].map((distanceValue) => [distanceValue]);
     } else {
+      const distanceLevelCount = Math.min(
+        72,
+        Math.max(24, Math.ceil((length * 0.55) / 36)),
+      );
       candidateDistanceBatches = Array.from(
-        { length: 24 },
+        { length: distanceLevelCount },
         (_, index) => (index + 1) * 36,
       ).map((magnitude) => [
           magnitude * outwardSign,
@@ -1396,12 +1585,27 @@ export function createGraphLayout(
   const inputOrder = createInputOrder(persons);
   const degrees = createDegreeMap(persons, relations);
   const generations = createGenerations(persons, relations);
-  const components = createConnectedComponents(persons, relations)
+  const sectors = createLayoutSectors(persons, relations);
+  const sameSectorRelations = relations.filter(
+    (relation) =>
+      sectors[relation.sourcePersonId] !== undefined &&
+      sectors[relation.sourcePersonId] === sectors[relation.targetPersonId],
+  );
+  const sectorAnchorIds: Readonly<Record<LayoutSector, string>> = {
+    wei: defaultAnchorPersonId,
+    shu: 'person:sg:liu_bei',
+    wu: 'person:sg:sun_quan',
+    neutral: requestedAnchorId,
+  };
+  const requestedAnchorSector = sectors[requestedAnchorId];
+  const components = createConnectedComponents(persons, sameSectorRelations)
     .map((personIds) => ({
       personIds,
       anchorPersonId: chooseComponentAnchor(
         personIds,
-        requestedAnchorId,
+        requestedAnchorSector === sectors[personIds[0] ?? '']
+          ? requestedAnchorId
+          : sectorAnchorIds[sectors[personIds[0] ?? ''] ?? 'neutral'],
         degrees,
         inputOrder,
       ),
@@ -1412,6 +1616,15 @@ export function createGraphLayout(
       }
       if (second.personIds.includes(requestedAnchorId)) {
         return 1;
+      }
+      const firstSector = sectors[first.anchorPersonId] ?? 'neutral';
+      const secondSector = sectors[second.anchorPersonId] ?? 'neutral';
+      const firstIsSectorAnchor =
+        first.anchorPersonId === sectorAnchorIds[firstSector];
+      const secondIsSectorAnchor =
+        second.anchorPersonId === sectorAnchorIds[secondSector];
+      if (firstIsSectorAnchor !== secondIsSectorAnchor) {
+        return firstIsSectorAnchor ? -1 : 1;
       }
       return (
         (inputOrder.get(first.anchorPersonId) ?? 0) -
@@ -1427,17 +1640,24 @@ export function createGraphLayout(
         profile,
       ),
     );
-  const translated = translateComponents(
+  const translated = translateComponentsBySector(
     components,
+    sectors,
     profile,
     lockedPersonIds,
     previousPositions,
   );
+  const sectorized = applyFactionSectors(
+    translated.positions,
+    translated.componentCenters,
+    sectors,
+    profile,
+  );
   const anchorPersonId =
     components[0]?.anchorPersonId ?? requestedAnchorId;
   const positions = resolveCollisions(
-    translated.positions,
-    translated.componentCenters,
+    sectorized.positions,
+    sectorized.componentCenters,
     persons,
     profile,
     anchorPersonId,
@@ -1449,6 +1669,7 @@ export function createGraphLayout(
   return {
     positions,
     generations: Object.fromEntries(generations),
+    sectors,
     bounds: positionsBounds(positions),
     edgeRoutes: createEdgeRoutes(
       relations,

@@ -140,6 +140,21 @@ function getDefaultGraph() {
   return { persons, relations };
 }
 
+function boundsForPeople(
+  layout: GraphLayout,
+  personIds: string[],
+) {
+  const positions = personIds.map((personId) => layout.positions[personId]);
+  const xs = positions.map((position) => position.x);
+  const ys = positions.map((position) => position.y);
+  return {
+    x1: Math.min(...xs),
+    x2: Math.max(...xs),
+    y1: Math.min(...ys),
+    y2: Math.max(...ys),
+  };
+}
+
 function createLargeSyntheticGraph(): {
   persons: Person[];
   relations: Relation[];
@@ -213,6 +228,43 @@ function createLargeSyntheticGraph(): {
 }
 
 describe('graph layout', () => {
+  it('places Wei above Shu and Wu while relationship-linked others follow', () => {
+    const layout = createGraphLayout(
+      graphData.persons,
+      graphData.relations,
+      { compact: false },
+    );
+    const peopleBySector = {
+      wei: graphData.persons
+        .filter((person) => layout.sectors[person.id] === 'wei')
+        .map((person) => person.id),
+      shu: graphData.persons
+        .filter((person) => layout.sectors[person.id] === 'shu')
+        .map((person) => person.id),
+      wu: graphData.persons
+        .filter((person) => layout.sectors[person.id] === 'wu')
+        .map((person) => person.id),
+      neutral: graphData.persons
+        .filter((person) => layout.sectors[person.id] === 'neutral')
+        .map((person) => person.id),
+    };
+    const weiBounds = boundsForPeople(layout, peopleBySector.wei);
+    const shuBounds = boundsForPeople(layout, peopleBySector.shu);
+    const wuBounds = boundsForPeople(layout, peopleBySector.wu);
+    const neutralBounds = boundsForPeople(layout, peopleBySector.neutral);
+
+    expect(weiBounds.y2).toBeLessThan(shuBounds.y1);
+    expect(weiBounds.y2).toBeLessThan(wuBounds.y1);
+    expect(shuBounds.x2).toBeLessThan(wuBounds.x1);
+    expect(neutralBounds.y1).toBeGreaterThan(
+      Math.max(shuBounds.y2, wuBounds.y2),
+    );
+    expect(layout.sectors['person:sg:cao_teng']).toBe('wei');
+    expect(layout.sectors['person:sg:cao_song']).toBe('wei');
+    expect(layout.sectors['person:sg:lady_sun_shu']).toBe('wu');
+    expect(layout.sectors['person:sg:diaochan']).toBe('neutral');
+  });
+
   it('fans the current family graph into semantic directions', () => {
     const layout = createGraphLayout(
       graphData.persons,
@@ -334,6 +386,7 @@ describe('graph layout', () => {
 
     expect(withCandidate.positions).toEqual(baseline.positions);
     expect(withCandidate.generations).toEqual(baseline.generations);
+    expect(withCandidate.sectors).toEqual(baseline.sectors);
     expect(withCandidate.bounds).toEqual(baseline.bounds);
     graphData.relations.forEach((relation) => {
       expect(withCandidate.edgeRoutes[relation.id]).toEqual(
