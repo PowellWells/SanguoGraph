@@ -3,6 +3,7 @@ import type { ReviewStatus } from './reviewStatus';
 export type Gender = 'male' | 'female' | 'unknown';
 export type Historicity = 'historical' | 'fictional' | 'disputed';
 export type VisualFaction = 'wei' | 'shu' | 'wu' | 'other';
+export type ImportBatch = 1 | 2;
 
 export interface Person {
   id: string;
@@ -15,6 +16,7 @@ export interface Person {
   clan: string | null;
   factions: string[];
   visualFaction?: VisualFaction;
+  importBatch: ImportBatch;
   description: string;
   historicity: Historicity;
   reviewStatus: ReviewStatus;

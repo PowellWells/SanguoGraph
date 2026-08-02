@@ -17,6 +17,12 @@ describe('formal graph data', () => {
     expect(graphData.persons).toHaveLength(200);
     expect(graphData.relations).toHaveLength(33);
     expect(
+      graphData.persons.filter((person) => person.importBatch === 1),
+    ).toHaveLength(24);
+    expect(
+      graphData.persons.filter((person) => person.importBatch === 2),
+    ).toHaveLength(176);
+    expect(
       graphData.persons.filter((person) => person.visualFaction === 'wei'),
     ).toHaveLength(48);
     expect(
@@ -40,6 +46,16 @@ describe('formal graph data', () => {
         (person) => person.reviewStatus === 'verified' && person.sourceIds.length > 0,
       ),
     ).toBe(true);
+  });
+
+  it('rejects an unknown person import batch', () => {
+    const data = copyGraphData();
+    const invalidPerson = data.persons[0] as unknown as {
+      importBatch: number;
+    };
+    invalidPerson.importBatch = 3;
+
+    expect(issueCodes(data)).toContain('INVALID_IMPORT_BATCH');
   });
 
   it('requires confirmed relations to cite historical, non-dataset evidence', () => {

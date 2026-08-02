@@ -9,6 +9,7 @@ export interface GraphData {
 export type ValidationCode =
   | 'DUPLICATE_ID'
   | 'INVALID_LOCAL_ID'
+  | 'INVALID_IMPORT_BATCH'
   | 'UNKNOWN_PERSON'
   | 'SELF_RELATION'
   | 'UNKNOWN_SOURCE'
@@ -124,6 +125,16 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
         collection: 'persons',
         entityId: person.id,
         message: `${person.id} 不是有效的项目本地人物 ID。`,
+      });
+    }
+
+    const importBatch: unknown = person.importBatch;
+    if (importBatch !== 1 && importBatch !== 2) {
+      issues.push({
+        code: 'INVALID_IMPORT_BATCH',
+        collection: 'persons',
+        entityId: person.id,
+        message: `${person.id} 的导入批次必须为 1 或 2。`,
       });
     }
 

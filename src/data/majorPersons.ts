@@ -38,6 +38,7 @@ function person(seed: MajorPersonSeed): Person {
     clan: null,
     factions: [...seed.factions],
     visualFaction: seed.visualFaction,
+    importBatch: 2,
     description: seed.description,
     historicity: 'historical',
     reviewStatus: 'verified',

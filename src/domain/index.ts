@@ -1,6 +1,12 @@
 export type { Certainty } from './certainty';
 export type { HistoricalLayer } from './historicalLayer';
-export type { Gender, Historicity, Person, VisualFaction } from './person';
+export type {
+  Gender,
+  Historicity,
+  ImportBatch,
+  Person,
+  VisualFaction,
+} from './person';
 export type {
   DecisionStatus,
   DisputeStatus,

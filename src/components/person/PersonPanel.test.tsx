@@ -23,7 +23,30 @@ describe('PersonPanel', () => {
 
     expect(screen.getByRole('heading', { name: '曹丕' })).toBeInTheDocument();
     expect(screen.getByText(/字子桓/)).toBeInTheDocument();
+    expect(screen.getByText('录入批次：第一批导入')).toBeInTheDocument();
     expect(screen.getByText('卞夫人')).toBeInTheDocument();
+  });
+
+  it('identifies a person from the second import batch', () => {
+    const person = graphData.persons.find(
+      (item) => item.id === 'person:sg:liu_bei',
+    );
+    if (!person) {
+      throw new Error('第二批测试人物不存在。');
+    }
+
+    render(
+      <PersonPanel
+        selectedPerson={person}
+        selectedRelation={null}
+        persons={graphData.persons}
+        relations={graphData.relations}
+        sources={graphData.sources}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: '刘备' })).toBeInTheDocument();
+    expect(screen.getByText('录入批次：第二批导入')).toBeInTheDocument();
   });
 
   it('shows relation status, quotation and source link', () => {

@@ -62,6 +62,10 @@ function years(person: Person): string {
   return `${person.birthYear ?? '？'}—${person.deathYear ?? '？'}`;
 }
 
+function importBatchLabel(person: Person): string {
+  return person.importBatch === 1 ? '第一批导入' : '第二批导入';
+}
+
 export function PersonPanel({
   selectedPerson,
   selectedRelation,
@@ -192,6 +196,7 @@ export function PersonPanel({
           {selectedPerson.courtesyName && `字${selectedPerson.courtesyName} · `}
           {years(selectedPerson)}
         </p>
+        <p className="detail-note">录入批次：{importBatchLabel(selectedPerson)}</p>
         <p className="detail-description">{selectedPerson.description}</p>
         {selectedPerson.otherNames.length > 0 && (
           <p className="detail-note">别名：{selectedPerson.otherNames.join('、')}</p>
