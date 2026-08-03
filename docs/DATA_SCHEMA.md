@@ -6,7 +6,10 @@ and `majorSources.ts`, the third family batch is maintained in
 `familyPersons.ts`, `familyRelations.ts`, and `familySources.ts`, and the
 fourth Wei-family batch is maintained in the three `fourthFamily*.ts` files,
 and the fifth Shu-family batch is maintained in the three `fifthFamily*.ts`
-files. Strict TypeScript interfaces in `src/domain` are the application model.
+files. The sixth biographical roster is authored in
+`src/data/sixthRoster/manifest.ts`, converted to people in `persons.ts`, and
+frozen together with all earlier batches in `completeRosterManifest.ts`.
+Strict TypeScript interfaces in `src/domain` are the application model.
 
 ## Person
 
@@ -17,7 +20,7 @@ files. Strict TypeScript interfaces in `src/domain` are the application model.
 | `reviewStatus` | `pending_review` or `verified` |
 | `sourceIds` | Historical sources used to verify the person record |
 | `visualFaction` | Optional presentation-only `wei`, `shu`, `wu`, or `other`; never a formal political-affiliation claim |
-| `importBatch` | Project ingestion batch: `1` for the original 24 people, `2` for the 176-person major-roster expansion, `3` for the 35-person first family expansion, `4` for the 35-person Wei-family expansion, `5` for the 35-person Shu-family expansion |
+| `importBatch` | Project ingestion batch: `1` for the original 24 people, `2` for the 176-person major-roster expansion, `3` for the 35-person first family expansion, `4` for the 35-person Wei-family expansion, `5` for the 35-person Shu-family expansion, `6` for the 232-person complete biographical roster |
 | `externalIds.wikidata` | Optional external QID; never a primary key |
 
 A verified formal person must cite at least one non-structured historical

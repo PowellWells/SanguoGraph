@@ -4,6 +4,7 @@ import type {
   VisualFaction,
 } from '../../domain';
 import type { NeighborhoodDepth } from '../../services/graphSelectors';
+import { getFactionColorKey } from '../../services/graphVisualEncoding';
 import {
   sourceLayerOptions,
   type SourceLayerKey,
@@ -35,6 +36,12 @@ const visualFactionOptions: ReadonlyArray<{
   { key: 'wu', label: '吴' },
   { key: 'other', label: '其他' },
 ];
+const visualFactionLabels: Readonly<Record<VisualFaction, string>> = {
+  wei: '魏',
+  shu: '蜀',
+  wu: '吴',
+  other: '其他',
+};
 
 interface GraphControlsProps {
   persons: Person[];
@@ -133,9 +140,16 @@ export function GraphControls({
                           {years(person)}
                         </small>
                         <small>
-                          {person.clan ?? '籍贯／族属未详'} ·{' '}
-                          {person.factions.join('、') || '阵营未详'}
+                          {person.clan ?? '籍贯／族属未详'} · 展示：
+                          {visualFactionLabels[getFactionColorKey(person)]}{' '}
+                          ·{' '}
+                          {person.factions.length > 0
+                            ? `历史归属：${person.factions.join('、')}`
+                            : '历史归属未录'}
                         </small>
+                        {person.importBatch === 6 && (
+                          <small>{person.description.replace(/。$/, '')}</small>
+                        )}
                       </span>
                       <span>选择</span>
                     </button>

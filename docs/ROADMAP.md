@@ -85,6 +85,14 @@
 - show six Liu Shan son claims from Pei annotations as probable dashed edges
 - keep visual Shu placement separate from each person's recorded affiliations
 
+## Milestone 2.5 — Complete biographical roster batch six (completed)
+
+- add 232 named annal, biography, and attached-biography subjects in one batch
+- freeze the complete 537-person manifest and cover all 65 Sanguozhi volumes
+- keep the formal relationship set unchanged at 180 records
+- place relation-free people in deterministic Wei, Shu, Wu, and neutral grids
+- preserve presentation factions separately from sourced affiliations
+
 ## Milestone 3 — evidence system
 
 - improve source browsing and claim comparison

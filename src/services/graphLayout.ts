@@ -1070,6 +1070,77 @@ function applyFactionSectors(
   return { positions, componentCenters };
 }
 
+function placeIsolatedFactionGrids(
+  initialPositions: Record<string, GraphPosition>,
+  initialComponentCenters: ReadonlyMap<string, GraphPosition>,
+  isolatedPersonIds: readonly string[],
+  sectors: Readonly<Record<string, LayoutSector>>,
+  profile: LayoutProfile,
+  inputOrder: ReadonlyMap<string, number>,
+): {
+  positions: Record<string, GraphPosition>;
+  componentCenters: ReadonlyMap<string, GraphPosition>;
+} {
+  const positions = { ...initialPositions };
+  const componentCenters = new Map(initialComponentCenters);
+  const connectedBounds = positionsBounds(initialPositions);
+  const centerX = (connectedBounds.x1 + connectedBounds.x2) / 2;
+  const centerY = (connectedBounds.y1 + connectedBounds.y2) / 2;
+  const spacing = profile.minimumDistance;
+  const gap = profile.componentGap + spacing;
+  const sectorOrder: LayoutSector[] = ['wei', 'shu', 'wu', 'neutral'];
+
+  sectorOrder.forEach((sector) => {
+    const personIds = isolatedPersonIds
+      .filter((personId) => (sectors[personId] ?? 'neutral') === sector)
+      .sort(
+        (first, second) =>
+          (inputOrder.get(first) ?? 0) - (inputOrder.get(second) ?? 0),
+      );
+    if (personIds.length === 0) {
+      return;
+    }
+    const columns = Math.max(
+      1,
+      Math.ceil(Math.sqrt(personIds.length * 1.6)),
+    );
+    const rows = Math.ceil(personIds.length / columns);
+    const gridWidth = (columns - 1) * spacing;
+    const gridHeight = (rows - 1) * spacing;
+
+    personIds.forEach((personId, index) => {
+      const column = index % columns;
+      const row = Math.floor(index / columns);
+      let position: GraphPosition;
+      if (sector === 'wei') {
+        position = {
+          x: centerX - gridWidth / 2 + column * spacing,
+          y: connectedBounds.y1 - gap - gridHeight + row * spacing,
+        };
+      } else if (sector === 'shu') {
+        position = {
+          x: connectedBounds.x1 - gap - gridWidth + column * spacing,
+          y: centerY + gap + row * spacing,
+        };
+      } else if (sector === 'wu') {
+        position = {
+          x: connectedBounds.x2 + gap + column * spacing,
+          y: centerY + gap + row * spacing,
+        };
+      } else {
+        position = {
+          x: centerX - gridWidth / 2 + column * spacing,
+          y: connectedBounds.y2 + gap + row * spacing,
+        };
+      }
+      positions[personId] = position;
+      componentCenters.set(personId, position);
+    });
+  });
+
+  return { positions, componentCenters };
+}
+
 function spatialCellKey(
   position: GraphPosition,
   cellSize: number,
@@ -1389,15 +1460,52 @@ function routeCollisionCount(
   points: GraphPosition[],
   relation: Relation,
   positions: Readonly<Record<string, GraphPosition>>,
+  spatialIndex: ReadonlyMap<string, readonly string[]>,
+  spatialCellSize: number,
   anchorPersonId: string,
 ): number {
-  return Object.entries(positions).filter(
-    ([personId, position]) =>
+  const candidatePersonIds = new Set<string>();
+  const collisionRadius = 47;
+  for (let index = 1; index < points.length; index += 1) {
+    const source = points[index - 1];
+    const target = points[index];
+    if (!source || !target) {
+      continue;
+    }
+    const minimumCellX = Math.floor(
+      (Math.min(source.x, target.x) - collisionRadius) /
+        spatialCellSize,
+    );
+    const maximumCellX = Math.floor(
+      (Math.max(source.x, target.x) + collisionRadius) /
+        spatialCellSize,
+    );
+    const minimumCellY = Math.floor(
+      (Math.min(source.y, target.y) - collisionRadius) /
+        spatialCellSize,
+    );
+    const maximumCellY = Math.floor(
+      (Math.max(source.y, target.y) + collisionRadius) /
+        spatialCellSize,
+    );
+    for (let cellX = minimumCellX; cellX <= maximumCellX; cellX += 1) {
+      for (let cellY = minimumCellY; cellY <= maximumCellY; cellY += 1) {
+        (spatialIndex.get(`${cellX}:${cellY}`) ?? []).forEach(
+          (personId) => candidatePersonIds.add(personId),
+        );
+      }
+    }
+  }
+  return [...candidatePersonIds].filter((personId) => {
+    const position = positions[personId];
+    return (
+      position !== undefined &&
       personId !== relation.sourcePersonId &&
       personId !== relation.targetPersonId &&
       polylineDistanceToPoint(points, position) <
-        (personId === anchorPersonId ? 47 : 41),
-  ).length;
+        (personId === anchorPersonId ? 47 : 41)
+    );
+  }).length;
 }
 
 function createEdgeRoutes(
@@ -1405,6 +1513,12 @@ function createEdgeRoutes(
   positions: Readonly<Record<string, GraphPosition>>,
   anchorPersonId: string,
 ): Record<string, GraphEdgeRoute> {
+  const spatialCellSize = 112;
+  const spatialIndex = new Map<string, string[]>();
+  Object.entries(positions).forEach(([personId, position]) => {
+    const key = spatialCellKey(position, spatialCellSize);
+    spatialIndex.set(key, [...(spatialIndex.get(key) ?? []), personId]);
+  });
   const pairGroups = new Map<string, Relation[]>();
   relations.forEach((relation) => {
     const key = normalizedPairKey(relation);
@@ -1451,6 +1565,8 @@ function createEdgeRoutes(
           straightPoints,
           relation,
           positions,
+          spatialIndex,
+          spatialCellSize,
           anchorPersonId,
         ) === 0
       ) {
@@ -1533,6 +1649,8 @@ function createEdgeRoutes(
             points,
             relation,
             positions,
+            spatialIndex,
+            spatialCellSize,
             anchorPersonId,
           );
           const crossings = polylineCrossings(points, routed, relation);
@@ -1598,7 +1716,10 @@ export function createGraphLayout(
     neutral: requestedAnchorId,
   };
   const requestedAnchorSector = sectors[requestedAnchorId];
-  const components = createConnectedComponents(persons, sameSectorRelations)
+  const componentSeeds = createConnectedComponents(
+    persons,
+    sameSectorRelations,
+  )
     .map((personIds) => ({
       personIds,
       anchorPersonId: chooseComponentAnchor(
@@ -1630,7 +1751,20 @@ export function createGraphLayout(
         (inputOrder.get(first.anchorPersonId) ?? 0) -
         (inputOrder.get(second.anchorPersonId) ?? 0)
       );
-    })
+    });
+  const isolatedPersonIds = componentSeeds
+    .filter(
+      (component) =>
+        component.personIds.length === 1 &&
+        (degrees.get(component.personIds[0] ?? '') ?? 0) === 0,
+    )
+    .flatMap((component) => component.personIds);
+  const components = componentSeeds
+    .filter(
+      (component) =>
+        component.personIds.length > 1 ||
+        (degrees.get(component.personIds[0] ?? '') ?? 0) > 0,
+    )
     .map(({ personIds, anchorPersonId }) =>
       createSemanticComponentLayout(
         personIds,
@@ -1653,11 +1787,19 @@ export function createGraphLayout(
     sectors,
     profile,
   );
+  const withIsolatedGrids = placeIsolatedFactionGrids(
+    sectorized.positions,
+    sectorized.componentCenters,
+    isolatedPersonIds,
+    sectors,
+    profile,
+    inputOrder,
+  );
   const anchorPersonId =
     components[0]?.anchorPersonId ?? requestedAnchorId;
   const positions = resolveCollisions(
-    sectorized.positions,
-    sectorized.componentCenters,
+    withIsolatedGrids.positions,
+    withIsolatedGrids.componentCenters,
     persons,
     profile,
     anchorPersonId,

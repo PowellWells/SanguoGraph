@@ -101,9 +101,9 @@ describe('application routes and home interaction', () => {
       screen.getByRole('checkbox', { name: '开放知识库候选' }),
     ).not.toBeChecked();
     const summary = screen.getByLabelText('图谱数据摘要');
-    expect(within(summary).getByText('305')).toBeInTheDocument();
+    expect(within(summary).getByText('537')).toBeInTheDocument();
     expect(within(summary).getByText('180')).toBeInTheDocument();
-    expect(within(summary).getByText('91')).toBeInTheDocument();
+    expect(within(summary).getByText('104')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: '适应画布' }),
     ).toBeInTheDocument();
@@ -147,7 +147,7 @@ describe('application routes and home interaction', () => {
     expect(screen.getByText('录入批次：第四批导入')).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '305',
+      '537',
     );
   });
 
@@ -162,8 +162,24 @@ describe('application routes and home interaction', () => {
     expect(screen.getByText('录入批次：第五批导入')).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '305',
+      '537',
     );
+  });
+
+  it('searches and opens a sixth-batch biographical person', () => {
+    renderRoute('/');
+    fireEvent.change(screen.getByRole('searchbox', { name: '人物搜索' }), {
+      target: { value: '王蕃' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /王蕃/ }));
+
+    expect(screen.getByRole('heading', { name: '王蕃' })).toBeInTheDocument();
+    expect(
+      screen.getByText('录入批次：第六批全量导入'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('《三国志》卷65列传或附传所载王蕃。'),
+    ).toBeInTheDocument();
   });
 
   it('finds a major person while keeping the full family graph loaded', () => {
@@ -181,7 +197,7 @@ describe('application routes and home interaction', () => {
     expect(screen.getByRole('heading', { name: '刘备' })).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '305',
+      '537',
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
@@ -198,7 +214,7 @@ describe('application routes and home interaction', () => {
 
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '305',
+      '537',
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
@@ -209,13 +225,13 @@ describe('application routes and home interaction', () => {
   it('browses a visual faction without creating faction relationship lines', () => {
     renderRoute('/');
     fireEvent.click(
-      screen.getByRole('button', { name: /^蜀 93$/ }),
+      screen.getByRole('button', { name: /^蜀 119$/ }),
     );
 
     expect(screen.getByRole('heading', { name: '刘备' })).toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '93',
+      '119',
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
@@ -243,10 +259,10 @@ describe('application routes and home interaction', () => {
 
   it('opens the filtered source catalog from the live summary', () => {
     renderRoute('/');
-    fireEvent.click(screen.getByRole('button', { name: '91 查看列表' }));
+    fireEvent.click(screen.getByRole('button', { name: '104 查看列表' }));
 
     expect(
-      screen.getByRole('heading', { name: '史料记录（91）' }),
+      screen.getByRole('heading', { name: '史料记录（104）' }),
     ).toBeInTheDocument();
     expect(screen.getByText(/这里只统计当前画布/)).toBeInTheDocument();
     const relationButton = screen.getByRole('button', {
@@ -269,12 +285,12 @@ describe('application routes and home interaction', () => {
 
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '304',
+      '536',
     );
     fireEvent.click(screen.getByRole('button', { name: '返回上一步' }));
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-node-count',
-      '305',
+      '537',
     );
   });
 

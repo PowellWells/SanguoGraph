@@ -64,6 +64,22 @@ const sanguozhiVolumeSeeds: readonly SanguozhiVolumeSeed[] = [
   { volume: 60, book: '吴书十五', section: '贺全吕周钟离传' },
   { volume: 61, book: '吴书十六', section: '潘濬陆凯传' },
   { volume: 64, book: '吴书十九', section: '诸葛滕二孙濮阳传' },
+  { volume: 1, book: '魏书一', section: '武帝纪' },
+  { volume: 2, book: '魏书二', section: '文帝纪' },
+  { volume: 11, book: '魏书十一', section: '袁张凉国田王邴管传' },
+  { volume: 16, book: '魏书十六', section: '任苏杜郑仓传' },
+  { volume: 19, book: '魏书十九', section: '任城陈萧王传' },
+  { volume: 20, book: '魏书二十', section: '武文世王公传' },
+  { volume: 23, book: '魏书二十三', section: '和常杨杜赵裴传' },
+  { volume: 24, book: '魏书二十四', section: '韩崔高孙王传' },
+  { volume: 25, book: '魏书二十五', section: '辛毗杨阜高堂隆传' },
+  { volume: 27, book: '魏书二十七', section: '徐胡二王传' },
+  { volume: 29, book: '魏书二十九', section: '方技传' },
+  { volume: 30, book: '魏书三十', section: '乌丸鲜卑东夷传' },
+  { volume: 42, book: '蜀书十二', section: '二杜周许孟来尹李谯郤传' },
+  { volume: 62, book: '吴书十七', section: '是仪胡综传' },
+  { volume: 63, book: '吴书十八', section: '吴范刘惇赵达传' },
+  { volume: 65, book: '吴书二十', section: '王楼贺韦华传' },
 ];
 
 export function sanguozhiSourceId(volume: number): string {
@@ -179,6 +195,8 @@ const additionalHistoricalSources: HistoricalSource[] = [
 ];
 
 export const majorSources: HistoricalSource[] = [
-  ...sanguozhiVolumeSeeds.map(createSanguozhiSource),
+  ...[...sanguozhiVolumeSeeds]
+    .sort((first, second) => first.volume - second.volume)
+    .map(createSanguozhiSource),
   ...additionalHistoricalSources,
 ];

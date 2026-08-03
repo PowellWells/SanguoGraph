@@ -14,6 +14,7 @@ import { fourthFamilySources } from './fourthFamilySources';
 import { fifthFamilyPersons } from './fifthFamilyPersons';
 import { fifthFamilyRelations } from './fifthFamilyRelations';
 import { fifthFamilySources } from './fifthFamilySources';
+import { sixthRosterPersons } from './sixthRoster';
 
 export const graphData: GraphData = {
   persons: [
@@ -22,6 +23,7 @@ export const graphData: GraphData = {
     ...familyPersons,
     ...fourthFamilyPersons,
     ...fifthFamilyPersons,
+    ...sixthRosterPersons,
   ],
   relations: [
     ...(relationsJson as Relation[]),

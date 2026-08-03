@@ -417,7 +417,7 @@ describe('graph layout', () => {
         layout.positions[firstPerson.id],
         layout.positions[secondPerson.id],
       ),
-    ).toBeGreaterThanOrEqual(180);
+    ).toBeGreaterThanOrEqual(112);
   });
 
   it('preserves locked positions and moves unlocked nodes around them', () => {

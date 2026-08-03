@@ -1,0 +1,108 @@
+import { createHash } from 'node:crypto';
+import { describe, expect, it } from 'vitest';
+import { getFactionColorKey } from '../services/graphVisualEncoding';
+import {
+  COMPLETE_ROSTER_EXPECTED_COUNT,
+  COMPLETE_ROSTER_EXPECTED_FACTION_COUNTS,
+  completeRosterManifest,
+} from './completeRosterManifest';
+import { graphData } from './index';
+import { sanguozhiSourceId } from './majorSources';
+import {
+  SIXTH_ROSTER_EXPECTED_COUNT,
+  sixthOtherRoster,
+  sixthRosterManifest,
+  sixthShuRoster,
+  sixthWeiRoster,
+  sixthWuRoster,
+} from './sixthRoster';
+
+describe('complete biographical roster manifest', () => {
+  it('freezes the complete 537-person roster and sixth batch', () => {
+    expect(COMPLETE_ROSTER_EXPECTED_COUNT).toBe(537);
+    expect(completeRosterManifest).toHaveLength(
+      COMPLETE_ROSTER_EXPECTED_COUNT,
+    );
+    expect(graphData.persons).toHaveLength(COMPLETE_ROSTER_EXPECTED_COUNT);
+    expect(sixthRosterManifest).toHaveLength(SIXTH_ROSTER_EXPECTED_COUNT);
+    expect(
+      graphData.persons.filter((person) => person.importBatch === 6),
+    ).toHaveLength(SIXTH_ROSTER_EXPECTED_COUNT);
+    expect([
+      ...sixthWeiRoster,
+      ...sixthShuRoster,
+      ...sixthWuRoster,
+      ...sixthOtherRoster,
+    ]).toHaveLength(SIXTH_ROSTER_EXPECTED_COUNT);
+    expect(sixthWeiRoster).toHaveLength(145);
+    expect(sixthShuRoster).toHaveLength(26);
+    expect(sixthWuRoster).toHaveLength(56);
+    expect(sixthOtherRoster).toHaveLength(5);
+
+    const manifestIds = completeRosterManifest.map((entry) => entry.id);
+    expect(new Set(manifestIds).size).toBe(manifestIds.length);
+    expect(new Set(manifestIds)).toEqual(
+      new Set(graphData.persons.map((person) => person.id)),
+    );
+  });
+
+  it('covers all 65 Sanguozhi volumes with verified primary sources', () => {
+    for (let volume = 1; volume <= 65; volume += 1) {
+      const source = graphData.sources.find(
+        (candidate) => candidate.id === sanguozhiSourceId(volume),
+      );
+      expect(source).toMatchObject({
+        work: '三国志',
+        sourceType: 'primary',
+        historicalLayer: 'official_history',
+        reviewStatus: 'verified',
+      });
+    }
+    sixthRosterManifest.forEach((entry) => {
+      expect(entry.sectionAnchor).toBe(entry.name);
+      expect(entry.disambiguation).toContain(`卷${entry.volume}`);
+      expect(entry.historicalAffiliations).toEqual([]);
+    });
+  });
+
+  it('keeps visual factions distinct from historical affiliations', () => {
+    const counts = graphData.persons.reduce(
+      (result, person) => {
+        result[getFactionColorKey(person)] += 1;
+        return result;
+      },
+      { wei: 0, shu: 0, wu: 0, other: 0 },
+    );
+    expect(counts).toEqual(COMPLETE_ROSTER_EXPECTED_FACTION_COUNTS);
+  });
+
+  it('disambiguates every same-name identity in the manifest', () => {
+    const identitiesByName = new Map<string, typeof completeRosterManifest>();
+    completeRosterManifest.forEach((entry) => {
+      identitiesByName.set(entry.name, [
+        ...(identitiesByName.get(entry.name) ?? []),
+        entry,
+      ]);
+    });
+    [...identitiesByName.values()]
+      .filter((entries) => entries.length > 1)
+      .forEach((entries) => {
+        expect(new Set(entries.map((entry) => entry.id)).size).toBe(
+          entries.length,
+        );
+        entries.forEach((entry) => {
+          expect(entry.sourceLocator.length).toBeGreaterThan(0);
+          expect(entry.disambiguation.length).toBeGreaterThan(0);
+        });
+      });
+  });
+
+  it('keeps the formal relation snapshot unchanged at 180 records', () => {
+    expect(graphData.relations).toHaveLength(180);
+    expect(
+      createHash('sha256')
+        .update(JSON.stringify(graphData.relations))
+        .digest('hex'),
+    ).toBe('0fca2053baa6bab4afb3a31d52a960b29ae0274885048f1ecb1149c611703cbb');
+  });
+});
