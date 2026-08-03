@@ -196,6 +196,36 @@ describe('PersonPanel', () => {
     );
   });
 
+  it('shows Empress Zhen\'s earlier marriage to Yuan Xi with direct evidence', () => {
+    const relation = graphData.relations.find(
+      (item) => item.id === 'relation:sg:yuan_xi_spouse_empress_zhen',
+    );
+    if (!relation) {
+      throw new Error('袁熙与甄氏婚姻关系测试数据不存在。');
+    }
+
+    render(
+      <PersonPanel
+        selectedPerson={null}
+        selectedRelation={relation}
+        persons={graphData.persons}
+        relations={graphData.relations}
+        sources={graphData.sources}
+      />,
+    );
+
+    expect(
+      screen.getByRole('heading', { name: '袁熙 — 甄皇后' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/建安中，袁绍为中子熙纳之/),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '查看原文' })).toHaveAttribute(
+      'href',
+      'https://zh.wikisource.org/wiki/三國志/卷05',
+    );
+  });
+
   it('shows an undirected, precisely qualified clan relation', () => {
     const relation = graphData.relations.find(
       (item) => item.id === 'relation:sg:cao_shuang_clan_xiahou_xuan',

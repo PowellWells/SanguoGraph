@@ -15,7 +15,8 @@ function issueCodes(data: GraphData): ValidationCode[] {
 describe('formal graph data', () => {
   it('contains the six reviewed import batches and fixed family relations', () => {
     expect(graphData.persons).toHaveLength(537);
-    expect(graphData.relations).toHaveLength(180);
+    expect(graphData.relations).toHaveLength(184);
+    expect(graphData.sources).toHaveLength(109);
     expect(
       graphData.persons.filter((person) => person.importBatch === 1),
     ).toHaveLength(24);

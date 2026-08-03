@@ -34,6 +34,22 @@ export const familySources: HistoricalSource[] = [
     'https://zh.wikisource.org/wiki/三國志/卷05',
   ),
   officialSource(
+    'source:sg:family_sgz_05_zhen_yuan_xi',
+    '三国志',
+    '卷五·魏书五·后妃传·文昭甄皇后',
+    '建安中，袁绍为中子熙纳之。熙出为幽州，后留养姑。',
+    '《三国志》卷五《魏书五·后妃传·文昭甄皇后》',
+    'https://zh.wikisource.org/wiki/三國志/卷05',
+  ),
+  officialSource(
+    'source:sg:family_sgz_06_yuan_house',
+    '三国志',
+    '卷六·魏书六·董二袁刘传·袁绍子谭熙尚',
+    '子谭、熙、尚。绍爱少子尚，貌美，欲以为后而未显。',
+    '《三国志》卷六《魏书六·董二袁刘传·袁绍子谭熙尚》',
+    'https://zh.wikisource.org/wiki/三國志/卷06',
+  ),
+  officialSource(
     'source:sg:family_sgz_32_liubei_lineage',
     '三国志',
     '卷三十二·蜀书二·先主传',

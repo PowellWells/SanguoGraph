@@ -57,6 +57,10 @@ claim object is optional while older formal records are migrated. The UI
 creates a conservative presentation profile when it is absent and explicitly
 labels missing dates and unrecorded opposing evidence.
 
+Successive marriages are stored as separate `spouse_of` records when each is
+directly supported by historical evidence. A later marriage never overwrites
+an earlier one; for example, the graph may retain both 袁熙—甄氏 and 曹丕—甄氏.
+
 ## HistoricalSource
 
 Source types are `primary`, `secondary`, `literary`, and

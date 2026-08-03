@@ -26,7 +26,7 @@ npm run validate:offline
 ## Current milestone
 
 - 537 locally identified people (`person:sg:*`) across six import batches;
-- 180 recorded father, mother, spouse, adoptive-parent, and clan relationships,
+- 184 recorded father, mother, spouse, adoptive-parent, and clan relationships,
   with no political or battle edges;
 - all 537 formal people load into the front-end map on first entry; people
   without an in-scope relation remain visible as independent nodes;

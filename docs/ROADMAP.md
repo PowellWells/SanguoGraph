@@ -93,6 +93,13 @@
 - place relation-free people in deterministic Wei, Shu, Wu, and neutral grids
 - preserve presentation factions separately from sourced affiliations
 
+## Milestone 2.6 — Source-backed relationship enrichment
+
+- add the directly recorded Yuan Shao–Yuan Tan/Xi/Shang parent-child links
+- add the directly recorded Yuan Xi–Empress Zhen marriage
+- keep political, military, office, and inferred relationship lines out of the formal graph
+- preserve exact quotations and volume-level links for every added relation
+
 ## Milestone 3 — evidence system
 
 - improve source browsing and claim comparison

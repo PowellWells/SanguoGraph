@@ -378,6 +378,26 @@ const seeds: readonly RelationSeed[] = [
     sourceId: 'source:sg:family_sgz_54_zhou_house',
     note: '《周瑜传》记周瑜之女配太子孙登。',
   },
+  ...[
+    ['yuan_tan', '长子袁谭'],
+    ['sgz_v06_01', '中子袁熙'],
+    ['sgz_v06_02', '少子袁尚'],
+  ].map(([target, identity]) => ({
+    slug: `yuan_shao_father_${target}`,
+    source: 'yuan_shao',
+    target,
+    type: 'father_of' as const,
+    sourceId: 'source:sg:family_sgz_06_yuan_house',
+    note: `《袁绍传》“子谭、熙、尚”段确认袁绍与${identity}的父子关系。`,
+  })),
+  {
+    slug: 'yuan_xi_spouse_empress_zhen',
+    source: 'sgz_v06_01',
+    target: 'empress_zhen',
+    type: 'spouse_of',
+    sourceId: 'source:sg:family_sgz_05_zhen_yuan_xi',
+    note: '《文昭甄皇后传》记“袁绍为中子熙纳之”，确认袁熙与甄氏的婚姻关系。',
+  },
   {
     slug: 'cao_pi_spouse_empress_zhen',
     source: 'cao_pi',

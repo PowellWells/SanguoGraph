@@ -97,12 +97,29 @@ describe('complete biographical roster manifest', () => {
       });
   });
 
-  it('keeps the formal relation snapshot unchanged at 180 records', () => {
-    expect(graphData.relations).toHaveLength(180);
+  it('freezes the 184-record relation set after the Yuan family enrichment', () => {
+    expect(graphData.relations).toHaveLength(184);
     expect(
       createHash('sha256')
         .update(JSON.stringify(graphData.relations))
         .digest('hex'),
-    ).toBe('0fca2053baa6bab4afb3a31d52a960b29ae0274885048f1ecb1149c611703cbb');
+    ).toBe('2c2c89b49c801023156941d2d688f2a3f7476e177e15b00083bfd89bdd2fa612');
+  });
+
+  it('records the source-backed Yuan family cluster', () => {
+    const relationIds = new Set(graphData.relations.map(({ id }) => id));
+    [
+      'relation:sg:yuan_shao_father_yuan_tan',
+      'relation:sg:yuan_shao_father_sgz_v06_01',
+      'relation:sg:yuan_shao_father_sgz_v06_02',
+      'relation:sg:yuan_xi_spouse_empress_zhen',
+    ].forEach((id) => expect(relationIds.has(id)).toBe(true));
+
+    const marriage = graphData.relations.find(
+      ({ id }) => id === 'relation:sg:yuan_xi_spouse_empress_zhen',
+    );
+    expect(marriage?.sourceIds).toEqual([
+      'source:sg:family_sgz_05_zhen_yuan_xi',
+    ]);
   });
 });
