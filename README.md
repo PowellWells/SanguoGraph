@@ -4,6 +4,8 @@
 
 ![Cover for 三国人物关系谱 · SanguoGraph](docs/assets/readme-cover.png)
 
+> **Explore online:** [Open the relationship graph](https://powellwells.github.io/SanguoGraph/)
+
 三国人物关系谱 · SanguoGraph is an early-stage, source-traceable knowledge graph for historical
 relationships in the Three Kingdoms period. The formal layer now covers 537
 historical or explicitly literary-layer people across Wei, Shu, Wu, and
@@ -90,7 +92,7 @@ npm run validate:offline
 npm audit --omit=dev
 ```
 
-The production Vite base path is `/sanguo-graph/`, and navigation uses hash
+The production Vite base path is `/SanguoGraph/`, and navigation uses hash
 routes so project GitHub Pages refreshes do not require server rewrites.
 
 ## Candidate data pipeline

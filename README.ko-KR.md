@@ -4,6 +4,8 @@
 
 ![삼국 인물 관계보 · SanguoGraph 표지](docs/assets/readme-cover.png)
 
+> **온라인으로 체험하기:** [인물 관계 그래프 열기](https://powellwells.github.io/SanguoGraph/)
+
 삼국 인물 관계보 · SanguoGraph는 추적 가능한 사료를 중심으로 구축하는 삼국 시대 역사 인물 관계 지식 그래프의 초기 프로젝트입니다. 정식 레이어에는 위·촉·오·후한 말 집단에 속한 역사 인물 또는 문학 레이어로 명시된 인물 537명이 포함되며, 검증된 기록, 표시용 세력, 문학적 주장, 외부 후보를 분리해 관리합니다.
 
 ## 오프라인으로 바로 열기
@@ -68,7 +70,7 @@ npm run validate:offline
 npm audit --omit=dev
 ```
 
-프로덕션 Vite base path는 `/sanguo-graph/`입니다. 탐색에는 해시 라우트를 사용하므로 GitHub Pages에서 새로 고침할 때 서버 재작성 규칙이 필요하지 않습니다.
+프로덕션 Vite base path는 `/SanguoGraph/`입니다. 탐색에는 해시 라우트를 사용하므로 GitHub Pages에서 새로 고침할 때 서버 재작성 규칙이 필요하지 않습니다.
 
 ## 후보 데이터 파이프라인
 

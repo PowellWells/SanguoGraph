@@ -4,6 +4,8 @@
 
 ![三国人物关系谱 · SanguoGraph のカバー](docs/assets/readme-cover.png)
 
+> **オンラインで試す：**[人物関係グラフを開く](https://powellwells.github.io/SanguoGraph/)
+
 三国人物关系谱 · SanguoGraph は、出典を追跡できる史料を核にした、三国時代の歴史人物関係ナレッジグラフの初期プロジェクトです。正式レイヤーには魏・蜀・呉・後漢末の集団に属する歴史人物または明示的に文学レイヤーに属する人物を 537 人収録し、検証済み記録、表示用勢力、文学的主張、外部候補を分離して扱います。
 
 ## オフラインで直接開く
@@ -68,7 +70,7 @@ npm run validate:offline
 npm audit --omit=dev
 ```
 
-本番 Vite の base path は `/sanguo-graph/` です。ナビゲーションにはハッシュルートを用いるため、GitHub Pages 上でもページ再読み込みにサーバー側の書き換えは不要です。
+本番 Vite の base path は `/SanguoGraph/` です。ナビゲーションにはハッシュルートを用いるため、GitHub Pages 上でもページ再読み込みにサーバー側の書き換えは不要です。
 
 ## 候補データパイプライン
 

@@ -4,6 +4,8 @@
 
 ![三国人物关系谱 · SanguoGraph 封面](docs/assets/readme-cover.png)
 
+> **在线体验：**[打开人物关系图谱](https://powellwells.github.io/SanguoGraph/)
+
 三国人物关系谱 · SanguoGraph 是一个处于早期阶段、以可追溯史料为核心的三国历史人物关系知识图谱。
 当前正式层覆盖537名魏、蜀、吴及汉末群雄人物，并严格分离已经核验的历史记录、
 文学／传闻关系、展示阵营与外部结构化候选。
@@ -79,7 +81,7 @@ npm run validate:offline
 npm audit --omit=dev
 ```
 
-生产构建的 Vite base path 为 `/sanguo-graph/`，并使用 Hash 路由，
+生产构建的 Vite base path 为 `/SanguoGraph/`，并使用 Hash 路由，
 适配项目型 GitHub Pages 的直接刷新。
 
 ## Wikidata 候选管线
