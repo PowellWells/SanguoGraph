@@ -329,7 +329,7 @@ describe('application routes and home interaction', () => {
   it('renders the Milestone 1 about page', () => {
     renderRoute('/about');
     expect(
-      screen.getByRole('heading', { name: '关于 SanguoGraph', level: 1 }),
+      screen.getByRole('heading', { name: '关于 三国人物关系谱 · SanguoGraph', level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getByText('如何阅读')).toBeInTheDocument();
   });

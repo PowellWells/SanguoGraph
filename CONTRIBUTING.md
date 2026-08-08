@@ -1,4 +1,4 @@
-# Contributing to SanguoGraph
+# Contributing to 三国人物关系谱 · SanguoGraph
 
 Thank you for helping build a source-traceable Three Kingdoms relationship
 graph. Code and historical-data contributions are both welcome, but data claims

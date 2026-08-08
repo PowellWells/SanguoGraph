@@ -1,6 +1,6 @@
-# Source policy
+# 三国人物关系谱 · SanguoGraph — Source policy
 
-SanguoGraph makes relationship claims inspectable rather than merely visual.
+三国人物关系谱 · SanguoGraph makes relationship claims inspectable rather than merely visual.
 
 ## Evidence layers
 

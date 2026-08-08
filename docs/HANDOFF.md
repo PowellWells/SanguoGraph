@@ -1,11 +1,11 @@
-# SanguoGraph 第六批全量人物与袁氏家庭补充交接文档
+# 三国人物关系谱 · SanguoGraph 第六批全量人物与袁氏家庭补充交接文档
 
 更新时间：2026-08-03
 当前分支：`main`
 
 ## 1. 当前状态
 
-SanguoGraph 是来源可追溯的三国人物关系知识图谱。项目仍为 React、严格
+三国人物关系谱 · SanguoGraph 是来源可追溯的三国人物关系知识图谱。项目仍为 React、严格
 TypeScript、Vite 和 Cytoscape.js 构建的纯前端应用，没有后端、数据库、登录或
 AI API。
 

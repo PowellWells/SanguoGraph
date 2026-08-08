@@ -1,8 +1,10 @@
-# SanguoGraph / 三国人物关系谱
+# 三国人物关系谱 · SanguoGraph
 
-[简体中文](README.zh-CN.md)
+[简体中文](README.zh-CN.md) · [English](README.md) · [日本語](README.ja-JP.md) · [한국어](README.ko-KR.md)
 
-SanguoGraph is an early-stage, source-traceable knowledge graph for historical
+![Cover for 三国人物关系谱 · SanguoGraph](docs/assets/readme-cover.png)
+
+三国人物关系谱 · SanguoGraph is an early-stage, source-traceable knowledge graph for historical
 relationships in the Three Kingdoms period. The formal layer now covers 537
 historical or explicitly literary-layer people across Wei, Shu, Wu, and
 late-Han groups while keeping verified records, presentation factions,

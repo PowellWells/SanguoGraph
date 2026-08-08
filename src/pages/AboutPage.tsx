@@ -7,7 +7,7 @@ export function AboutPage() {
     <article className="text-page">
       <header>
         <p className="eyebrow">About the project</p>
-        <h1>关于 SanguoGraph</h1>
+        <h1>关于 三国人物关系谱 · SanguoGraph</h1>
         <p>
           这是一个处于早期阶段的开源数字人文项目，目标是建立可查询、可校正、
           可追溯证据的三国历史人物关系谱。

@@ -1,8 +1,10 @@
-# SanguoGraph / 三国人物关系谱
+# 三国人物关系谱 · SanguoGraph
 
-[English](README.md)
+[简体中文](README.zh-CN.md) · [English](README.md) · [日本語](README.ja-JP.md) · [한국어](README.ko-KR.md)
 
-SanguoGraph 是一个处于早期阶段、以可追溯史料为核心的三国历史人物关系知识图谱。
+![三国人物关系谱 · SanguoGraph 封面](docs/assets/readme-cover.png)
+
+三国人物关系谱 · SanguoGraph 是一个处于早期阶段、以可追溯史料为核心的三国历史人物关系知识图谱。
 当前正式层覆盖537名魏、蜀、吴及汉末群雄人物，并严格分离已经核验的历史记录、
 文学／传闻关系、展示阵营与外部结构化候选。
 

@@ -13,13 +13,13 @@ interface HeaderProps {
 export function Header({ currentRoute }: HeaderProps) {
   return (
     <header className="site-header">
-      <a className="brand" href="#/" aria-label="返回 SanguoGraph 首页">
+      <a className="brand" href="#/" aria-label="返回三国人物关系谱首页">
         <span className="brand-mark" aria-hidden="true">
           谱
         </span>
         <span>
-          <strong>SanguoGraph</strong>
-          <small>三国人物关系谱</small>
+          <strong>三国人物关系谱</strong>
+          <small>SanguoGraph</small>
         </span>
         <span className="open-source-badge">开源</span>
       </a>

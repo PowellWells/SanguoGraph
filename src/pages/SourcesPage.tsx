@@ -21,7 +21,7 @@ export function SourcesPage() {
         <p className="eyebrow">Source policy</p>
         <h1>史料说明</h1>
         <p>
-          SanguoGraph 将正史正文、注引材料和结构化候选分层保存，
+          三国人物关系谱 · SanguoGraph 将正史正文、注引材料和结构化候选分层保存，
           每条正式关系都可回到具体卷次。
         </p>
       </header>
