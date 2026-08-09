@@ -12,8 +12,8 @@ describe('source layers', () => {
       graphData.persons,
     );
 
-    expect(counts.official_direct).toBe(207);
-    expect(counts.official_inferred).toBe(6);
+    expect(counts.official_direct).toBe(214);
+    expect(counts.official_inferred).toBe(7);
     expect(counts.ancient_other).toBe(13);
     expect(counts.literature).toBe(1);
   });
@@ -32,6 +32,7 @@ describe('source layers', () => {
       'relation:sg:major_wu_sun_jing_clan_sun_chen',
       'relation:sg:major_wu_sun_ben_clan_sun_jian',
       'relation:sg:major_wu_sun_shao_clan_sun_huan',
+      'relation:sg:major_shu_other_gongsun_du_clan_gongsun_yuan',
     ]);
   });
 });

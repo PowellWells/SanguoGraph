@@ -19,6 +19,8 @@ import { majorWeiRelationshipRelations } from './majorWeiRelationshipRelations';
 import { majorWeiRelationshipSources } from './majorWeiRelationshipSources';
 import { majorWuRelationshipRelations } from './majorWuRelationshipRelations';
 import { majorWuRelationshipSources } from './majorWuRelationshipSources';
+import { majorShuOtherRelationshipRelations } from './majorShuOtherRelationshipRelations';
+import { majorShuOtherRelationshipSources } from './majorShuOtherRelationshipSources';
 
 export const graphData: GraphData = {
   persons: [
@@ -36,6 +38,7 @@ export const graphData: GraphData = {
     ...fifthFamilyRelations,
     ...majorWeiRelationshipRelations,
     ...majorWuRelationshipRelations,
+    ...majorShuOtherRelationshipRelations,
   ],
   sources: [
     ...(sourcesJson as HistoricalSource[]),
@@ -45,5 +48,6 @@ export const graphData: GraphData = {
     ...fifthFamilySources,
     ...majorWeiRelationshipSources,
     ...majorWuRelationshipSources,
+    ...majorShuOtherRelationshipSources,
   ],
 };
