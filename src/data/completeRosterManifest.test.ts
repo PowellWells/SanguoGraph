@@ -97,13 +97,13 @@ describe('complete biographical roster manifest', () => {
       });
   });
 
-  it('freezes the 200-record relation set after Wei relationship batch one', () => {
-    expect(graphData.relations).toHaveLength(200);
+  it('freezes the 227-record relation set after Wu relationship batch two', () => {
+    expect(graphData.relations).toHaveLength(227);
     expect(
       createHash('sha256')
         .update(JSON.stringify(graphData.relations))
         .digest('hex'),
-    ).toBe('390b9b5a48f93dc1f3c9a46f9058576f63dd3f6672b50c3ac741b9f26c8a531d');
+    ).toBe('f5adb7307d1b4a17fa6bc510134e87eec3b064d02988be9de5be699998c129aa');
   });
 
   it('records the source-backed Yuan family cluster', () => {

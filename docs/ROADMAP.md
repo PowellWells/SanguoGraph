@@ -103,7 +103,7 @@
 ## Milestone 2.7 — Formal relationship coverage (in progress)
 
 - measure the starting baseline of 187 related and 350 isolated people
-- complete the first Wei research batch at 211 related and 326 isolated people
+- complete the Wei and Wu research batches at 245 related and 292 isolated people
 - keep a deterministic full isolation audit and prevent coverage regressions in CI
 - research the 120 isolated major-roster people before the 230 isolated sixth-batch people
 - reduce isolated people to no more than 200 in the first relationship-enrichment phase

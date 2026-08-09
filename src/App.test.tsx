@@ -102,8 +102,8 @@ describe('application routes and home interaction', () => {
     ).not.toBeChecked();
     const summary = screen.getByLabelText('图谱数据摘要');
     expect(within(summary).getByText('537')).toBeInTheDocument();
-    expect(within(summary).getByText('200')).toBeInTheDocument();
-    expect(within(summary).getByText('118')).toBeInTheDocument();
+    expect(within(summary).getByText('227')).toBeInTheDocument();
+    expect(within(summary).getByText('125')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: '适应画布' }),
     ).toBeInTheDocument();
@@ -201,7 +201,7 @@ describe('application routes and home interaction', () => {
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '200',
+      '227',
     );
   });
 
@@ -218,7 +218,7 @@ describe('application routes and home interaction', () => {
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '200',
+      '227',
     );
   });
 
@@ -259,10 +259,10 @@ describe('application routes and home interaction', () => {
 
   it('opens the filtered source catalog from the live summary', () => {
     renderRoute('/');
-    fireEvent.click(screen.getByRole('button', { name: '118 查看列表' }));
+    fireEvent.click(screen.getByRole('button', { name: '125 查看列表' }));
 
     expect(
-      screen.getByRole('heading', { name: '史料记录（118）' }),
+      screen.getByRole('heading', { name: '史料记录（125）' }),
     ).toBeInTheDocument();
     expect(screen.getByText(/这里只统计当前画布/)).toBeInTheDocument();
     const relationButton = screen.getByRole('button', {

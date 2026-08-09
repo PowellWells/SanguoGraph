@@ -30,9 +30,9 @@ npm run validate:offline
 ## Current milestone
 
 - 537 locally identified people (`person:sg:*`) across six import batches;
-- 200 recorded father, mother, spouse, adoptive-parent, and clan relationships,
+- 227 recorded father, mother, spouse, adoptive-parent, and clan relationships,
   with no political or battle edges;
-- 211 people currently have at least one formal relationship while 326 remain
+- 245 people currently have at least one formal relationship while 292 remain
   isolated; [formal relationship coverage](docs/RELATION_COVERAGE.md) is the
   active milestone;
 - all 537 formal people load into the front-end map on first entry; people
