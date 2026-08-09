@@ -32,6 +32,9 @@ npm run validate:offline
 - 537 locally identified people (`person:sg:*`) across six import batches;
 - 184 recorded father, mother, spouse, adoptive-parent, and clan relationships,
   with no political or battle edges;
+- 187 people currently have at least one formal relationship while 350 remain
+  isolated; [formal relationship coverage](docs/RELATION_COVERAGE.md) is the
+  active milestone;
 - all 537 formal people load into the front-end map on first entry; people
   without an in-scope relation remain visible as independent nodes;
 - inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
@@ -85,6 +88,7 @@ Run the complete quality gate:
 npm run lint
 npm run test
 npm run validate:data
+npm run validate:relation-coverage
 npm run validate:processed
 npm run build
 npm run build:offline

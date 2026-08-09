@@ -75,5 +75,10 @@ review state, spouse duplicates, directed parent cycles, and formal-origin
 restrictions. When claim metadata is present it also checks opposing-source
 references and consistency between a confirmed relation and its decision state.
 
+`npm run validate:relation-coverage` prevents the formal relationship graph
+from regressing below the checked baseline. `npm run audit:relations -- --list`
+prints the full source-research queue without treating shared names, sources,
+or presentation factions as verified relationships.
+
 `npm run validate:processed` checks the candidate snapshot against JSON Schema,
 references, unverified state, and fixed SHA-256 values without rewriting it.

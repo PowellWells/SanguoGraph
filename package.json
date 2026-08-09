@@ -15,7 +15,9 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "audit:relations": "tsx scripts/audit-relation-coverage.ts",
     "validate:data": "tsx scripts/validate-data.ts",
+    "validate:relation-coverage": "tsx scripts/audit-relation-coverage.ts --check",
     "validate:processed": "tsx scripts/validate-processed.ts",
     "validate:offline": "tsx scripts/validate-offline.ts",
     "preview": "vite preview"

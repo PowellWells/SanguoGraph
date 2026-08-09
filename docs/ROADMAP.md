@@ -93,12 +93,21 @@
 - place relation-free people in deterministic Wei, Shu, Wu, and neutral grids
 - preserve presentation factions separately from sourced affiliations
 
-## Milestone 2.6 — Source-backed relationship enrichment
+## Milestone 2.6 — Source-backed relationship enrichment (completed)
 
 - add the directly recorded Yuan Shao–Yuan Tan/Xi/Shang parent-child links
 - add the directly recorded Yuan Xi–Empress Zhen marriage
 - keep political, military, office, and inferred relationship lines out of the formal graph
 - preserve exact quotations and volume-level links for every added relation
+
+## Milestone 2.7 — Formal relationship coverage (in progress)
+
+- measure the current baseline of 187 related and 350 isolated people
+- keep a deterministic full isolation audit and prevent coverage regressions in CI
+- research the 120 isolated major-roster people before the 230 isolated sixth-batch people
+- reduce isolated people to no more than 200 in the first relationship-enrichment phase
+- add only source-backed relationships and keep research leads out of the formal graph
+- decide political, office, military, and event modeling in a separate milestone
 
 ## Milestone 3 — evidence system
 

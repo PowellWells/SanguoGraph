@@ -28,6 +28,7 @@ npm run validate:offline
 
 - 固定收录537名人物，全部使用项目本地 `person:sg:*` ID；
 - 收录184条父亲、母亲、夫妻、收养和宗族基础关系，不增加政治或战争关系线；
+- 当前187人至少拥有一条正式关系，350人仍为孤立节点；[关系覆盖专项](docs/RELATION_COVERAGE.md)已进入下一里程碑；
 - 首次进入即在前端加载全部537名人物，没有当前类型关系的人物作为独立节点显示；
 - 每条正式关系可查看《三国志》卷次、短引文和原文链接；
 - Cytoscape.js 图谱支持姓名、字、简繁体与别名搜索；
@@ -74,6 +75,7 @@ npm run dev
 npm run lint
 npm run test
 npm run validate:data
+npm run validate:relation-coverage
 npm run validate:processed
 npm run build
 npm run build:offline

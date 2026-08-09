@@ -15,6 +15,7 @@ require a higher evidence standard than interface changes.
    npm run lint
    npm run test
    npm run validate:data
+   npm run validate:relation-coverage
    npm run validate:processed
    npm run build
    ```
