@@ -15,6 +15,8 @@ import { fifthFamilyPersons } from './fifthFamilyPersons';
 import { fifthFamilyRelations } from './fifthFamilyRelations';
 import { fifthFamilySources } from './fifthFamilySources';
 import { sixthRosterPersons } from './sixthRoster';
+import { majorWeiRelationshipRelations } from './majorWeiRelationshipRelations';
+import { majorWeiRelationshipSources } from './majorWeiRelationshipSources';
 
 export const graphData: GraphData = {
   persons: [
@@ -30,6 +32,7 @@ export const graphData: GraphData = {
     ...familyRelations,
     ...fourthFamilyRelations,
     ...fifthFamilyRelations,
+    ...majorWeiRelationshipRelations,
   ],
   sources: [
     ...(sourcesJson as HistoricalSource[]),
@@ -37,5 +40,6 @@ export const graphData: GraphData = {
     ...familySources,
     ...fourthFamilySources,
     ...fifthFamilySources,
+    ...majorWeiRelationshipSources,
   ],
 };

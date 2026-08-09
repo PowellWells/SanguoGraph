@@ -12,9 +12,9 @@ describe('source layers', () => {
       graphData.persons,
     );
 
-    expect(counts.official_direct).toBe(169);
+    expect(counts.official_direct).toBe(184);
     expect(counts.official_inferred).toBe(2);
-    expect(counts.ancient_other).toBe(12);
+    expect(counts.ancient_other).toBe(13);
     expect(counts.literature).toBe(1);
   });
 
