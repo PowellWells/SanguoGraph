@@ -103,9 +103,9 @@
 ## Milestone 2.7 — Formal relationship coverage (in progress)
 
 - measure the starting baseline of 187 related and 350 isolated people
-- complete all three major-roster research batches at 257 related and 280 isolated people
+- complete all three major-roster research batches and the first volume-20 complete-roster batch at 281 related and 256 isolated people
 - keep a deterministic full isolation audit and prevent coverage regressions in CI
-- retain 74 unresolved major-roster people for later review and begin the 206-person sixth-batch queue
+- retain 74 unresolved major-roster people for later review and reduce the sixth-batch queue from 206 to 182 people
 - reduce isolated people to no more than 200 in the first relationship-enrichment phase
 - add only source-backed relationships and keep research leads out of the formal graph
 - decide political, office, military, and event modeling in a separate milestone
