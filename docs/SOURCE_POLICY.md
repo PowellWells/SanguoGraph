@@ -45,3 +45,11 @@ labels them “未经过正史核验”.
 Do not copy or redistribute third-party data until provenance, license,
 compatibility, and transformation requirements have been reviewed. Never
 invent quotations, locators, or source links.
+
+## Local research index
+
+The optional local source index is a discovery aid, not a verified evidence
+layer. A search hit must be checked against its recorded page revision and
+classified as main text, annotation, or another source type before a short
+quotation or relationship claim enters the formal graph. Raw corpus caches and
+generated indexes remain local and are not distributed with the repository.

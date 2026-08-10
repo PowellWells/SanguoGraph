@@ -60,6 +60,16 @@ Wikidata QID 只保存为外部标识，不能成为项目主键，也不能单�
 请阅读[主要人物范围](docs/MAJOR_PERSON_SCOPE.md)、
 [史料政策](docs/SOURCE_POLICY.md)和[数据模式](docs/DATA_SCHEMA.md)。
 
+维护者还可建立只保存在本机的《三国志》全文索引，用于快速查找人物与关系线索：
+
+```powershell
+npm run sources:build
+npm run sources:search -- 刘备 --volume 32
+```
+
+索引不自动生成正式关系；使用方法、版本记录与许可证边界见
+[本地史料索引](docs/LOCAL_SOURCE_INDEX.md)。
+
 ## 本地开发
 
 需要 Node.js 18.18+ 和 npm：

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "corpora": [
+    {
+      "id": "sanguozhi-wikisource",
+      "work": "三国志",
+      "apiEndpoint": "https://zh.wikisource.org/w/api.php",
+      "pageUrlPattern": "https://zh.wikisource.org/wiki/三國志/卷{volume:02d}",
+      "pageTitlePattern": "三國志/卷{volume:02d}",
+      "volumeStart": 1,
+      "volumeEnd": 65,
+      "variant": "zh-hans",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "sourcePolicyUrl": "https://zh.wikisource.org/wiki/Wikisource:版权信息",
+        "note": "古籍原文本身与维基文库页面编辑贡献须分别判断；本地快照按来源站点条款记录归属和版本。"
+      }
+    }
+  ]
+}

@@ -73,6 +73,18 @@ See the [major-person scope](docs/MAJOR_PERSON_SCOPE.md),
 [source policy](docs/SOURCE_POLICY.md), and
 [data schema](docs/DATA_SCHEMA.md).
 
+Maintainers can also build a local-only full-text index of all 65 volumes of
+*Records of the Three Kingdoms* for faster research:
+
+```powershell
+npm run sources:build
+npm run sources:search -- 刘备 --volume 32
+```
+
+Search hits never create formal relationships automatically. See the
+[local source index guide](docs/LOCAL_SOURCE_INDEX.md) for provenance,
+licensing, refresh, and review rules.
+
 ## Local development
 
 Requires Node.js 18.18+ and npm.
