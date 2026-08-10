@@ -70,6 +70,7 @@ function importBatchLabel(person: Person): string {
     4: '第四批导入',
     5: '第五批导入',
     6: '第六批全量导入',
+    7: '第七批遗漏审计',
   } as const;
   return labels[person.importBatch];
 }

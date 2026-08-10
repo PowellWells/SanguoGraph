@@ -13,10 +13,10 @@ function issueCodes(data: GraphData): ValidationCode[] {
 }
 
 describe('formal graph data', () => {
-  it('contains the six reviewed import batches and fixed family relations', () => {
-    expect(graphData.persons).toHaveLength(537);
-    expect(graphData.relations).toHaveLength(259);
-    expect(graphData.sources).toHaveLength(136);
+  it('contains the seven reviewed import batches and fixed family relations', () => {
+    expect(graphData.persons).toHaveLength(557);
+    expect(graphData.relations).toHaveLength(284);
+    expect(graphData.sources).toHaveLength(138);
     expect(
       graphData.persons.filter((person) => person.importBatch === 1),
     ).toHaveLength(24);
@@ -36,14 +36,17 @@ describe('formal graph data', () => {
       graphData.persons.filter((person) => person.importBatch === 6),
     ).toHaveLength(232);
     expect(
+      graphData.persons.filter((person) => person.importBatch === 7),
+    ).toHaveLength(20);
+    expect(
       graphData.persons.filter((person) => person.visualFaction === 'wei'),
-    ).toHaveLength(233);
+    ).toHaveLength(251);
     expect(
       graphData.persons.filter((person) => person.visualFaction === 'shu'),
-    ).toHaveLength(119);
+    ).toHaveLength(120);
     expect(
       graphData.persons.filter((person) => person.visualFaction === 'wu'),
-    ).toHaveLength(124);
+    ).toHaveLength(125);
     expect(
       graphData.persons.filter((person) => person.visualFaction === 'other'),
     ).toHaveLength(37);
@@ -66,7 +69,7 @@ describe('formal graph data', () => {
     const invalidPerson = data.persons[0] as unknown as {
       importBatch: number;
     };
-    invalidPerson.importBatch = 7;
+    invalidPerson.importBatch = 8;
 
     expect(issueCodes(data)).toContain('INVALID_IMPORT_BATCH');
   });

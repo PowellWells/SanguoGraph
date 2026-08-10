@@ -104,11 +104,20 @@
 
 - measure the starting baseline of 187 related and 350 isolated people
 - complete all three major-roster research batches and the first volume-20 complete-roster batch at 281 related and 256 isolated people
+- complete the first 65-volume omission-audit batch at 557 people, 284 relations, 300 related people, and 257 isolated people
 - keep a deterministic full isolation audit and prevent coverage regressions in CI
 - retain 74 unresolved major-roster people for later review and reduce the sixth-batch queue from 206 to 182 people
 - reduce isolated people to no more than 200 in the first relationship-enrichment phase
 - add only source-backed relationships and keep research leads out of the formal graph
 - decide political, office, military, and event modeling in a separate milestone
+
+## Milestone 2.8 — 65-volume omission audit (in progress)
+
+- keep post-freeze discoveries in import batch seven instead of rewriting the 232-person sixth batch
+- add the first 20 verified omissions: 18 named mothers from volume 20, Dong Jue, and Sun Lü
+- add 24 directly recorded mother-child links and the Sun Quan–Sun Lü father-child link
+- keep Dong Jue isolated until a separately approved non-family relation model exists
+- continue auditing named women, attached biographies, and same-name identities against the local source index
 
 ## Milestone 3 — evidence system
 

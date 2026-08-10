@@ -7,7 +7,7 @@ import type {
 } from '../domain';
 import { getFactionColorKey } from './graphVisualEncoding';
 
-export const IMPORT_BATCHES: readonly ImportBatch[] = [1, 2, 3, 4, 5, 6];
+export const IMPORT_BATCHES: readonly ImportBatch[] = [1, 2, 3, 4, 5, 6, 7];
 
 export const VISUAL_FACTIONS: readonly VisualFaction[] = [
   'wei',
@@ -181,7 +181,7 @@ export function getRelationResearchCohort(
   if (person.importBatch === 2) {
     return 'major_roster';
   }
-  if (person.importBatch === 6) {
+  if (person.importBatch === 6 || person.importBatch === 7) {
     return 'complete_roster';
   }
   return 'family_batch_gap';

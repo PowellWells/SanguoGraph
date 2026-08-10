@@ -9,6 +9,9 @@ and the fifth Shu-family batch is maintained in the three `fifthFamily*.ts`
 files. The sixth biographical roster is authored in
 `src/data/sixthRoster/manifest.ts`, converted to people in `persons.ts`, and
 frozen together with all earlier batches in `completeRosterManifest.ts`.
+The seventh omission-audit batch is maintained in the three
+`seventhSourceAuditBatchOne*.ts` files and remains distinguishable from the
+frozen sixth roster.
 Strict TypeScript interfaces in `src/domain` are the application model.
 
 ## Person
@@ -20,7 +23,7 @@ Strict TypeScript interfaces in `src/domain` are the application model.
 | `reviewStatus` | `pending_review` or `verified` |
 | `sourceIds` | Historical sources used to verify the person record |
 | `visualFaction` | Optional presentation-only `wei`, `shu`, `wu`, or `other`; never a formal political-affiliation claim |
-| `importBatch` | Project ingestion batch: `1` for the original 24 people, `2` for the 176-person major-roster expansion, `3` for the 35-person first family expansion, `4` for the 35-person Wei-family expansion, `5` for the 35-person Shu-family expansion, `6` for the 232-person complete biographical roster |
+| `importBatch` | Project ingestion batch: `1` for the original 24 people, `2` for the 176-person major-roster expansion, `3` for the 35-person first family expansion, `4` for the 35-person Wei-family expansion, `5` for the 35-person Shu-family expansion, `6` for the frozen 232-person biographical roster, `7` for verified additions found by the 65-volume omission audit |
 | `externalIds.wikidata` | Optional external QID; never a primary key |
 
 A verified formal person must cite at least one non-structured historical
