@@ -1644,6 +1644,8 @@ function createEdgeRoutes(
           0.5,
           0.35,
           0.65,
+          0.32,
+          0.68,
           0.2,
           0.8,
           0.1,
@@ -1689,7 +1691,11 @@ function createEdgeRoutes(
           }
           if (collisions === 0) {
             foundCollisionFreeRoute = true;
+            break;
           }
+        }
+        if (foundCollisionFreeRoute) {
+          break;
         }
       }
       if (foundCollisionFreeRoute) {

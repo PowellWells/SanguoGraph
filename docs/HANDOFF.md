@@ -1,28 +1,28 @@
 # 三国人物关系谱 · SanguoGraph 关系覆盖专项交接文档
 
 更新时间：2026-08-11
-当前分支：`codex/volumes-31-50-relationship-review`
+当前分支：`codex/volumes-51-65-relationship-review`
 
 ## 0. 新窗口接续说明（必须先读）
 
-Round 3“卷三十一至五十孤立人物关系复核”已经完成实现。本阶段从 Round 2 的 229 名
-孤立人物中按首要卷次筛出 51 人，使用本地 65 卷索引逐传复核，并继续坚持零人物扩张：
+Round 4“卷五十一至六十五孤立人物关系复核”已经完成实现。本阶段从 Round 3 的 220 名
+孤立人物中按首要卷次筛出 30 人，使用本地 65 卷索引逐传及全局回查，并继续坚持零人物扩张：
 
-- 新增 8 条既有节点关系和 7 条关系级史料；
-- 刘繇—刘基、谢夫人—孙权、全夫人—孙亮、朱夫人—孙休、何姬—孙和、何姬—孙皓、
-  滕夫人—孙皓 7 条正文关系为 `confirmed + verified`；
-- 谯周—谯秀由裴注“周长子熙。熙子秀”闭合祖孙关系，保持
+- 新增 8 条既有节点关系和 5 条关系级史料，另复用 2 条 Round 3 已核验史料；
+- 薛综—薛莹、陆瑁—陆逊、陆瑁—陆绩、朱据—孙鲁育、朱据—朱夫人、陆胤—陆凯、
+  滕胤—滕夫人 7 条正文关系为 `confirmed + verified`；
+- 贺齐—贺邵由裴注所引《吴书》“邵，贺齐之孙”闭合祖孙关系，保持
   `probable + pending_review`；
-- 人物维持 577，正式关系增至 341，史料增至 178；
-- 357 人有关系、220 人孤立，覆盖率 61.9%；主要人物队列保持 64 人，第六批孤立人物
-  降至 155 人；
-- 全局类型为父亲 193、母亲 54、婚姻 49、养父 6、养母 2、宗族／姻亲 37；
+- 人物维持 577，正式关系增至 349，史料增至 183；
+- 365 人有关系、212 人孤立，覆盖率 63.3%；主要人物队列降至 63 人，第六批孤立人物
+  降至 148 人；
+- 全局类型为父亲 195、母亲 54、婚姻 50、养父 6、养母 2、宗族／姻亲 42；
 - 关系 JSON SHA-256 为
-  `3be46b90ccf170711385e89e150eb973ca11e86ed6a0c975238f478211c56874`。
+  `fb2beb21a28a253f81d0828eb37365ec68c76181f212c9c2513cac3eb47f2b8e`。
 
-强制决策点已经完成：51 人队列得到 8 条关系、净连接 9 人，单位收益仍然明确，家庭
-关系尚未显示自然饱和。下一轮确定为 Round 4：卷 51—65 既有孤立人物关系复核；不得
-为覆盖率降低证据标准。
+卷一至六十五的三轮分卷关系复核已经完成。Round 4 的 30 人队列得到 8 条关系、净连接
+8 人，第一阶段距离 377 人入网／不超过 200 人孤立还差 12 人。下一轮确定为 Round 5：
+全局遗漏、身份、来源和证据审计；不得引入官职或事件边填充指标。
 
 ## 1. 当前状态
 
@@ -33,11 +33,11 @@ AI API。
 当前正式数据：
 
 - 577 个人物；
-- 341 条家庭关系；
-- 178 条史料；
-- 357 人至少拥有一条正式关系，220 人完全孤立，覆盖率 61.9%；
+- 349 条家庭关系；
+- 183 条史料；
+- 365 人至少拥有一条正式关系，212 人完全孤立，覆盖率 63.3%；
 - 展示阵营：魏 283、蜀 122、吴 133、其他 39；
-- 首次进入前端即加载全部 577 人和 341 条关系；
+- 首次进入前端即加载全部 577 人和 349 条关系；
 - 99 个 Wikidata 候选人物和 738 条候选关系仍默认隐藏；
 - 离线入口：`E:\SanGuo\offline\index.html`。
 
@@ -82,12 +82,12 @@ src/data/majorSources.ts
 8 条蜀系与其他关系；第六批名册首轮再新增 24 条卷二十宗室父子关系。第七批遗漏
 审计第一组补录 24 条卷二十母子关系和 1 条孙权—孙虑父子关系；第二组补录 20 名
 女性及 34 条父母、婚姻和宗族关系。主要人物二次复核再新增 6 条既有节点间的姻亲与
-宗族关系；卷一至三十复核新增 9 条正文或裴注直接关系，卷三十一至五十复核再新增
-8 条正文或裴注直接关系。当前正式关系为 341 条。
+宗族关系；卷一至三十复核新增 9 条正文或裴注直接关系，卷三十一至五十复核新增
+8 条正文或裴注直接关系，卷五十一至六十五复核再新增 8 条。当前正式关系为 349 条。
 关系 JSON 序列化后的 SHA-256 为：
 
 ```text
-3be46b90ccf170711385e89e150eb973ca11e86ed6a0c975238f478211c56874
+fb2beb21a28a253f81d0828eb37365ec68c76181f212c9c2513cac3eb47f2b8e
 ```
 
 正式基础类型仍只有：
@@ -145,6 +145,7 @@ docs/SEVENTH_SOURCE_AUDIT_BATCH_2.md
 docs/MAJOR_ROSTER_SECOND_PASS.md
 docs/VOLUMES_01_30_RELATIONSHIP_REVIEW.md
 docs/VOLUMES_31_50_RELATIONSHIP_REVIEW.md
+docs/VOLUMES_51_65_RELATIONSHIP_REVIEW.md
 src/data/completeRosterManifest.ts
 src/data/sixthRoster/manifest.ts
 src/data/seventhSourceAuditBatchOnePersons.ts
@@ -159,6 +160,8 @@ src/data/volumesOneToThirtyRelationshipRelations.ts
 src/data/volumesOneToThirtyRelationshipSources.ts
 src/data/volumesThirtyOneToFiftyRelationshipRelations.ts
 src/data/volumesThirtyOneToFiftyRelationshipSources.ts
+src/data/volumesFiftyOneToSixtyFiveRelationshipRelations.ts
+src/data/volumesFiftyOneToSixtyFiveRelationshipSources.ts
 src/services/graphLayout.ts
 src/services/graphViewport.ts
 ```
@@ -181,7 +184,7 @@ npm audit --omit=dev
 
 浏览器验收尺寸为 1366×768 和 390×844，需确认：
 
-- 默认地图加载 577 人、341 条关系；
+- 默认地图加载 577 人、349 条关系；
 - 搜索王蕃并显示“第六批全量导入”；
 - 四阵营计数为 283、122、133、39；
 - “适应画布”显示全部人物，放大后姓名可读；
@@ -193,13 +196,13 @@ npm audit --omit=dev
 本轮交付验证已于 2026-08-11 完成：
 
 - `npm run lint` 通过；
-- `npm run test` 通过，共 23 个测试文件、120 项测试；
-- 数据校验通过：577 人、341 条正式关系、178 条史料；
-- 关系覆盖回归通过：357 人入网、220 人孤立、覆盖率 61.9%；
+- `npm run test` 通过，共 24 个测试文件、123 项测试；
+- 数据校验通过：577 人、349 条正式关系、183 条史料；
+- 关系覆盖回归通过：365 人入网、212 人孤立、覆盖率 63.3%；
 - processed 数据校验通过：99 人、738 条未核验候选、4 个文件哈希一致；
-- 生产构建与离线单文件构建通过，`offline/index.html` 为 1232.6 KiB；
+- 生产构建与离线单文件构建通过，`offline/index.html` 为 1238.0 KiB；
 - 根入口与离线包校验通过；
 - `npm audit --omit=dev` 为 0 个漏洞；
-- 1366×768 桌面验收显示 577 人、341 条关系、175 个可浏览来源；谯周档案正确显示
-  谯秀为“孙子”，何姬档案正确显示孙和为“丈夫”、孙皓为“儿子”；
+- 1366×768 桌面验收显示 577 人、349 条关系、180 个可浏览来源；陆瑁档案正确显示
+  陆逊为“兄长”、陆绩为“从父”，朱据档案正确显示孙鲁育为“妻子”、朱夫人为“女儿”；
 - 390×844 移动端验收无横向溢出，页面控制台无 warning/error。

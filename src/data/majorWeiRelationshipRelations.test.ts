@@ -72,10 +72,10 @@ describe('major Wei relationship expansion batch one', () => {
     const report = analyzeRelationCoverage(graphData);
     expect(report).toMatchObject({
       personCount: 577,
-      relationCount: 341,
-      relatedPersonCount: 357,
-      isolatedPersonCount: 220,
-      coveragePercent: 61.9,
+      relationCount: 349,
+      relatedPersonCount: 365,
+      isolatedPersonCount: 212,
+      coveragePercent: 63.3,
     });
   });
 });

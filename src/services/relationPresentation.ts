@@ -120,6 +120,26 @@ const clanPerspectiveLabels: Readonly<Record<string, PerspectiveLabels>> = {
     source: '孙子',
     target: '祖父',
   },
+  'relation:sg:volumes_51_65_lu_mao_clan_lu_xun': {
+    source: '兄长',
+    target: '弟弟',
+  },
+  'relation:sg:volumes_51_65_lu_mao_clan_lu_ji': {
+    source: '从父',
+    target: '从子',
+  },
+  'relation:sg:volumes_51_65_lu_yin_clan_lu_kai': {
+    source: '兄长',
+    target: '弟弟',
+  },
+  'relation:sg:volumes_51_65_teng_yin_clan_teng_lady': {
+    source: '族女',
+    target: '族亲',
+  },
+  'relation:sg:volumes_51_65_he_qi_clan_he_shao': {
+    source: '孙子',
+    target: '祖父',
+  },
 };
 
 function childLabel(person: Person | undefined, adoptive: boolean): string {
