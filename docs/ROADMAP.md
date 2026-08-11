@@ -106,8 +106,9 @@
 - complete all three major-roster research batches and the first volume-20 complete-roster batch at 281 related and 256 isolated people
 - complete the first two 65-volume omission-audit groups at 577 people, 318 relations, 325 related people, and 252 isolated people
 - complete the major-roster second pass without adding people: 324 relations, 333 related people, and 244 isolated people
+- complete the volumes 1-30 review without adding people: 333 relations, 348 related people, and 229 isolated people
 - keep a deterministic full isolation audit and prevent coverage regressions in CI
-- retain 64 unresolved major-roster people for later review and reduce the sixth-batch queue from 206 to 179 people
+- retain 64 unresolved major-roster people for later review and reduce the sixth-batch isolated count from 206 to 164 people
 - reduce isolated people to no more than 200 in the first relationship-enrichment phase
 - add only source-backed relationships and keep research leads out of the formal graph
 - prioritize relations among the frozen 577-person roster; add an omitted person only when qualified evidence immediately connects that person to the formal network

@@ -8,7 +8,7 @@ describe('graph selectors', () => {
       graphData.relations,
       new Set(['spouse_of']),
     );
-    expect(result).toHaveLength(42);
+    expect(result).toHaveLength(44);
     expect(result.every((relation) => relation.type === 'spouse_of')).toBe(true);
   });
 

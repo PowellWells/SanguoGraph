@@ -100,13 +100,13 @@ describe('complete biographical roster manifest', () => {
       });
   });
 
-  it('freezes the 324-record relation set after the major-roster second pass', () => {
-    expect(graphData.relations).toHaveLength(324);
+  it('freezes the 333-record relation set after the volumes 1-30 review', () => {
+    expect(graphData.relations).toHaveLength(333);
     expect(
       createHash('sha256')
         .update(JSON.stringify(graphData.relations))
         .digest('hex'),
-    ).toBe('b986827354cebaecbeec944b8e970de355bcc03f060f22271c0022531516e439');
+    ).toBe('4c3ce499d9376b4c4c4e6b9ec0b5970d12dbd06ff6b0cc92152d945700559071');
   });
 
   it('records the source-backed Yuan family cluster', () => {

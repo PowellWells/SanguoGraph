@@ -173,8 +173,8 @@ describe('relation presentation', () => {
       ({ id }) => !annotationRelationIds.has(id),
     );
 
-    expect(clanRelations).toHaveLength(34);
-    expect(mappedClanRelations).toHaveLength(31);
+    expect(clanRelations).toHaveLength(36);
+    expect(mappedClanRelations).toHaveLength(33);
     for (const clanRelation of mappedClanRelations) {
       const source = person(clanRelation.sourcePersonId);
       const target = person(clanRelation.targetPersonId);

@@ -1,28 +1,27 @@
 # 三国人物关系谱 · SanguoGraph 关系覆盖专项交接文档
 
 更新时间：2026-08-11
-当前分支：`codex/major-roster-second-pass`
+当前分支：`codex/volumes-1-30-relationship-review`
 
 ## 0. 新窗口接续说明（必须先读）
 
-Round 1“第二批主要人物二次复核”已经完成实现。本阶段基于 `283e832 merge: publish
-relation coverage audit`，对 71 名主要人物执行本地 65 卷索引亲属词定向复核，并坚持
-零人物扩张：
+Round 2“卷一至三十孤立人物关系复核”已经完成实现。本阶段从 Round 1 的 244 名
+孤立人物中按首要卷次筛出 143 人，使用本地 65 卷索引定向复核，并继续坚持零人物扩张：
 
-- 新增 6 条既有节点之间的姻亲／宗族关系和 6 条关系级史料；
-- 刘协—曹操、张绣—曹均、张鲁—曹宇、王凌—王允 4 条正文关系为
-  `confirmed + verified`；
-- 郭淮—王凌来自裴注引《世语》，陆绩—张温为裴注明确婚姻链的有界推定，两条保持
+- 新增 9 条既有节点关系和 9 条关系级史料；
+- 毛皇后—曹叡、明元郭皇后—曹叡、何夔—何曾、司马芝—司马岐、刘馥—刘靖、
+  杜畿—杜恕、阮瑀—阮籍 7 条正文关系为 `confirmed + verified`；
+- 司马朗—司马懿来自裴注引司马彪《序传》，丁仪—丁廙来自裴注引《魏略》，两条保持
   `probable + pending_review`；
-- 人物维持 577，正式关系增至 324，史料增至 162；
-- 333 人有关系、244 人孤立，覆盖率 57.7%；主要人物队列降至 64 人，第六批降至
-  179 人；
-- 全局类型为父亲 187、母亲 53、婚姻 42、养父 6、养母 2、宗族／姻亲 34；
+- 人物维持 577，正式关系增至 333，史料增至 171；
+- 348 人有关系、229 人孤立，覆盖率 60.3%；主要人物队列保持 64 人，第六批孤立人物
+  降至 164 人；
+- 全局类型为父亲 192、母亲 53、婚姻 44、养父 6、养母 2、宗族／姻亲 36；
 - 关系 JSON SHA-256 为
-  `b986827354cebaecbeec944b8e970de355bcc03f060f22271c0022531516e439`。
+  `4c3ce499d9376b4c4c4e6b9ec0b5970d12dbd06ff6b0cc92152d945700559071`。
 
-下一轮为 Round 2：卷 1—30 既有孤立人物关系复核。继续优先现有 577 人，只在遗漏
-人物能由合格史料立即接入正式网络时才评估补录；不得为覆盖率降低证据标准。
+下一轮为 Round 3：卷 31—50 既有孤立人物关系复核。该轮完成后必须暂停并重新统计
+单位新增；不得为覆盖率降低证据标准。
 
 ## 1. 当前状态
 
@@ -33,11 +32,11 @@ AI API。
 当前正式数据：
 
 - 577 个人物；
-- 324 条家庭关系；
-- 162 条史料；
-- 333 人至少拥有一条正式关系，244 人完全孤立，覆盖率 57.7%；
+- 333 条家庭关系；
+- 171 条史料；
+- 348 人至少拥有一条正式关系，229 人完全孤立，覆盖率 60.3%；
 - 展示阵营：魏 283、蜀 122、吴 133、其他 39；
-- 首次进入前端即加载全部 577 人和 324 条关系；
+- 首次进入前端即加载全部 577 人和 333 条关系；
 - 99 个 Wikidata 候选人物和 738 条候选关系仍默认隐藏；
 - 离线入口：`E:\SanGuo\offline\index.html`。
 
@@ -82,11 +81,11 @@ src/data/majorSources.ts
 8 条蜀系与其他关系；第六批名册首轮再新增 24 条卷二十宗室父子关系。第七批遗漏
 审计第一组补录 24 条卷二十母子关系和 1 条孙权—孙虑父子关系；第二组补录 20 名
 女性及 34 条父母、婚姻和宗族关系。主要人物二次复核再新增 6 条既有节点间的姻亲与
-宗族关系。当前正式关系为 324 条。
+宗族关系；卷一至三十复核再新增 9 条正文或裴注直接关系。当前正式关系为 333 条。
 关系 JSON 序列化后的 SHA-256 为：
 
 ```text
-b986827354cebaecbeec944b8e970de355bcc03f060f22271c0022531516e439
+4c3ce499d9376b4c4c4e6b9ec0b5970d12dbd06ff6b0cc92152d945700559071
 ```
 
 正式基础类型仍只有：
@@ -142,6 +141,7 @@ docs/SIXTH_COMPLETE_ROSTER.md
 docs/SEVENTH_SOURCE_AUDIT_BATCH_1.md
 docs/SEVENTH_SOURCE_AUDIT_BATCH_2.md
 docs/MAJOR_ROSTER_SECOND_PASS.md
+docs/VOLUMES_01_30_RELATIONSHIP_REVIEW.md
 src/data/completeRosterManifest.ts
 src/data/sixthRoster/manifest.ts
 src/data/seventhSourceAuditBatchOnePersons.ts
@@ -152,6 +152,8 @@ src/data/seventhSourceAuditBatchTwoRelations.ts
 src/data/seventhSourceAuditBatchTwoSources.ts
 src/data/majorRosterSecondPassRelations.ts
 src/data/majorRosterSecondPassSources.ts
+src/data/volumesOneToThirtyRelationshipRelations.ts
+src/data/volumesOneToThirtyRelationshipSources.ts
 src/services/graphLayout.ts
 src/services/graphViewport.ts
 ```
@@ -174,7 +176,7 @@ npm audit --omit=dev
 
 浏览器验收尺寸为 1366×768 和 390×844，需确认：
 
-- 默认地图加载 577 人、324 条关系；
+- 默认地图加载 577 人、333 条关系；
 - 搜索王蕃并显示“第六批全量导入”；
 - 四阵营计数为 283、122、133、39；
 - “适应画布”显示全部人物，放大后姓名可读；
@@ -186,12 +188,13 @@ npm audit --omit=dev
 本轮交付验证已于 2026-08-11 完成：
 
 - `npm run lint` 通过；
-- `npm run test` 通过，共 21 个测试文件、114 项测试；
-- 数据校验通过：577 人、324 条正式关系、162 条史料；
-- 关系覆盖回归通过：333 人入网、244 人孤立、覆盖率 57.7%；
+- `npm run test` 通过，共 22 个测试文件、117 项测试；
+- 数据校验通过：577 人、333 条正式关系、171 条史料；
+- 关系覆盖回归通过：348 人入网、229 人孤立、覆盖率 60.3%；
 - processed 数据校验通过：99 人、738 条未核验候选、4 个文件哈希一致；
-- 生产构建与离线单文件构建通过，`offline/index.html` 为 1219.9 KiB；
+- 生产构建与离线单文件构建通过，`offline/index.html` 为 1226.8 KiB；
 - 根入口与离线包校验通过；
 - `npm audit --omit=dev` 为 0 个漏洞；
-- 1366×768 桌面验收显示 577 人、324 条关系、159 个可浏览来源，刘协档案正确显示曹操为“岳父”；
+- 1366×768 桌面验收显示 577 人、333 条关系、168 个可浏览来源；毛皇后档案正确显示
+  曹叡为“丈夫”，司马朗档案正确显示司马懿为“弟弟”；
 - 390×844 移动端验收无横向溢出，页面控制台无 warning/error。

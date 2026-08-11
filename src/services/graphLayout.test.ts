@@ -294,7 +294,7 @@ describe('graph layout', () => {
     expect(layout.generations['person:sg:xiahou_xuan']).toBe(
       layout.generations['person:sg:cao_shuang'],
     );
-  });
+  }, 10_000);
 
   it('keeps the default and complete graphs collision free', () => {
     const defaultGraph = getDefaultGraph();

@@ -108,6 +108,14 @@ const clanPerspectiveLabels: Readonly<Record<string, PerspectiveLabels>> = {
     source: '叔父',
     target: '侄子',
   },
+  'relation:sg:volumes_01_30_sima_lang_clan_sima_yi': {
+    source: '弟弟',
+    target: '兄长',
+  },
+  'relation:sg:volumes_01_30_ding_yi_clan_ding_yi_younger': {
+    source: '弟弟',
+    target: '兄长',
+  },
 };
 
 function childLabel(person: Person | undefined, adoptive: boolean): string {
