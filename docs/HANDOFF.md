@@ -1,44 +1,28 @@
 # 三国人物关系谱 · SanguoGraph 关系覆盖专项交接文档
 
 更新时间：2026-08-11
-当前分支：`codex/relation-coverage-audit`
+当前分支：`codex/major-roster-second-pass`
 
 ## 0. 新窗口接续说明（必须先读）
 
-第七批遗漏审计第二组已经完成。本阶段在 `4380b29 feat: add first source-audit roster
-batch` 之后新增 20 名女性、34 条关系和 18 条关系级史料，并完成以下收尾：
+Round 1“第二批主要人物二次复核”已经完成实现。本阶段基于 `283e832 merge: publish
+relation coverage audit`，对 71 名主要人物执行本地 65 卷索引亲属词定向复核，并坚持
+零人物扩张：
 
-- 正式图谱更新为 577 人、318 条关系、156 条史料；
-- 27 条正文关系为 `confirmed + verified`，7 条裴注关系为
+- 新增 6 条既有节点之间的姻亲／宗族关系和 6 条关系级史料；
+- 刘协—曹操、张绣—曹均、张鲁—曹宇、王凌—王允 4 条正文关系为
+  `confirmed + verified`；
+- 郭淮—王凌来自裴注引《世语》，陆绩—张温为裴注明确婚姻链的有界推定，两条保持
   `probable + pending_review`；
-- 覆盖统计为 325 人有关系、252 人孤立、覆盖率 56.3%；
-- 为新增密集家族边扩展了布局贝塞尔控制点候选，边避障测试通过；
-- 《嵇氏谱》“林子之女”已按上文“林薨，子纬嗣”纠正为“曹林之子的女儿”：人物标为
-  “曹林孙女”，曹林与嵇康妻之间仅建立注引层 `clan_relative_of`，不再误作父女；
-- 第二组关系类型为 12 条 `father_of`、4 条 `mother_of`、16 条 `spouse_of`、
-  2 条 `clan_relative_of`；全局类型为 187、53、42、28（另有养父 6、养母 2）；
-- 关系 JSON SHA-256 已更新为
-  `514bc1b1b06957ec4c247df132452a5eebe6fb9e9f7837e63919e18f0dd5f240`。
+- 人物维持 577，正式关系增至 324，史料增至 162；
+- 333 人有关系、244 人孤立，覆盖率 57.7%；主要人物队列降至 64 人，第六批降至
+  179 人；
+- 全局类型为父亲 187、母亲 53、婚姻 42、养父 6、养母 2、宗族／姻亲 34；
+- 关系 JSON SHA-256 为
+  `b986827354cebaecbeec944b8e970de355bcc03f060f22271c0022531516e439`。
 
-本阶段已重跑 ESLint、110 项 Vitest、正式数据校验、关系覆盖回归、候选数据 4 个哈希、
-生产构建、系统临时目录离线单文件构建与校验，以及 `npm audit --omit=dev`，均通过。
-
-### 当前工作区边界
-
-以下 6 个文件在本轮开始前已有未提交修改，属于用户原有界面展示工作，不得随本轮数据
-提交；`offline/index.html` 也未被本轮离线构建覆盖：
-
-```text
-offline/index.html
-src/components/person/PathResultPanel.tsx
-src/components/person/PersonPanel.test.tsx
-src/components/person/PersonPanel.tsx
-src/services/relationPresentation.test.ts
-src/services/relationPresentation.ts
-```
-
-上述 6 个文件继续保持未暂存，属于用户原有界面展示工作，不包含在第二组审计提交中。
-后续任务开始前应先检查这些未提交修改，避免覆盖或误纳入其他提交。
+下一轮为 Round 2：卷 1—30 既有孤立人物关系复核。继续优先现有 577 人，只在遗漏
+人物能由合格史料立即接入正式网络时才评估补录；不得为覆盖率降低证据标准。
 
 ## 1. 当前状态
 
@@ -49,11 +33,11 @@ AI API。
 当前正式数据：
 
 - 577 个人物；
-- 318 条家庭关系；
-- 156 条史料；
-- 325 人至少拥有一条正式关系，252 人完全孤立，覆盖率 56.3%；
+- 324 条家庭关系；
+- 162 条史料；
+- 333 人至少拥有一条正式关系，244 人完全孤立，覆盖率 57.7%；
 - 展示阵营：魏 283、蜀 122、吴 133、其他 39；
-- 首次进入前端即加载全部 577 人和 318 条关系；
+- 首次进入前端即加载全部 577 人和 324 条关系；
 - 99 个 Wikidata 候选人物和 738 条候选关系仍默认隐藏；
 - 离线入口：`E:\SanGuo\offline\index.html`。
 
@@ -97,12 +81,12 @@ src/data/majorSources.ts
 袁氏补充新增 4 条原文明确关系；关系覆盖三批随后新增 16 条魏系、27 条吴系和
 8 条蜀系与其他关系；第六批名册首轮再新增 24 条卷二十宗室父子关系。第七批遗漏
 审计第一组补录 24 条卷二十母子关系和 1 条孙权—孙虑父子关系；第二组补录 20 名
-女性及 34 条父母、婚姻和宗族关系。当前正式关系为 318 条，其中第二组 27 条来自
-正史正文，7 条来自裴注所引古代史料并保持待复核。
+女性及 34 条父母、婚姻和宗族关系。主要人物二次复核再新增 6 条既有节点间的姻亲与
+宗族关系。当前正式关系为 324 条。
 关系 JSON 序列化后的 SHA-256 为：
 
 ```text
-514bc1b1b06957ec4c247df132452a5eebe6fb9e9f7837e63919e18f0dd5f240
+b986827354cebaecbeec944b8e970de355bcc03f060f22271c0022531516e439
 ```
 
 正式基础类型仍只有：
@@ -157,6 +141,7 @@ docs/CANDIDATE_PIPELINE.md
 docs/SIXTH_COMPLETE_ROSTER.md
 docs/SEVENTH_SOURCE_AUDIT_BATCH_1.md
 docs/SEVENTH_SOURCE_AUDIT_BATCH_2.md
+docs/MAJOR_ROSTER_SECOND_PASS.md
 src/data/completeRosterManifest.ts
 src/data/sixthRoster/manifest.ts
 src/data/seventhSourceAuditBatchOnePersons.ts
@@ -165,6 +150,8 @@ src/data/seventhSourceAuditBatchOneSources.ts
 src/data/seventhSourceAuditBatchTwoPersons.ts
 src/data/seventhSourceAuditBatchTwoRelations.ts
 src/data/seventhSourceAuditBatchTwoSources.ts
+src/data/majorRosterSecondPassRelations.ts
+src/data/majorRosterSecondPassSources.ts
 src/services/graphLayout.ts
 src/services/graphViewport.ts
 ```
@@ -187,7 +174,7 @@ npm audit --omit=dev
 
 浏览器验收尺寸为 1366×768 和 390×844，需确认：
 
-- 默认地图加载 577 人、318 条关系；
+- 默认地图加载 577 人、324 条关系；
 - 搜索王蕃并显示“第六批全量导入”；
 - 四阵营计数为 283、122、133、39；
 - “适应画布”显示全部人物，放大后姓名可读；
@@ -196,9 +183,15 @@ npm audit --omit=dev
 
 仓库已配置 `origin` 远程；通过专题分支和拉取请求交付，不直接改写远程 `main`。
 
-本轮实测：lint 与 110 项测试通过，正式数据为 577／318／156；关系覆盖回归校验
-通过，基线为 325 人有关系、252 人孤立。首页完整图谱引用 153 条史料。候选数据仍
-为 99／738 且四个哈希一致；生产构建、临时目录离线构建和离线内联检查均通过，
-`offline/index.html` 的既有未提交版本未被覆盖。最大连通分量扩展到 220 人后，
-布局仍通过确定性、节点无重叠和边不穿越无关人物测试；扩展的贝塞尔控制点候选能够
-绕开新增密集家族节点。
+本轮交付验证已于 2026-08-11 完成：
+
+- `npm run lint` 通过；
+- `npm run test` 通过，共 21 个测试文件、114 项测试；
+- 数据校验通过：577 人、324 条正式关系、162 条史料；
+- 关系覆盖回归通过：333 人入网、244 人孤立、覆盖率 57.7%；
+- processed 数据校验通过：99 人、738 条未核验候选、4 个文件哈希一致；
+- 生产构建与离线单文件构建通过，`offline/index.html` 为 1219.9 KiB；
+- 根入口与离线包校验通过；
+- `npm audit --omit=dev` 为 0 个漏洞；
+- 1366×768 桌面验收显示 577 人、324 条关系、159 个可浏览来源，刘协档案正确显示曹操为“岳父”；
+- 390×844 移动端验收无横向溢出，页面控制台无 warning/error。

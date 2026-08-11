@@ -167,13 +167,14 @@ describe('relation presentation', () => {
     const annotationRelationIds = new Set([
       'relation:sg:seventh_audit_batch_2_xiahou_lady_clan_xiahou_ba',
       'relation:sg:seventh_audit_batch_2_cao_lin_clan_cao_lady',
+      'relation:sg:major_roster_second_pass_lu_ji_clan_zhang_wen',
     ]);
     const mappedClanRelations = clanRelations.filter(
       ({ id }) => !annotationRelationIds.has(id),
     );
 
-    expect(clanRelations).toHaveLength(28);
-    expect(mappedClanRelations).toHaveLength(26);
+    expect(clanRelations).toHaveLength(34);
+    expect(mappedClanRelations).toHaveLength(31);
     for (const clanRelation of mappedClanRelations) {
       const source = person(clanRelation.sourcePersonId);
       const target = person(clanRelation.targetPersonId);
