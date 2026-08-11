@@ -6,13 +6,139 @@ import type {
 } from '../domain';
 
 export const relationTypeLabels: Readonly<Record<RelationType, string>> = {
-  father_of: '父亲',
-  mother_of: '母亲',
-  spouse_of: '夫妻／配偶',
-  adoptive_father_of: '养父',
-  adoptive_mother_of: '养母',
-  clan_relative_of: '宗族',
+  father_of: '父亲与子女',
+  mother_of: '母亲与子女',
+  spouse_of: '配偶',
+  adoptive_father_of: '养父与子女',
+  adoptive_mother_of: '养母与子女',
+  clan_relative_of: '宗族／姻亲',
 };
+
+interface PerspectiveLabels {
+  source: string;
+  target: string;
+}
+
+const clanPerspectiveLabels: Readonly<Record<string, PerspectiveLabels>> = {
+  'relation:sg:cao_cao_clan_cao_ren': {
+    source: '从弟',
+    target: '从兄',
+  },
+  'relation:sg:cao_cao_clan_cao_hong': {
+    source: '从弟',
+    target: '从兄',
+  },
+  'relation:sg:cao_cao_clan_cao_xiu': {
+    source: '族子',
+    target: '宗族长辈',
+  },
+  'relation:sg:cao_cao_clan_cao_zhen': {
+    source: '族子',
+    target: '宗族长辈',
+  },
+  'relation:sg:xiahou_dun_clan_xiahou_yuan': {
+    source: '族弟',
+    target: '族兄',
+  },
+  'relation:sg:xiahou_yuan_clan_xiahou_shang': {
+    source: '从子',
+    target: '宗族长辈',
+  },
+  'relation:sg:cao_shuang_clan_xiahou_xuan': {
+    source: '姑表亲',
+    target: '姑表亲',
+  },
+  'relation:sg:cao_ren_clan_cao_chun': {
+    source: '弟弟',
+    target: '哥哥',
+  },
+  'relation:sg:cao_zhen_clan_cao_bin': {
+    source: '弟弟',
+    target: '哥哥',
+  },
+  'relation:sg:xiang_lang_clan_xiang_chong': {
+    source: '侄子',
+    target: '叔父',
+  },
+  'relation:sg:xiang_chong_clan_xiang_chong_younger': {
+    source: '弟弟',
+    target: '哥哥',
+  },
+  'relation:sg:major_wei_xun_yu_clan_xun_you': {
+    source: '从子',
+    target: '从父',
+  },
+  'relation:sg:major_wei_cui_yan_clan_cui_lin': {
+    source: '从弟',
+    target: '从兄',
+  },
+  'relation:sg:major_wei_cheng_yu_clan_cheng_xiao': {
+    source: '孙',
+    target: '祖父',
+  },
+  'relation:sg:major_wu_sun_jing_clan_sun_jian': { source: '兄长', target: '弟弟' },
+  'relation:sg:major_wu_sun_jing_clan_sun_jun': { source: '曾孙', target: '曾祖父' },
+  'relation:sg:major_wu_sun_jing_clan_sun_chen': { source: '曾孙', target: '曾祖父' },
+  'relation:sg:major_wu_sun_ben_clan_sun_fu': { source: '弟弟', target: '哥哥' },
+  'relation:sg:major_wu_sun_ben_clan_sun_jian': { source: '叔父', target: '侄子' },
+  'relation:sg:major_wu_sun_shao_clan_sun_huan': { source: '从兄弟', target: '从兄弟' },
+  'relation:sg:major_wu_zhang_zhao_clan_zhang_fen': { source: '侄子', target: '伯父' },
+  'relation:sg:major_wu_zhuge_jin_clan_zhuge_liang': { source: '弟弟', target: '哥哥' },
+  'relation:sg:major_wu_lu_xun_clan_lu_kai': { source: '族子', target: '宗族长辈' },
+  'relation:sg:major_shu_other_ma_liang_clan_ma_su': { source: '弟弟', target: '哥哥' },
+  'relation:sg:major_shu_other_yuan_shao_clan_yuan_shu': { source: '从弟', target: '从兄' },
+  'relation:sg:major_shu_other_gongsun_du_clan_gongsun_yuan': { source: '孙子', target: '祖父' },
+};
+
+function childLabel(person: Person | undefined, adoptive: boolean): string {
+  if (person?.gender === 'male') {
+    return adoptive ? '养子' : '儿子';
+  }
+  if (person?.gender === 'female') {
+    return adoptive ? '养女' : '女儿';
+  }
+  return adoptive ? '养子女' : '子女';
+}
+
+/**
+ * Returns the kinship term from one endpoint's point of view without changing
+ * the canonical, source-to-target relation stored in the data layer.
+ */
+export function getPerspectiveRelationLabel(
+  relation: Relation,
+  perspectivePerson: Person,
+  otherPerson: Person | undefined,
+): string {
+  const isSource = relation.sourcePersonId === perspectivePerson.id;
+  const isTarget = relation.targetPersonId === perspectivePerson.id;
+
+  if (!isSource && !isTarget) {
+    return relationTypeLabels[relation.type];
+  }
+
+  switch (relation.type) {
+    case 'father_of':
+      return isSource ? childLabel(otherPerson, false) : '父亲';
+    case 'mother_of':
+      return isSource ? childLabel(otherPerson, false) : '母亲';
+    case 'adoptive_father_of':
+      return isSource ? childLabel(otherPerson, true) : '养父';
+    case 'adoptive_mother_of':
+      return isSource ? childLabel(otherPerson, true) : '养母';
+    case 'spouse_of':
+      if (otherPerson?.gender === 'male') {
+        return '丈夫';
+      }
+      if (otherPerson?.gender === 'female') {
+        return '妻子';
+      }
+      return '配偶';
+    case 'clan_relative_of': {
+      const labels = clanPerspectiveLabels[relation.id];
+      return labels ? (isSource ? labels.source : labels.target) : '宗族／姻亲';
+    }
+  }
+}
 
 export const certaintyLabels = {
   confirmed: '已确认',
@@ -117,18 +243,28 @@ function defaultPeriod(relation: Relation, target: Person | undefined): string {
   return '东汉末年；具体起止时间不详';
 }
 
-function defaultQualifier(relation: Relation): string {
+function defaultQualifier(
+  relation: Relation,
+  target: Person | undefined,
+): string {
+  const childGenderSuffix =
+    target?.gender === 'male'
+      ? '子'
+      : target?.gender === 'female'
+        ? '女'
+        : '子女';
+
   switch (relation.type) {
     case 'father_of':
-      return '父子';
+      return `父${childGenderSuffix}`;
     case 'mother_of':
-      return '母子';
+      return `母${childGenderSuffix}`;
     case 'spouse_of':
       return '配偶；具体身份层级未登记';
     case 'adoptive_father_of':
-      return '养父子';
+      return `养父${childGenderSuffix}`;
     case 'adoptive_mother_of':
-      return '养母子';
+      return `养母${childGenderSuffix}`;
     case 'clan_relative_of':
       return '宗族关系';
   }
@@ -180,7 +316,7 @@ export function getRelationClaim(
   return {
     periodLabel: override.periodLabel ?? defaultPeriod(relation, target),
     relationshipQualifier:
-      override.relationshipQualifier ?? defaultQualifier(relation),
+      override.relationshipQualifier ?? defaultQualifier(relation, target),
     evidenceBasis:
       override.evidenceBasis ??
       (relation.origin === 'candidate'

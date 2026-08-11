@@ -314,7 +314,7 @@ describe('graph layout', () => {
       { compact: true },
     );
 
-    expect(defaultGraph.persons).toHaveLength(18);
+    expect(defaultGraph.persons).toHaveLength(38);
     expectNoNodeOverlap(defaultLayout, defaultGraph.persons, 112);
     expectNoNodeOverlap(completeLayout, graphData.persons, 112);
     expectNoNodeOverlap(compactLayout, graphData.persons, 104);

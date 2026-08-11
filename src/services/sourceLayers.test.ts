@@ -12,9 +12,9 @@ describe('source layers', () => {
       graphData.persons,
     );
 
-    expect(counts.official_direct).toBe(169);
-    expect(counts.official_inferred).toBe(2);
-    expect(counts.ancient_other).toBe(12);
+    expect(counts.official_direct).toBe(290);
+    expect(counts.official_inferred).toBe(7);
+    expect(counts.ancient_other).toBe(20);
     expect(counts.literature).toBe(1);
   });
 
@@ -28,6 +28,11 @@ describe('source layers', () => {
     expect(inferred.map((relation) => relation.id)).toEqual([
       'relation:sg:cao_cao_spouse_lady_liu',
       'relation:sg:cao_cao_spouse_lady_huan',
+      'relation:sg:major_wu_sun_jing_clan_sun_jun',
+      'relation:sg:major_wu_sun_jing_clan_sun_chen',
+      'relation:sg:major_wu_sun_ben_clan_sun_jian',
+      'relation:sg:major_wu_sun_shao_clan_sun_huan',
+      'relation:sg:major_shu_other_gongsun_du_clan_gongsun_yuan',
     ]);
   });
 });

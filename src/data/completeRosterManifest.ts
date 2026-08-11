@@ -16,6 +16,11 @@ import { fourthFamilySources } from './fourthFamilySources';
 import { majorPersons } from './majorPersons';
 import { majorSources } from './majorSources';
 import { sixthRosterManifest, sixthRosterPersons } from './sixthRoster';
+import { sixthRosterRelationshipBatchOneSources } from './sixthRosterRelationshipBatchOneSources';
+import { seventhSourceAuditBatchOnePersons } from './seventhSourceAuditBatchOnePersons';
+import { seventhSourceAuditBatchOneSources } from './seventhSourceAuditBatchOneSources';
+import { seventhSourceAuditBatchTwoPersons } from './seventhSourceAuditBatchTwoPersons';
+import { seventhSourceAuditBatchTwoSources } from './seventhSourceAuditBatchTwoSources';
 
 export interface CompleteRosterManifestEntry {
   id: string;
@@ -43,6 +48,9 @@ const sources: HistoricalSource[] = [
   ...familySources,
   ...fourthFamilySources,
   ...fifthFamilySources,
+  ...sixthRosterRelationshipBatchOneSources,
+  ...seventhSourceAuditBatchOneSources,
+  ...seventhSourceAuditBatchTwoSources,
 ];
 
 const sourcesById = new Map(sources.map((source) => [source.id, source]));
@@ -80,18 +88,40 @@ const sixthManifest: CompleteRosterManifestEntry[] =
     importBatch: 6,
   }));
 
+const seventhAuditManifest: CompleteRosterManifestEntry[] = [
+  ...seventhSourceAuditBatchOnePersons,
+  ...seventhSourceAuditBatchTwoPersons,
+].map((person) => {
+    const source = sourcesById.get(person.sourceIds[0] ?? '');
+    return {
+      id: person.id,
+      name: person.name,
+      aliases: [
+        ...(person.courtesyName ? [person.courtesyName] : []),
+        ...person.otherNames,
+      ],
+      sourceLocator: source?.section ?? person.sourceIds[0] ?? '',
+      historicalLayer: source?.historicalLayer ?? 'official_history',
+      visualFaction: getFactionColorKey(person),
+      historicalAffiliations: [...person.factions],
+      disambiguation: person.description,
+      importBatch: person.importBatch,
+    };
+  });
+
 export const completeRosterManifest: readonly CompleteRosterManifestEntry[] = [
   ...priorManifest,
   ...sixthManifest,
+  ...seventhAuditManifest,
 ];
 
-export const COMPLETE_ROSTER_EXPECTED_COUNT = 537;
+export const COMPLETE_ROSTER_EXPECTED_COUNT = 577;
 export const COMPLETE_ROSTER_EXPECTED_FACTION_COUNTS: Readonly<
   Record<VisualFaction, number>
 > = {
-  wei: 255,
-  shu: 119,
-  wu: 124,
+  wei: 283,
+  shu: 122,
+  wu: 133,
   other: 39,
 };
 

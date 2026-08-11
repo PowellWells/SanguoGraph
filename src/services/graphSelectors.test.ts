@@ -8,7 +8,7 @@ describe('graph selectors', () => {
       graphData.relations,
       new Set(['spouse_of']),
     );
-    expect(result).toHaveLength(25);
+    expect(result).toHaveLength(42);
     expect(result.every((relation) => relation.type === 'spouse_of')).toBe(true);
   });
 
@@ -30,7 +30,7 @@ describe('graph selectors', () => {
       2,
     );
 
-    expect(all.personIds.size).toBe(537);
+    expect(all.personIds.size).toBe(577);
     expect(oneHop.personIds).toEqual(
       new Set([
         'person:sg:cao_ang',

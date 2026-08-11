@@ -663,10 +663,20 @@ function placeHouseholds(
       childStart,
       childEnd,
     );
+    const childAngleStep =
+      unit.childIds.length > 1
+        ? Math.abs(childEnd - childStart) /
+          (unit.childIds.length - 1)
+        : sweep;
+    const minimumChildRadius =
+      childAngleStep > 0
+        ? (profile.minimumDistance + profile.coreExtraDistance) /
+          (2 * Math.sin(toRadians(childAngleStep) / 2))
+        : profile.radialGap * 2;
     unit.childIds.forEach((childId, childIndex) => {
       if (!assigned.has(childId)) {
         positions[childId] = polarPosition(
-          profile.radialGap * 2,
+          Math.max(profile.radialGap * 2, minimumChildRadius),
           childAngles[childIndex] ??
             (unitStart + unitEnd) / 2,
         );
@@ -1630,7 +1640,7 @@ function createEdgeRoutes(
       | undefined;
     const candidateWeights = isParallel
       ? [0.5]
-      : [0.5, 0.35, 0.65, 0.2, 0.8];
+      : [0.5, 0.35, 0.65, 0.2, 0.8, 0.1, 0.9, 0.05, 0.95];
     for (const distanceBatch of candidateDistanceBatches) {
       let foundCollisionFreeRoute = false;
       for (const controlPointDistance of distanceBatch) {
@@ -1653,7 +1663,10 @@ function createEdgeRoutes(
             spatialCellSize,
             anchorPersonId,
           );
-          const crossings = polylineCrossings(points, routed, relation);
+          const crossings =
+            collisions === 0
+              ? polylineCrossings(points, routed, relation)
+              : 0;
           const bendPenalty =
             Math.abs(controlPointDistance) / 180 +
             Math.abs(controlPointWeight - 0.5);

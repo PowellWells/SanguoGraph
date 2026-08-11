@@ -2,7 +2,7 @@ import type { Person } from '../../domain';
 import type { RelationshipPath } from '../../services/relationshipPath';
 import {
   certaintyLabels,
-  relationTypeLabels,
+  getPerspectiveRelationLabel,
 } from '../../services/relationPresentation';
 
 interface PathResultPanelProps {
@@ -63,7 +63,10 @@ export function PathResultPanel({
                     >
                       <strong>{from?.name} → {to?.name}</strong>
                       <span>
-                        {relationTypeLabels[relation.type]} ·{' '}
+                        {from
+                          ? getPerspectiveRelationLabel(relation, from, to)
+                          : '关系'}{' '}
+                        ·{' '}
                         {certaintyLabels[relation.certainty]}
                       </span>
                     </button>

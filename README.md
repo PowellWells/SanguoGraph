@@ -30,8 +30,11 @@ npm run validate:offline
 ## Current milestone
 
 - 537 locally identified people (`person:sg:*`) across six import batches;
-- 184 recorded father, mother, spouse, adoptive-parent, and clan relationships,
+- 259 recorded father, mother, spouse, adoptive-parent, and clan relationships,
   with no political or battle edges;
+- 281 people currently have at least one formal relationship while 256 remain
+  isolated; the active [formal relationship coverage](docs/RELATION_COVERAGE.md)
+  milestone has entered the complete biographical-roster review;
 - all 537 formal people load into the front-end map on first entry; people
   without an in-scope relation remain visible as independent nodes;
 - inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
@@ -70,6 +73,18 @@ See the [major-person scope](docs/MAJOR_PERSON_SCOPE.md),
 [source policy](docs/SOURCE_POLICY.md), and
 [data schema](docs/DATA_SCHEMA.md).
 
+Maintainers can also build a local-only full-text index of all 65 volumes of
+*Records of the Three Kingdoms* for faster research:
+
+```powershell
+npm run sources:build
+npm run sources:search -- 刘备 --volume 32
+```
+
+Search hits never create formal relationships automatically. See the
+[local source index guide](docs/LOCAL_SOURCE_INDEX.md) for provenance,
+licensing, refresh, and review rules.
+
 ## Local development
 
 Requires Node.js 18.18+ and npm.
@@ -85,6 +100,7 @@ Run the complete quality gate:
 npm run lint
 npm run test
 npm run validate:data
+npm run validate:relation-coverage
 npm run validate:processed
 npm run build
 npm run build:offline

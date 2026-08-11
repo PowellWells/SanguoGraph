@@ -27,7 +27,8 @@ npm run validate:offline
 ## 当前里程碑
 
 - 固定收录537名人物，全部使用项目本地 `person:sg:*` ID；
-- 收录184条父亲、母亲、夫妻、收养和宗族基础关系，不增加政治或战争关系线；
+- 收录259条父亲、母亲、夫妻、收养和宗族基础关系，不增加政治或战争关系线；
+- 当前281人至少拥有一条正式关系，256人仍为孤立节点；[关系覆盖专项](docs/RELATION_COVERAGE.md)已进入第六批列传名册审核；
 - 首次进入即在前端加载全部537名人物，没有当前类型关系的人物作为独立节点显示；
 - 每条正式关系可查看《三国志》卷次、短引文和原文链接；
 - Cytoscape.js 图谱支持姓名、字、简繁体与别名搜索；
@@ -59,6 +60,16 @@ Wikidata QID 只保存为外部标识，不能成为项目主键，也不能单�
 请阅读[主要人物范围](docs/MAJOR_PERSON_SCOPE.md)、
 [史料政策](docs/SOURCE_POLICY.md)和[数据模式](docs/DATA_SCHEMA.md)。
 
+维护者还可建立只保存在本机的《三国志》全文索引，用于快速查找人物与关系线索：
+
+```powershell
+npm run sources:build
+npm run sources:search -- 刘备 --volume 32
+```
+
+索引不自动生成正式关系；使用方法、版本记录与许可证边界见
+[本地史料索引](docs/LOCAL_SOURCE_INDEX.md)。
+
 ## 本地开发
 
 需要 Node.js 18.18+ 和 npm：
@@ -74,6 +85,7 @@ npm run dev
 npm run lint
 npm run test
 npm run validate:data
+npm run validate:relation-coverage
 npm run validate:processed
 npm run build
 npm run build:offline

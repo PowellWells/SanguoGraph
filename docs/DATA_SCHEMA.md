@@ -9,6 +9,10 @@ and the fifth Shu-family batch is maintained in the three `fifthFamily*.ts`
 files. The sixth biographical roster is authored in
 `src/data/sixthRoster/manifest.ts`, converted to people in `persons.ts`, and
 frozen together with all earlier batches in `completeRosterManifest.ts`.
+The seventh omission-audit batch is maintained in the
+`seventhSourceAuditBatchOne*.ts` and `seventhSourceAuditBatchTwo*.ts` files
+and remains distinguishable from the frozen sixth roster. Official-history
+and Pei Songzhi annotation claims remain separate at source and relation level.
 Strict TypeScript interfaces in `src/domain` are the application model.
 
 ## Person
@@ -20,7 +24,7 @@ Strict TypeScript interfaces in `src/domain` are the application model.
 | `reviewStatus` | `pending_review` or `verified` |
 | `sourceIds` | Historical sources used to verify the person record |
 | `visualFaction` | Optional presentation-only `wei`, `shu`, `wu`, or `other`; never a formal political-affiliation claim |
-| `importBatch` | Project ingestion batch: `1` for the original 24 people, `2` for the 176-person major-roster expansion, `3` for the 35-person first family expansion, `4` for the 35-person Wei-family expansion, `5` for the 35-person Shu-family expansion, `6` for the 232-person complete biographical roster |
+| `importBatch` | Project ingestion batch: `1` for the original 24 people, `2` for the 176-person major-roster expansion, `3` for the 35-person first family expansion, `4` for the 35-person Wei-family expansion, `5` for the 35-person Shu-family expansion, `6` for the frozen 232-person biographical roster, `7` for verified additions found by the 65-volume omission audit |
 | `externalIds.wikidata` | Optional external QID; never a primary key |
 
 A verified formal person must cite at least one non-structured historical
@@ -74,6 +78,11 @@ verified-person evidence, confirmed-relation historical evidence, candidate
 review state, spouse duplicates, directed parent cycles, and formal-origin
 restrictions. When claim metadata is present it also checks opposing-source
 references and consistency between a confirmed relation and its decision state.
+
+`npm run validate:relation-coverage` prevents the formal relationship graph
+from regressing below the checked baseline. `npm run audit:relations -- --list`
+prints the full source-research queue without treating shared names, sources,
+or presentation factions as verified relationships.
 
 `npm run validate:processed` checks the candidate snapshot against JSON Schema,
 references, unverified state, and fixed SHA-256 values without rewriting it.
