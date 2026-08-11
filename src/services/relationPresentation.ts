@@ -116,6 +116,10 @@ const clanPerspectiveLabels: Readonly<Record<string, PerspectiveLabels>> = {
     source: '弟弟',
     target: '兄长',
   },
+  'relation:sg:volumes_31_50_qiao_zhou_clan_qiao_xiu': {
+    source: '孙子',
+    target: '祖父',
+  },
 };
 
 function childLabel(person: Person | undefined, adoptive: boolean): string {

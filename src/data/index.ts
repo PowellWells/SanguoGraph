@@ -33,6 +33,8 @@ import { majorRosterSecondPassRelations } from './majorRosterSecondPassRelations
 import { majorRosterSecondPassSources } from './majorRosterSecondPassSources';
 import { volumesOneToThirtyRelationshipRelations } from './volumesOneToThirtyRelationshipRelations';
 import { volumesOneToThirtyRelationshipSources } from './volumesOneToThirtyRelationshipSources';
+import { volumesThirtyOneToFiftyRelationshipRelations } from './volumesThirtyOneToFiftyRelationshipRelations';
+import { volumesThirtyOneToFiftyRelationshipSources } from './volumesThirtyOneToFiftyRelationshipSources';
 
 export const graphData: GraphData = {
   persons: [
@@ -58,6 +60,7 @@ export const graphData: GraphData = {
     ...seventhSourceAuditBatchTwoRelations,
     ...majorRosterSecondPassRelations,
     ...volumesOneToThirtyRelationshipRelations,
+    ...volumesThirtyOneToFiftyRelationshipRelations,
   ],
   sources: [
     ...(sourcesJson as HistoricalSource[]),
@@ -73,5 +76,6 @@ export const graphData: GraphData = {
     ...seventhSourceAuditBatchTwoSources,
     ...majorRosterSecondPassSources,
     ...volumesOneToThirtyRelationshipSources,
+    ...volumesThirtyOneToFiftyRelationshipSources,
   ],
 };
