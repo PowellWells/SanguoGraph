@@ -5,6 +5,7 @@ import {
   decisionStatusLabels,
   disputeStatusLabels,
   evidenceBasisLabels,
+  getPerspectiveRelationLabel,
   getRelationClaim,
   relationDirectionLabel,
   relationOriginLabels,
@@ -214,7 +215,13 @@ export function PersonPanel({
         <ul className="kin-list">
           {kin.map(({ relation, other }) => (
             <li key={relation.id}>
-              <span>{relationTypeLabels[relation.type]}</span>
+              <span>
+                {getPerspectiveRelationLabel(
+                  relation,
+                  selectedPerson,
+                  other,
+                )}
+              </span>
               <strong>{other?.name ?? '未知人物'}</strong>
               {relation.origin === 'candidate' && <small>候选</small>}
             </li>

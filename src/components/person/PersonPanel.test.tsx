@@ -27,6 +27,54 @@ describe('PersonPanel', () => {
     expect(screen.getByText('卞夫人')).toBeInTheDocument();
   });
 
+  it('shows Cao Zhen relations from Cao Zhen\'s point of view', () => {
+    const person = graphData.persons.find(
+      (item) => item.id === 'person:sg:cao_zhen',
+    );
+    if (!person) {
+      throw new Error('曹真测试人物不存在。');
+    }
+
+    render(
+      <PersonPanel
+        selectedPerson={person}
+        selectedRelation={null}
+        persons={graphData.persons}
+        relations={graphData.relations}
+        sources={graphData.sources}
+      />,
+    );
+
+    expect(screen.getAllByText('儿子')).toHaveLength(6);
+    expect(screen.getByText('养父')).toBeInTheDocument();
+    expect(screen.getByText('宗族长辈')).toBeInTheDocument();
+    expect(screen.getByText('弟弟')).toBeInTheDocument();
+    expect(screen.queryByText('父亲')).not.toBeInTheDocument();
+  });
+
+  it('shows Cao Zhen as Cao Shuang\'s father', () => {
+    const person = graphData.persons.find(
+      (item) => item.id === 'person:sg:cao_shuang',
+    );
+    if (!person) {
+      throw new Error('曹爽测试人物不存在。');
+    }
+
+    render(
+      <PersonPanel
+        selectedPerson={person}
+        selectedRelation={null}
+        persons={graphData.persons}
+        relations={graphData.relations}
+        sources={graphData.sources}
+      />,
+    );
+
+    expect(screen.getByText('父亲')).toBeInTheDocument();
+    expect(screen.getByText('曹真')).toBeInTheDocument();
+    expect(screen.getByText('姑表亲')).toBeInTheDocument();
+  });
+
   it('identifies a person from the second import batch', () => {
     const person = graphData.persons.find(
       (item) => item.id === 'person:sg:liu_bei',
