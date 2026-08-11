@@ -19,6 +19,8 @@ import { sixthRosterManifest, sixthRosterPersons } from './sixthRoster';
 import { sixthRosterRelationshipBatchOneSources } from './sixthRosterRelationshipBatchOneSources';
 import { seventhSourceAuditBatchOnePersons } from './seventhSourceAuditBatchOnePersons';
 import { seventhSourceAuditBatchOneSources } from './seventhSourceAuditBatchOneSources';
+import { seventhSourceAuditBatchTwoPersons } from './seventhSourceAuditBatchTwoPersons';
+import { seventhSourceAuditBatchTwoSources } from './seventhSourceAuditBatchTwoSources';
 
 export interface CompleteRosterManifestEntry {
   id: string;
@@ -48,6 +50,7 @@ const sources: HistoricalSource[] = [
   ...fifthFamilySources,
   ...sixthRosterRelationshipBatchOneSources,
   ...seventhSourceAuditBatchOneSources,
+  ...seventhSourceAuditBatchTwoSources,
 ];
 
 const sourcesById = new Map(sources.map((source) => [source.id, source]));
@@ -85,8 +88,10 @@ const sixthManifest: CompleteRosterManifestEntry[] =
     importBatch: 6,
   }));
 
-const seventhAuditManifest: CompleteRosterManifestEntry[] =
-  seventhSourceAuditBatchOnePersons.map((person) => {
+const seventhAuditManifest: CompleteRosterManifestEntry[] = [
+  ...seventhSourceAuditBatchOnePersons,
+  ...seventhSourceAuditBatchTwoPersons,
+].map((person) => {
     const source = sourcesById.get(person.sourceIds[0] ?? '');
     return {
       id: person.id,
@@ -110,13 +115,13 @@ export const completeRosterManifest: readonly CompleteRosterManifestEntry[] = [
   ...seventhAuditManifest,
 ];
 
-export const COMPLETE_ROSTER_EXPECTED_COUNT = 557;
+export const COMPLETE_ROSTER_EXPECTED_COUNT = 577;
 export const COMPLETE_ROSTER_EXPECTED_FACTION_COUNTS: Readonly<
   Record<VisualFaction, number>
 > = {
-  wei: 273,
-  shu: 120,
-  wu: 125,
+  wei: 283,
+  shu: 122,
+  wu: 133,
   other: 39,
 };
 

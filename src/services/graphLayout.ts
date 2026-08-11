@@ -1640,7 +1640,7 @@ function createEdgeRoutes(
       | undefined;
     const candidateWeights = isParallel
       ? [0.5]
-      : [0.5, 0.35, 0.65, 0.2, 0.8];
+      : [0.5, 0.35, 0.65, 0.2, 0.8, 0.1, 0.9, 0.05, 0.95];
     for (const distanceBatch of candidateDistanceBatches) {
       let foundCollisionFreeRoute = false;
       for (const controlPointDistance of distanceBatch) {

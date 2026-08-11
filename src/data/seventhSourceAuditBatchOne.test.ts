@@ -55,15 +55,9 @@ describe('seventh source-audit batch one', () => {
       });
       expect(relation.sourceIds).toHaveLength(1);
     });
-    const auditedPersonIds = new Set(
-      seventhSourceAuditBatchOnePersons.map(({ id }) => id),
-    );
     expect(
-      graphData.relations.filter(
-        (relation) =>
-          relation.type === 'spouse_of' &&
-          (auditedPersonIds.has(relation.sourcePersonId) ||
-            auditedPersonIds.has(relation.targetPersonId)),
+      seventhSourceAuditBatchOneRelations.filter(
+        (relation) => relation.type === 'spouse_of',
       ),
     ).toHaveLength(0);
   });

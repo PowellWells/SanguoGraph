@@ -38,14 +38,11 @@ describe('findShortestRelationshipPath', () => {
 
     expect(path?.personIds).toEqual([
       'person:sg:cao_cao',
-      'person:sg:cao_zhen',
-      'person:sg:cao_shuang',
-      'person:sg:xiahou_xuan',
-      'person:sg:xiahou_shang',
-      'person:sg:xiahou_yuan',
+      'person:sg:qinghe_princess',
+      'person:sg:xiahou_mao',
       'person:sg:xiahou_dun',
     ]);
-    expect(path?.relations).toHaveLength(6);
+    expect(path?.relations).toHaveLength(3);
     expect(
       path?.relations.every(
         (relation) =>

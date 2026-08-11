@@ -18,8 +18,8 @@ import {
 } from './sixthRoster';
 
 describe('complete biographical roster manifest', () => {
-  it('freezes the audited 557-person roster and sixth batch', () => {
-    expect(COMPLETE_ROSTER_EXPECTED_COUNT).toBe(557);
+  it('freezes the audited 577-person roster and sixth batch', () => {
+    expect(COMPLETE_ROSTER_EXPECTED_COUNT).toBe(577);
     expect(completeRosterManifest).toHaveLength(
       COMPLETE_ROSTER_EXPECTED_COUNT,
     );
@@ -30,7 +30,7 @@ describe('complete biographical roster manifest', () => {
     ).toHaveLength(SIXTH_ROSTER_EXPECTED_COUNT);
     expect(
       graphData.persons.filter((person) => person.importBatch === 7),
-    ).toHaveLength(20);
+    ).toHaveLength(40);
     expect([
       ...sixthWeiRoster,
       ...sixthShuRoster,
@@ -100,13 +100,13 @@ describe('complete biographical roster manifest', () => {
       });
   });
 
-  it('freezes the 284-record relation set after source-audit batch one', () => {
-    expect(graphData.relations).toHaveLength(284);
+  it('freezes the 318-record relation set after source-audit batch two', () => {
+    expect(graphData.relations).toHaveLength(318);
     expect(
       createHash('sha256')
         .update(JSON.stringify(graphData.relations))
         .digest('hex'),
-    ).toBe('97b3b42f286e34d386f55b207eb5bf82a0a0556c1f76454ce6bf9c96beee8e6b');
+    ).toBe('514bc1b1b06957ec4c247df132452a5eebe6fb9e9f7837e63919e18f0dd5f240');
   });
 
   it('records the source-backed Yuan family cluster', () => {

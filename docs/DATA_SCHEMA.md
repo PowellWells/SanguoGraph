@@ -9,9 +9,10 @@ and the fifth Shu-family batch is maintained in the three `fifthFamily*.ts`
 files. The sixth biographical roster is authored in
 `src/data/sixthRoster/manifest.ts`, converted to people in `persons.ts`, and
 frozen together with all earlier batches in `completeRosterManifest.ts`.
-The seventh omission-audit batch is maintained in the three
-`seventhSourceAuditBatchOne*.ts` files and remains distinguishable from the
-frozen sixth roster.
+The seventh omission-audit batch is maintained in the
+`seventhSourceAuditBatchOne*.ts` and `seventhSourceAuditBatchTwo*.ts` files
+and remains distinguishable from the frozen sixth roster. Official-history
+and Pei Songzhi annotation claims remain separate at source and relation level.
 Strict TypeScript interfaces in `src/domain` are the application model.
 
 ## Person
