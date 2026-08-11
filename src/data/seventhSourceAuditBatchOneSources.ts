@@ -10,7 +10,7 @@ export const seventhSourceAuditBatchOneSources: HistoricalSource[] = [
     quotation:
       '董厥者，丞相亮时为府令史，亮称之曰：“董令史，良士也。吾每与之言，思慎宜适。”徙为主薄。亮卒后，稍迁。',
     reference: '《三国志》卷三十五《蜀书五·诸葛亮传·董厥》',
-    url: 'https://zh.wikisource.org/wiki/三國志/卷35',
+    url: null,
     sourceType: 'primary',
     historicalLayer: 'official_history',
     reviewStatus: 'verified',
@@ -25,7 +25,7 @@ export const seventhSourceAuditBatchOneSources: HistoricalSource[] = [
     quotation:
       '孙虑字子智，登弟也。少敏惠有才艺，权器爱之。黄武七年，封建昌侯。……年二十，嘉禾元年卒。无子，国除。',
     reference: '《三国志》卷五十九《吴书十四·吴主五子传·孙虑》',
-    url: 'https://zh.wikisource.org/wiki/三國志/卷59',
+    url: null,
     sourceType: 'primary',
     historicalLayer: 'official_history',
     reviewStatus: 'verified',

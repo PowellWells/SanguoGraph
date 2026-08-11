@@ -148,7 +148,7 @@ export function PersonPanel({
           </div>
         </dl>
         {selectedRelation.origin === 'candidate' && (
-          <p className="candidate-warning">此边是 Wikidata 候选线索，未经过正史核验。</p>
+          <p className="candidate-warning">此边是外部候选线索，未经过正史核验。</p>
         )}
         <section className="relation-interpretation">
           <h3 className="detail-subtitle">现代解释</h3>

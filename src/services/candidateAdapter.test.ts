@@ -2,6 +2,18 @@ import { describe, expect, it } from 'vitest';
 import { graphData } from '../data';
 import { adaptCandidateGraph } from './candidateAdapter';
 
+const internalCandidateIds: Readonly<Record<string, string>> = {
+  'person:sg:cao_cao': 'Q204077',
+  'person:sg:empress_bian': 'Q292698',
+  'person:sg:cao_pi': 'Q313333',
+};
+const internalCandidatePersons = graphData.persons.map((person) => ({
+  ...person,
+  externalIds: internalCandidateIds[person.id]
+    ? { wikidata: internalCandidateIds[person.id] }
+    : {},
+}));
+
 function link(
   id: string,
   sourceId: string,
@@ -25,7 +37,7 @@ describe('adaptCandidateGraph', () => {
           link('mother', 'person:wd:Q313333', 'person:wd:Q292698', 'mother'),
         ],
       },
-      graphData.persons,
+      internalCandidatePersons,
     );
 
     expect(result.relations).toEqual(
@@ -55,7 +67,7 @@ describe('adaptCandidateGraph', () => {
           link('outside', 'person:wd:Q313333', 'person:wd:Q999999', 'father'),
         ],
       },
-      graphData.persons,
+      internalCandidatePersons,
     );
 
     expect(result.relations).toEqual([]);
@@ -69,7 +81,7 @@ describe('adaptCandidateGraph', () => {
           link('b', 'person:wd:Q292698', 'person:wd:Q204077', 'spouse'),
         ],
       },
-      graphData.persons,
+      internalCandidatePersons,
     );
 
     expect(result.relations).toHaveLength(1);

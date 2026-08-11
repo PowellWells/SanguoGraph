@@ -1,5 +1,6 @@
 import { readFile, readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { findForbiddenBundledReference } from './frontend-policy-guard';
 
 const offlineDirectory = resolve('offline');
 const offlineIndex = resolve(offlineDirectory, 'index.html');
@@ -53,6 +54,11 @@ if (html.includes('offline-entry-redirect')) {
 
 if (!html.includes('SanguoGraph') || !html.includes('id="root"')) {
   errors.push('index.html 缺少应用标题或 React 根节点。');
+}
+
+const forbiddenReference = findForbiddenBundledReference(html);
+if (forbiddenReference) {
+  errors.push(`离线文件包含禁止发布的外部知识平台标识：${forbiddenReference}`);
 }
 
 if (errors.length > 0) {

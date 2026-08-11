@@ -21,7 +21,7 @@ export function SourcesPage() {
         <p className="eyebrow">Source policy</p>
         <h1>史料说明</h1>
         <p>
-          三国人物关系谱 · SanguoGraph 将正史正文、注引材料和结构化候选分层保存，
+          三国人物关系谱 · SanguoGraph 将正史正文、注引材料和其他史料分层保存，
           每条正式关系都可回到具体卷次。
         </p>
       </header>
@@ -93,7 +93,7 @@ export function SourcesPage() {
       <section>
         <h2>候选数据不等于史实</h2>
         <p>
-          Wikidata、既有知识图谱和后世整理成果可以帮助发现线索，但不能替代对原始史料的人工核验。
+          既有知识图谱和后世整理成果可以帮助发现线索，但不能替代对原始史料的人工核验。
           候选线索默认隐藏，也不能单独支撑 confirmed 关系。
         </p>
       </section>

@@ -3,14 +3,14 @@
 ## Milestone 0 — completed
 
 - React, TypeScript, Vite, Cytoscape.js shell, validation, tests, and Pages CI
-- Wikidata candidate pipeline and source/license registry
+- internal candidate pipeline and source/license registry
 
 ## Milestone 1 — completed
 
 - 15-person Cao Cao core family
 - source-backed base relationships and evidence panels
 - search, type filters, all/one-hop/two-hop views
-- lazy, default-hidden Wikidata candidate overlay
+- internal candidate tooling kept outside the public frontend
 - formal and processed data quality gates
 
 ## Milestone 1.1 — visual frontend completed
@@ -24,7 +24,7 @@
 
 - self-contained `offline/index.html` for direct local use
 - no Node.js, local server, or network connection required for readers
-- embedded candidate layer remains opt-in and hidden by default
+- internal candidate data is excluded from the offline artifact
 - automated checks prevent external scripts, styles, or data dependencies
 
 ## Milestone 1.3 — interaction and evidence loop completed
@@ -35,7 +35,7 @@
 - node expansion/collapse, position locking, hiding, branch isolation, undo,
   core reset, and complete-network actions
 - live source counts and an actionable source catalog tied to current filters
-- seven independent source-system filters with candidates disabled by default
+- six independent public source-system filters; internal candidates are not shipped
 - disambiguating search cards, pinyin/context search, and shortest-path queries
 
 ## Milestone 2 — Cao and Xiahou clans (completed)

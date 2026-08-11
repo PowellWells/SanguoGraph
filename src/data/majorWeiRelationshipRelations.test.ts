@@ -22,7 +22,7 @@ describe('major Wei relationship expansion batch one', () => {
     for (const source of majorWeiRelationshipSources) {
       expect(source.reviewStatus).toBe('verified');
       expect(source.quotation?.length).toBeGreaterThan(0);
-      expect(source.url).toMatch(/^https:\/\/zh\.wikisource\.org\//);
+      expect(source.url).toBeNull();
     }
   });
 
