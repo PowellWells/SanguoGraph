@@ -37,6 +37,8 @@ import { volumesThirtyOneToFiftyRelationshipRelations } from './volumesThirtyOne
 import { volumesThirtyOneToFiftyRelationshipSources } from './volumesThirtyOneToFiftyRelationshipSources';
 import { volumesFiftyOneToSixtyFiveRelationshipRelations } from './volumesFiftyOneToSixtyFiveRelationshipRelations';
 import { volumesFiftyOneToSixtyFiveRelationshipSources } from './volumesFiftyOneToSixtyFiveRelationshipSources';
+import { globalDataEvidenceAuditRelations } from './globalDataEvidenceAuditRelations';
+import { globalDataEvidenceAuditSources } from './globalDataEvidenceAuditSources';
 
 export const graphData: GraphData = {
   persons: [
@@ -64,6 +66,7 @@ export const graphData: GraphData = {
     ...volumesOneToThirtyRelationshipRelations,
     ...volumesThirtyOneToFiftyRelationshipRelations,
     ...volumesFiftyOneToSixtyFiveRelationshipRelations,
+    ...globalDataEvidenceAuditRelations,
   ],
   sources: [
     ...(sourcesJson as HistoricalSource[]),
@@ -81,5 +84,6 @@ export const graphData: GraphData = {
     ...volumesOneToThirtyRelationshipSources,
     ...volumesThirtyOneToFiftyRelationshipSources,
     ...volumesFiftyOneToSixtyFiveRelationshipSources,
+    ...globalDataEvidenceAuditSources,
   ],
 };

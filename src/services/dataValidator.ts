@@ -16,6 +16,7 @@ export type ValidationCode =
   | 'VERIFIED_PERSON_WITHOUT_HISTORICAL_SOURCE'
   | 'CONFIRMED_RELATION_NOT_VERIFIED'
   | 'CONFIRMED_RELATION_WITHOUT_HISTORICAL_SOURCE'
+  | 'RELATION_WITHOUT_QUOTED_SOURCE'
   | 'CANDIDATE_NOT_PENDING'
   | 'RAW_RELATION_NOT_RECORDED'
   | 'DUPLICATE_SPOUSE'
@@ -205,6 +206,20 @@ export function validateGraphData(data: GraphData): ValidationIssue[] {
           message: `${relation.id} 引用了不存在的史料：${sourceId}`,
         });
       }
+    }
+
+    if (
+      !relation.sourceIds.some((sourceId) => {
+        const quotation = sourcesById.get(sourceId)?.quotation;
+        return quotation !== null && quotation !== undefined && quotation.trim().length > 0;
+      })
+    ) {
+      issues.push({
+        code: 'RELATION_WITHOUT_QUOTED_SOURCE',
+        collection: 'relations',
+        entityId: relation.id,
+        message: `${relation.id} 必须引用至少一条带原文摘录的史料。`,
+      });
     }
 
     for (const sourceId of relation.claim?.opposingSourceIds ?? []) {

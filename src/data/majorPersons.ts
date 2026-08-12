@@ -1063,7 +1063,7 @@ const wuSeeds: readonly MajorPersonSeed[] = [
     factions: sunWu,
     description: '孙权夫人，孙亮生母。',
     gender: 'female',
-    otherNames: ['潘氏', '大懿皇后'],
+    otherNames: ['潘氏'],
   },
   {
     slug: 'sun_jing',

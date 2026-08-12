@@ -234,7 +234,7 @@ const seeds: readonly RelationSeed[] = [
     source: 'sun_he',
     target: 'sun_hao',
     type: 'father_of',
-    sourceId: 'source:sg:sgz_volume_48',
+    sourceId: 'source:sg:round_05_sgz_48_sun_he_sun_hao',
     note: '《三嗣主传》明确记孙皓为孙和之子。',
   },
   {

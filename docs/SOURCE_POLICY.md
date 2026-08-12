@@ -13,11 +13,12 @@
 These layers may be compared but must not be merged into one undifferentiated
 claim.
 
-The reader-facing filters refine this into seven independent presentation
-layers: direct official-history records, official-history inferences, other
-ancient sources, modern research, literature, open-knowledge candidates, and
-editor inference. Empty layers remain visible with a zero count so absence of
-data is not mistaken for a negative historical conclusion.
+The reader-facing filters keep formal source layers independent: direct
+official-history records, official-history inferences, other ancient sources,
+modern research, literature, and editor inference. Internal open-knowledge
+candidates do not enter the public or offline build. Empty formal layers remain
+visible with a zero count so absence of data is not mistaken for a negative
+historical conclusion.
 
 ## Review, certainty, and origin
 
@@ -27,7 +28,8 @@ data is not mistaken for a negative historical conclusion.
 - `origin: derived` is a future program inference and must not be presented as
   a direct record.
 - `confirmed` requires `verified` plus at least one non-structured historical
-  source.
+  source. Every formal relation, regardless of certainty, must cite at least
+  one source record containing a locatable quotation.
 - A locatable annotation may be `verified` while remaining `probable` when the
   evidence layer warrants caution.
 - “No opposing source recorded” means only that the current project data has
@@ -39,8 +41,9 @@ data is not mistaken for a negative historical conclusion.
 ## Candidate sources
 
 Wikidata and other knowledge graphs may identify candidates but cannot by
-themselves establish historical fact. The UI hides candidates by default and
-labels them “未经过正史核验”.
+themselves establish historical fact. They may remain in the non-building
+internal research area, but their names, identifiers, URLs, excerpts, and
+candidate records must not appear in the front-end or offline artifact.
 
 Do not copy or redistribute third-party data until provenance, license,
 compatibility, and transformation requirements have been reviewed. Never

@@ -30,11 +30,11 @@ npm run validate:offline
 ## Current milestone
 
 - 577 locally identified people (`person:sg:*`) across seven import batches;
-- 349 recorded father, mother, spouse, adoptive-parent, and clan relationships,
+- 353 recorded father, mother, spouse, adoptive-parent, and clan relationships,
   with no political or battle edges;
-- 365 people currently have at least one formal relationship while 212 remain
+- 371 people currently have at least one formal relationship while 206 remain
   isolated; the active [formal relationship coverage](docs/RELATION_COVERAGE.md)
-  milestone has entered the complete biographical-roster review;
+  milestone has completed its global omission and evidence audit;
 - all 577 formal people load into the front-end map on first entry; people
   without an in-scope relation remain visible as independent nodes;
 - inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's

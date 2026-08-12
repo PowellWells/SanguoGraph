@@ -1629,6 +1629,10 @@ function createEdgeRoutes(
           magnitude * outwardSign,
           -magnitude * outwardSign,
         ]);
+      candidateDistanceBatches.push([
+        14_400 * outwardSign,
+        -14_400 * outwardSign,
+      ]);
     }
 
     let best:

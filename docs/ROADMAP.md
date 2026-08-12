@@ -109,12 +109,13 @@
 - complete the volumes 1-30 review without adding people: 333 relations, 348 related people, and 229 isolated people
 - complete the volumes 31-50 review without adding people: 341 relations, 357 related people, and 220 isolated people
 - complete the volumes 51-65 review without adding people: 349 relations, 365 related people, and 212 isolated people
+- complete the global omission, identity, provenance, and evidence audit without adding people: 353 relations, 371 related people, and 206 isolated people
 - keep a deterministic full isolation audit and prevent coverage regressions in CI
-- retain 63 unresolved major-roster people for later review and reduce the sixth-batch isolated count from 206 to 148 people
+- retain 61 unresolved major-roster people for later review and reduce the sixth-batch isolated count from 206 to 144 people
 - reduce isolated people to no more than 200 in the first relationship-enrichment phase
 - add only source-backed relationships and keep research leads out of the formal graph
 - prioritize relations among the frozen 577-person roster; add an omitted person only when qualified evidence immediately connects that person to the formal network
-- complete the volume 51–65 review at 8 relations and 8 connected people, then move to the global omission, identity, provenance, and evidence audit
+- require at least one quoted source for every formal relationship and preserve the remaining six-person target gap without weakening evidence standards
 - decide political, office, military, and event modeling in a separate milestone
 
 ## Milestone 2.8 — 65-volume omission audit (in progress)
