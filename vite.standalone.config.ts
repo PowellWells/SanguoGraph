@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { viteSingleFile } from 'vite-plugin-singlefile';
+import { frontendPolicyGuard } from './scripts/frontend-policy-guard';
 
 const offlineRedirectPattern =
   /\s*<script id="offline-entry-redirect">[\s\S]*?<\/script>/;
@@ -36,6 +37,7 @@ export default defineConfig({
       removeViteModuleLoader: true,
     }),
     trimOfflineWhitespace,
+    frontendPolicyGuard(),
   ],
   build: {
     outDir: 'offline',

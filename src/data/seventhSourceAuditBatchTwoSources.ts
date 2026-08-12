@@ -23,7 +23,7 @@ function source(seed: SourceSeed): HistoricalSource {
     quotation: seed.quotation,
     reference:
       seed.reference ?? `《三国志》卷${seed.volume}《${seed.section}》`,
-    url: `https://zh.wikisource.org/wiki/三國志/卷${seed.volume}`,
+    url: null,
     sourceType: 'primary',
     historicalLayer,
     reviewStatus: 'verified',

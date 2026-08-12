@@ -3,14 +3,14 @@
 ## Milestone 0 — completed
 
 - React, TypeScript, Vite, Cytoscape.js shell, validation, tests, and Pages CI
-- Wikidata candidate pipeline and source/license registry
+- internal candidate pipeline and source/license registry
 
 ## Milestone 1 — completed
 
 - 15-person Cao Cao core family
 - source-backed base relationships and evidence panels
 - search, type filters, all/one-hop/two-hop views
-- lazy, default-hidden Wikidata candidate overlay
+- internal candidate tooling kept outside the public frontend
 - formal and processed data quality gates
 
 ## Milestone 1.1 — visual frontend completed
@@ -24,7 +24,7 @@
 
 - self-contained `offline/index.html` for direct local use
 - no Node.js, local server, or network connection required for readers
-- embedded candidate layer remains opt-in and hidden by default
+- internal candidate data is excluded from the offline artifact
 - automated checks prevent external scripts, styles, or data dependencies
 
 ## Milestone 1.3 — interaction and evidence loop completed
@@ -35,7 +35,7 @@
 - node expansion/collapse, position locking, hiding, branch isolation, undo,
   core reset, and complete-network actions
 - live source counts and an actionable source catalog tied to current filters
-- seven independent source-system filters with candidates disabled by default
+- six independent public source-system filters; internal candidates are not shipped
 - disambiguating search cards, pinyin/context search, and shortest-path queries
 
 ## Milestone 2 — Cao and Xiahou clans (completed)
@@ -105,10 +105,16 @@
 - measure the starting baseline of 187 related and 350 isolated people
 - complete all three major-roster research batches and the first volume-20 complete-roster batch at 281 related and 256 isolated people
 - complete the first two 65-volume omission-audit groups at 577 people, 318 relations, 325 related people, and 252 isolated people
+- complete the major-roster second pass without adding people: 324 relations, 333 related people, and 244 isolated people
+- complete the volumes 1-30 review without adding people: 333 relations, 348 related people, and 229 isolated people
+- complete the volumes 31-50 review without adding people: 341 relations, 357 related people, and 220 isolated people
+- complete the volumes 51-65 review without adding people: 349 relations, 365 related people, and 212 isolated people
 - keep a deterministic full isolation audit and prevent coverage regressions in CI
-- retain 71 unresolved major-roster people for later review and reduce the sixth-batch queue from 206 to 180 people
+- retain 63 unresolved major-roster people for later review and reduce the sixth-batch isolated count from 206 to 148 people
 - reduce isolated people to no more than 200 in the first relationship-enrichment phase
 - add only source-backed relationships and keep research leads out of the formal graph
+- prioritize relations among the frozen 577-person roster; add an omitted person only when qualified evidence immediately connects that person to the formal network
+- complete the volume 51–65 review at 8 relations and 8 connected people, then move to the global omission, identity, provenance, and evidence audit
 - decide political, office, military, and event modeling in a separate milestone
 
 ## Milestone 2.8 — 65-volume omission audit (in progress)

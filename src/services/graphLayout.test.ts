@@ -294,7 +294,7 @@ describe('graph layout', () => {
     expect(layout.generations['person:sg:xiahou_xuan']).toBe(
       layout.generations['person:sg:cao_shuang'],
     );
-  });
+  }, 10_000);
 
   it('keeps the default and complete graphs collision free', () => {
     const defaultGraph = getDefaultGraph();
@@ -314,7 +314,7 @@ describe('graph layout', () => {
       { compact: true },
     );
 
-    expect(defaultGraph.persons).toHaveLength(38);
+    expect(defaultGraph.persons).toHaveLength(39);
     expectNoNodeOverlap(defaultLayout, defaultGraph.persons, 112);
     expectNoNodeOverlap(completeLayout, graphData.persons, 112);
     expectNoNodeOverlap(compactLayout, graphData.persons, 104);

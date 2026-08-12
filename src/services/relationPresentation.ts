@@ -88,6 +88,58 @@ const clanPerspectiveLabels: Readonly<Record<string, PerspectiveLabels>> = {
   'relation:sg:major_shu_other_ma_liang_clan_ma_su': { source: '弟弟', target: '哥哥' },
   'relation:sg:major_shu_other_yuan_shao_clan_yuan_shu': { source: '从弟', target: '从兄' },
   'relation:sg:major_shu_other_gongsun_du_clan_gongsun_yuan': { source: '孙子', target: '祖父' },
+  'relation:sg:major_roster_second_pass_liu_xie_clan_cao_cao': {
+    source: '岳父',
+    target: '女婿',
+  },
+  'relation:sg:major_roster_second_pass_zhang_xiu_clan_cao_jun': {
+    source: '女婿',
+    target: '岳父',
+  },
+  'relation:sg:major_roster_second_pass_zhang_lu_clan_cao_yu': {
+    source: '女婿',
+    target: '岳父',
+  },
+  'relation:sg:major_roster_second_pass_guo_huai_clan_wang_ling': {
+    source: '妻兄',
+    target: '妹夫',
+  },
+  'relation:sg:major_roster_second_pass_wang_ling_clan_wang_yun': {
+    source: '叔父',
+    target: '侄子',
+  },
+  'relation:sg:volumes_01_30_sima_lang_clan_sima_yi': {
+    source: '弟弟',
+    target: '兄长',
+  },
+  'relation:sg:volumes_01_30_ding_yi_clan_ding_yi_younger': {
+    source: '弟弟',
+    target: '兄长',
+  },
+  'relation:sg:volumes_31_50_qiao_zhou_clan_qiao_xiu': {
+    source: '孙子',
+    target: '祖父',
+  },
+  'relation:sg:volumes_51_65_lu_mao_clan_lu_xun': {
+    source: '兄长',
+    target: '弟弟',
+  },
+  'relation:sg:volumes_51_65_lu_mao_clan_lu_ji': {
+    source: '从父',
+    target: '从子',
+  },
+  'relation:sg:volumes_51_65_lu_yin_clan_lu_kai': {
+    source: '兄长',
+    target: '弟弟',
+  },
+  'relation:sg:volumes_51_65_teng_yin_clan_teng_lady': {
+    source: '族女',
+    target: '族亲',
+  },
+  'relation:sg:volumes_51_65_he_qi_clan_he_shao': {
+    source: '孙子',
+    target: '祖父',
+  },
 };
 
 function childLabel(person: Person | undefined, adoptive: boolean): string {

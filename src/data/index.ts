@@ -29,6 +29,14 @@ import { seventhSourceAuditBatchOneSources } from './seventhSourceAuditBatchOneS
 import { seventhSourceAuditBatchTwoPersons } from './seventhSourceAuditBatchTwoPersons';
 import { seventhSourceAuditBatchTwoRelations } from './seventhSourceAuditBatchTwoRelations';
 import { seventhSourceAuditBatchTwoSources } from './seventhSourceAuditBatchTwoSources';
+import { majorRosterSecondPassRelations } from './majorRosterSecondPassRelations';
+import { majorRosterSecondPassSources } from './majorRosterSecondPassSources';
+import { volumesOneToThirtyRelationshipRelations } from './volumesOneToThirtyRelationshipRelations';
+import { volumesOneToThirtyRelationshipSources } from './volumesOneToThirtyRelationshipSources';
+import { volumesThirtyOneToFiftyRelationshipRelations } from './volumesThirtyOneToFiftyRelationshipRelations';
+import { volumesThirtyOneToFiftyRelationshipSources } from './volumesThirtyOneToFiftyRelationshipSources';
+import { volumesFiftyOneToSixtyFiveRelationshipRelations } from './volumesFiftyOneToSixtyFiveRelationshipRelations';
+import { volumesFiftyOneToSixtyFiveRelationshipSources } from './volumesFiftyOneToSixtyFiveRelationshipSources';
 
 export const graphData: GraphData = {
   persons: [
@@ -52,6 +60,10 @@ export const graphData: GraphData = {
     ...sixthRosterRelationshipBatchOneRelations,
     ...seventhSourceAuditBatchOneRelations,
     ...seventhSourceAuditBatchTwoRelations,
+    ...majorRosterSecondPassRelations,
+    ...volumesOneToThirtyRelationshipRelations,
+    ...volumesThirtyOneToFiftyRelationshipRelations,
+    ...volumesFiftyOneToSixtyFiveRelationshipRelations,
   ],
   sources: [
     ...(sourcesJson as HistoricalSource[]),
@@ -65,5 +77,9 @@ export const graphData: GraphData = {
     ...sixthRosterRelationshipBatchOneSources,
     ...seventhSourceAuditBatchOneSources,
     ...seventhSourceAuditBatchTwoSources,
+    ...majorRosterSecondPassSources,
+    ...volumesOneToThirtyRelationshipSources,
+    ...volumesThirtyOneToFiftyRelationshipSources,
+    ...volumesFiftyOneToSixtyFiveRelationshipSources,
   ],
 };

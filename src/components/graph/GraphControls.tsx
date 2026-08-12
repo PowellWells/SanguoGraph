@@ -51,8 +51,6 @@ interface GraphControlsProps {
   depth: NeighborhoodDepth;
   enabledSourceLayers: ReadonlySet<SourceLayerKey>;
   sourceLayerCounts: Record<SourceLayerKey, number>;
-  candidateStatus: 'idle' | 'loading' | 'loaded' | 'error';
-  candidateError: string | null;
   visualFactionCounts: Record<VisualFaction, number>;
   pathStartId: string;
   pathEndId: string;
@@ -82,8 +80,6 @@ export function GraphControls({
   depth,
   enabledSourceLayers,
   sourceLayerCounts,
-  candidateStatus,
-  candidateError,
   visualFactionCounts,
   pathStartId,
   pathEndId,
@@ -209,34 +205,23 @@ export function GraphControls({
           <legend>史料来源分层开关</legend>
           {sourceLayerOptions.map((option) => {
             const count = sourceLayerCounts[option.key];
-            const isCandidate = option.key === 'structured_candidate';
             return (
               <label key={option.key} title={option.description}>
                 <input
                   type="checkbox"
                   aria-label={option.label}
                   checked={enabledSourceLayers.has(option.key)}
-                  disabled={count === 0 && !isCandidate}
+                  disabled={count === 0}
                   onChange={() => onSourceLayerToggle(option.key)}
                 />
                 <span>
                   {option.label}
-                  <small>
-                    {isCandidate && candidateStatus === 'idle' ? '按需' : count}
-                  </small>
+                  <small>{count}</small>
                 </span>
               </label>
             );
           })}
-          <p>开放知识库候选默认关闭，不等于史料确认。</p>
-          {candidateStatus === 'loading' && (
-            <p role="status">正在按需加载候选数据……</p>
-          )}
-          {candidateError && (
-            <p className="inline-error" role="alert">
-              {candidateError}
-            </p>
-          )}
+          <p>不同史料层分别控制，关闭后只改变当前显示范围。</p>
         </fieldset>
         <details className="control-section path-query">
           <summary>双人物关系查询</summary>

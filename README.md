@@ -7,17 +7,17 @@
 > **Explore online:** [Open the relationship graph](https://powellwells.github.io/SanguoGraph/)
 
 三国人物关系谱 · SanguoGraph is an early-stage, source-traceable knowledge graph for historical
-relationships in the Three Kingdoms period. The formal layer now covers 537
+relationships in the Three Kingdoms period. The formal layer now covers 577
 historical or explicitly literary-layer people across Wei, Shu, Wu, and
 late-Han groups while keeping verified records, presentation factions,
-literary claims, and external candidates separate.
+literary claims, and internal research candidates separate.
 
 ## Open directly offline
 
 Double-click the repository-root [`index.html`](index.html) to use the complete
 graph in a local browser; it automatically opens
 [`offline/index.html`](offline/index.html). The offline file embeds its styles,
-application code, and candidate data, so it requires no Node.js installation,
+application code, and formal data, so it requires no Node.js installation,
 local server, or internet connection.
 
 Maintainers can rebuild and validate the offline file with:
@@ -29,13 +29,13 @@ npm run validate:offline
 
 ## Current milestone
 
-- 537 locally identified people (`person:sg:*`) across six import batches;
-- 259 recorded father, mother, spouse, adoptive-parent, and clan relationships,
+- 577 locally identified people (`person:sg:*`) across seven import batches;
+- 349 recorded father, mother, spouse, adoptive-parent, and clan relationships,
   with no political or battle edges;
-- 281 people currently have at least one formal relationship while 256 remain
+- 365 people currently have at least one formal relationship while 212 remain
   isolated; the active [formal relationship coverage](docs/RELATION_COVERAGE.md)
   milestone has entered the complete biographical-roster review;
-- all 537 formal people load into the front-end map on first entry; people
+- all 577 formal people load into the front-end map on first entry; people
   without an in-scope relation remain visible as independent nodes;
 - inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
   annotations;
@@ -52,11 +52,11 @@ npm run validate:offline
 - independent source-system filters rather than a single mixed trust layer;
 - disambiguating search with pinyin/context matching and two-person shortest
   paths;
-- a lazy, opt-in Wikidata candidate layer that is hidden by default;
+- candidate datasets remain internal research inputs and are excluded from public builds;
 - responsive desktop and mobile layouts.
 
-Wikidata QIDs are external identifiers only. They are never project primary
-keys and cannot establish a `confirmed` relationship.
+External identifiers used by internal research are never project primary keys
+and cannot establish a `confirmed` relationship.
 
 ## Evidence policy
 
@@ -114,11 +114,9 @@ routes so project GitHub Pages refreshes do not require server rewrites.
 ## Candidate data pipeline
 
 The checked-in `data/processed` layer contains 99 people and 738 unverified
-Wikidata-derived candidate relations. The regular website build loads the
-candidate module only when a reader enables the switch. The single-file offline
-build embeds the same candidate data but still keeps it hidden by default.
-Both builds use the 537 formal people as their adaptation boundary; the current
-candidate snapshot covers only a subset of them.
+Wikidata-derived candidate relations for maintainer research only. Website and
+single-file offline builds neither load nor embed this candidate layer and do
+not send candidate external identifiers to the browser.
 
 The reproducible Python pipeline and source/license registry are documented in
 [Candidate data pipeline](docs/CANDIDATE_PIPELINE.md). CI validates the

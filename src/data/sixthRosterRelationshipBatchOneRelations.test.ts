@@ -44,9 +44,7 @@ describe('sixth-roster relationship batch one', () => {
         reviewStatus: 'verified',
       });
       expect(source.quotation?.length ?? 0).toBeGreaterThan(20);
-      expect(source.url).toBe(
-        'https://zh.wikisource.org/wiki/三國志/卷20',
-      );
+      expect(source.url).toBeNull();
     }
   });
 });

@@ -22,7 +22,7 @@ describe('major Wei relationship expansion batch one', () => {
     for (const source of majorWeiRelationshipSources) {
       expect(source.reviewStatus).toBe('verified');
       expect(source.quotation?.length).toBeGreaterThan(0);
-      expect(source.url).toMatch(/^https:\/\/zh\.wikisource\.org\//);
+      expect(source.url).toBeNull();
     }
   });
 
@@ -72,10 +72,10 @@ describe('major Wei relationship expansion batch one', () => {
     const report = analyzeRelationCoverage(graphData);
     expect(report).toMatchObject({
       personCount: 577,
-      relationCount: 318,
-      relatedPersonCount: 325,
-      isolatedPersonCount: 252,
-      coveragePercent: 56.3,
+      relationCount: 349,
+      relatedPersonCount: 365,
+      isolatedPersonCount: 212,
+      coveragePercent: 63.3,
     });
   });
 });

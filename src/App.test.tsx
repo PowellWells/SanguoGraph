@@ -5,16 +5,8 @@ import {
   waitFor,
   within,
 } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { App } from './App';
-
-const { loadCandidateGraphMock } = vi.hoisted(() => ({
-  loadCandidateGraphMock: vi.fn(),
-}));
-
-vi.mock('./services/candidateDataLoader', () => ({
-  loadCandidateGraph: loadCandidateGraphMock,
-}));
 
 const destroyGraph = vi.fn();
 const selectElement = vi.fn();
@@ -73,18 +65,13 @@ function renderRoute(route: string) {
   return render(<App />);
 }
 
-beforeEach(() => {
-  window.location.hash = '';
-  loadCandidateGraphMock.mockReset();
-});
-
 afterEach(() => {
   vi.clearAllMocks();
   vi.unstubAllGlobals();
 });
 
 describe('application routes and home interaction', () => {
-  it('renders the verified major-person graph and keeps candidates off by default', async () => {
+  it('renders the verified major-person graph without an external candidate layer', async () => {
     renderRoute('/');
 
     expect(
@@ -97,13 +84,11 @@ describe('application routes and home interaction', () => {
       'aria-label',
       '三国主要人物关系图谱',
     );
-    expect(
-      screen.getByRole('checkbox', { name: '开放知识库候选' }),
-    ).not.toBeChecked();
+    expect(screen.queryByText('开放知识库候选')).not.toBeInTheDocument();
     const summary = screen.getByLabelText('图谱数据摘要');
     expect(within(summary).getByText('577')).toBeInTheDocument();
-    expect(within(summary).getByText('318')).toBeInTheDocument();
-    expect(within(summary).getByText('153')).toBeInTheDocument();
+    expect(within(summary).getByText('349')).toBeInTheDocument();
+    expect(within(summary).getByText('180')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: '适应画布' }),
     ).toBeInTheDocument();
@@ -201,7 +186,7 @@ describe('application routes and home interaction', () => {
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '318',
+      '349',
     );
   });
 
@@ -218,7 +203,7 @@ describe('application routes and home interaction', () => {
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '318',
+      '349',
     );
   });
 
@@ -235,34 +220,22 @@ describe('application routes and home interaction', () => {
     );
     expect(screen.getByTestId('relationship-graph')).toHaveAttribute(
       'data-relation-count',
-      '61',
+      '62',
     );
   });
 
-  it('degrades safely when candidate loading fails', async () => {
-    loadCandidateGraphMock.mockRejectedValue(
-      new Error('离线测试：候选文件不可用'),
-    );
+  it('does not expose an external candidate control in the public graph', () => {
     renderRoute('/');
-    fireEvent.click(
-      screen.getByRole('checkbox', { name: '开放知识库候选' }),
-    );
-
-    expect(
-      await screen.findByRole('alert'),
-    ).toHaveTextContent('离线测试：候选文件不可用');
+    expect(screen.queryByText('开放知识库候选')).not.toBeInTheDocument();
     expect(screen.getByTestId('relationship-graph')).toBeInTheDocument();
-    expect(
-      screen.getByRole('heading', { name: '曹操 — 环夫人' }),
-    ).toBeInTheDocument();
-  }, 10_000);
+  });
 
   it('opens the filtered source catalog from the live summary', () => {
     renderRoute('/');
-    fireEvent.click(screen.getByRole('button', { name: '153 查看列表' }));
+    fireEvent.click(screen.getByRole('button', { name: '180 查看列表' }));
 
     expect(
-      screen.getByRole('heading', { name: '史料记录（153）' }),
+      screen.getByRole('heading', { name: '史料记录（180）' }),
     ).toBeInTheDocument();
     expect(screen.getByText(/这里只统计当前画布/)).toBeInTheDocument();
     const relationButton = screen.getByRole('button', {

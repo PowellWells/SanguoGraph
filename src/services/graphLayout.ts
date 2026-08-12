@@ -1640,7 +1640,21 @@ function createEdgeRoutes(
       | undefined;
     const candidateWeights = isParallel
       ? [0.5]
-      : [0.5, 0.35, 0.65, 0.2, 0.8, 0.1, 0.9, 0.05, 0.95];
+      : [
+          0.5,
+          0.35,
+          0.65,
+          0.32,
+          0.68,
+          0.2,
+          0.8,
+          0.1,
+          0.9,
+          0.075,
+          0.925,
+          0.05,
+          0.95,
+        ];
     for (const distanceBatch of candidateDistanceBatches) {
       let foundCollisionFreeRoute = false;
       for (const controlPointDistance of distanceBatch) {
@@ -1677,7 +1691,11 @@ function createEdgeRoutes(
           }
           if (collisions === 0) {
             foundCollisionFreeRoute = true;
+            break;
           }
+        }
+        if (foundCollisionFreeRoute) {
+          break;
         }
       }
       if (foundCollisionFreeRoute) {

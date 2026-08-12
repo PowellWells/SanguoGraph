@@ -1,44 +1,33 @@
 # 三国人物关系谱 · SanguoGraph 关系覆盖专项交接文档
 
 更新时间：2026-08-11
-当前分支：`codex/relation-coverage-audit`
+当前分支：`codex/frontend-wikimedia-isolation`
 
 ## 0. 新窗口接续说明（必须先读）
 
-第七批遗漏审计第二组已经完成。本阶段在 `4380b29 feat: add first source-audit roster
-batch` 之后新增 20 名女性、34 条关系和 18 条关系级史料，并完成以下收尾：
+Round 4“卷五十一至六十五孤立人物关系复核”已经完成实现。本阶段从 Round 3 的 220 名
+孤立人物中按首要卷次筛出 30 人，使用本地 65 卷索引逐传及全局回查，并继续坚持零人物扩张：
 
-- 正式图谱更新为 577 人、318 条关系、156 条史料；
-- 27 条正文关系为 `confirmed + verified`，7 条裴注关系为
+- 新增 8 条既有节点关系和 5 条关系级史料，另复用 2 条 Round 3 已核验史料；
+- 薛综—薛莹、陆瑁—陆逊、陆瑁—陆绩、朱据—孙鲁育、朱据—朱夫人、陆胤—陆凯、
+  滕胤—滕夫人 7 条正文关系为 `confirmed + verified`；
+- 贺齐—贺邵由裴注所引《吴书》“邵，贺齐之孙”闭合祖孙关系，保持
   `probable + pending_review`；
-- 覆盖统计为 325 人有关系、252 人孤立、覆盖率 56.3%；
-- 为新增密集家族边扩展了布局贝塞尔控制点候选，边避障测试通过；
-- 《嵇氏谱》“林子之女”已按上文“林薨，子纬嗣”纠正为“曹林之子的女儿”：人物标为
-  “曹林孙女”，曹林与嵇康妻之间仅建立注引层 `clan_relative_of`，不再误作父女；
-- 第二组关系类型为 12 条 `father_of`、4 条 `mother_of`、16 条 `spouse_of`、
-  2 条 `clan_relative_of`；全局类型为 187、53、42、28（另有养父 6、养母 2）；
-- 关系 JSON SHA-256 已更新为
-  `514bc1b1b06957ec4c247df132452a5eebe6fb9e9f7837e63919e18f0dd5f240`。
+- 人物维持 577，正式关系增至 349，史料增至 183；
+- 365 人有关系、212 人孤立，覆盖率 63.3%；主要人物队列降至 63 人，第六批孤立人物
+  降至 148 人；
+- 全局类型为父亲 195、母亲 54、婚姻 50、养父 6、养母 2、宗族／姻亲 42；
+- 关系 JSON SHA-256 为
+  `fb2beb21a28a253f81d0828eb37365ec68c76181f212c9c2513cac3eb47f2b8e`。
 
-本阶段已重跑 ESLint、110 项 Vitest、正式数据校验、关系覆盖回归、候选数据 4 个哈希、
-生产构建、系统临时目录离线单文件构建与校验，以及 `npm audit --omit=dev`，均通过。
+卷一至六十五的三轮分卷关系复核已经完成。Round 4 的 30 人队列得到 8 条关系、净连接
+8 人，第一阶段距离 377 人入网／不超过 200 人孤立还差 12 人。下一轮确定为 Round 5：
+全局遗漏、身份、来源和证据审计；不得引入官职或事件边填充指标。
 
-### 当前工作区边界
-
-以下 6 个文件在本轮开始前已有未提交修改，属于用户原有界面展示工作，不得随本轮数据
-提交；`offline/index.html` 也未被本轮离线构建覆盖：
-
-```text
-offline/index.html
-src/components/person/PathResultPanel.tsx
-src/components/person/PersonPanel.test.tsx
-src/components/person/PersonPanel.tsx
-src/services/relationPresentation.test.ts
-src/services/relationPresentation.ts
-```
-
-上述 6 个文件继续保持未暂存，属于用户原有界面展示工作，不包含在第二组审计提交中。
-后续任务开始前应先检查这些未提交修改，避免覆盖或误纳入其他提交。
+Round 4 后完成前端发布边界收口：书名、作者、卷次、篇章和史料引文继续公开展示，
+但网页与离线成品不再显示、链接或打包维基体系名称、域名、候选数据和 QID。183 条
+正式史料的前端外链已置空，内部 `data/processed` 候选管线继续保留且不参与构建；
+Vite 构建和离线校验现会阻止相关内容重新进入前端产物。
 
 ## 1. 当前状态
 
@@ -49,12 +38,12 @@ AI API。
 当前正式数据：
 
 - 577 个人物；
-- 318 条家庭关系；
-- 156 条史料；
-- 325 人至少拥有一条正式关系，252 人完全孤立，覆盖率 56.3%；
+- 349 条家庭关系；
+- 183 条史料；
+- 365 人至少拥有一条正式关系，212 人完全孤立，覆盖率 63.3%；
 - 展示阵营：魏 283、蜀 122、吴 133、其他 39；
-- 首次进入前端即加载全部 577 人和 318 条关系；
-- 99 个 Wikidata 候选人物和 738 条候选关系仍默认隐藏；
+- 首次进入前端即加载全部 577 人和 349 条关系；
+- 99 个候选人物和 738 条候选关系只保留在内部研究数据，不进入网页或离线成品；
 - 离线入口：`E:\SanGuo\offline\index.html`。
 
 人物批次：
@@ -97,12 +86,13 @@ src/data/majorSources.ts
 袁氏补充新增 4 条原文明确关系；关系覆盖三批随后新增 16 条魏系、27 条吴系和
 8 条蜀系与其他关系；第六批名册首轮再新增 24 条卷二十宗室父子关系。第七批遗漏
 审计第一组补录 24 条卷二十母子关系和 1 条孙权—孙虑父子关系；第二组补录 20 名
-女性及 34 条父母、婚姻和宗族关系。当前正式关系为 318 条，其中第二组 27 条来自
-正史正文，7 条来自裴注所引古代史料并保持待复核。
+女性及 34 条父母、婚姻和宗族关系。主要人物二次复核再新增 6 条既有节点间的姻亲与
+宗族关系；卷一至三十复核新增 9 条正文或裴注直接关系，卷三十一至五十复核新增
+8 条正文或裴注直接关系，卷五十一至六十五复核再新增 8 条。当前正式关系为 349 条。
 关系 JSON 序列化后的 SHA-256 为：
 
 ```text
-514bc1b1b06957ec4c247df132452a5eebe6fb9e9f7837e63919e18f0dd5f240
+fb2beb21a28a253f81d0828eb37365ec68c76181f212c9c2513cac3eb47f2b8e
 ```
 
 正式基础类型仍只有：
@@ -142,6 +132,8 @@ clan_relative_of
 - 不伪造引文、卷次、链接或现代学术观点；
 - 外部结构化数据只作候选线索；
 - Wikidata 不得单独支撑 confirmed 关系；
+- 前端不得显示、链接或打包维基体系名称、域名与候选外部标识；书名、卷次、篇章和
+  史料引文正常保留，内部研究管线不受此发布边界影响；
 - 正文、裴注、地方旧闻、文学叙事和结构化候选必须分层；
 - 无法核验的生卒年、别名和政治归属保持空值；
 - 不为追求连通性补造关系；
@@ -157,6 +149,10 @@ docs/CANDIDATE_PIPELINE.md
 docs/SIXTH_COMPLETE_ROSTER.md
 docs/SEVENTH_SOURCE_AUDIT_BATCH_1.md
 docs/SEVENTH_SOURCE_AUDIT_BATCH_2.md
+docs/MAJOR_ROSTER_SECOND_PASS.md
+docs/VOLUMES_01_30_RELATIONSHIP_REVIEW.md
+docs/VOLUMES_31_50_RELATIONSHIP_REVIEW.md
+docs/VOLUMES_51_65_RELATIONSHIP_REVIEW.md
 src/data/completeRosterManifest.ts
 src/data/sixthRoster/manifest.ts
 src/data/seventhSourceAuditBatchOnePersons.ts
@@ -165,6 +161,14 @@ src/data/seventhSourceAuditBatchOneSources.ts
 src/data/seventhSourceAuditBatchTwoPersons.ts
 src/data/seventhSourceAuditBatchTwoRelations.ts
 src/data/seventhSourceAuditBatchTwoSources.ts
+src/data/majorRosterSecondPassRelations.ts
+src/data/majorRosterSecondPassSources.ts
+src/data/volumesOneToThirtyRelationshipRelations.ts
+src/data/volumesOneToThirtyRelationshipSources.ts
+src/data/volumesThirtyOneToFiftyRelationshipRelations.ts
+src/data/volumesThirtyOneToFiftyRelationshipSources.ts
+src/data/volumesFiftyOneToSixtyFiveRelationshipRelations.ts
+src/data/volumesFiftyOneToSixtyFiveRelationshipSources.ts
 src/services/graphLayout.ts
 src/services/graphViewport.ts
 ```
@@ -187,18 +191,28 @@ npm audit --omit=dev
 
 浏览器验收尺寸为 1366×768 和 390×844，需确认：
 
-- 默认地图加载 577 人、318 条关系；
+- 默认地图加载 577 人、349 条关系；
 - 搜索王蕃并显示“第六批全量导入”；
 - 四阵营计数为 283、122、133、39；
+- 页面文案、链接和网络请求均不得指向维基体系；正常史料书名、卷次和引文继续显示；
 - “适应画布”显示全部人物，放大后姓名可读；
 - 没有节点重叠、连线穿过无关人物或横向页面溢出；
 - 控制台没有 warning/error。
 
 仓库已配置 `origin` 远程；通过专题分支和拉取请求交付，不直接改写远程 `main`。
 
-本轮实测：lint 与 110 项测试通过，正式数据为 577／318／156；关系覆盖回归校验
-通过，基线为 325 人有关系、252 人孤立。首页完整图谱引用 153 条史料。候选数据仍
-为 99／738 且四个哈希一致；生产构建、临时目录离线构建和离线内联检查均通过，
-`offline/index.html` 的既有未提交版本未被覆盖。最大连通分量扩展到 220 人后，
-布局仍通过确定性、节点无重叠和边不穿越无关人物测试；扩展的贝塞尔控制点候选能够
-绕开新增密集家族节点。
+本轮交付验证已于 2026-08-11 完成：
+
+- `npm run lint` 通过；
+- `npm run test` 通过，共 25 个测试文件、125 项测试；
+- 数据校验通过：577 人、349 条正式关系、183 条史料；
+- 关系覆盖回归通过：365 人入网、212 人孤立、覆盖率 63.3%；
+- processed 数据校验通过：99 人、738 条未核验候选、4 个文件哈希一致；
+- 生产构建与离线单文件构建通过，候选数据不再生成网页分块，`offline/index.html`
+  由 1238.0 KiB 降至 864.4 KiB；
+- 根入口与离线包校验通过；
+- `npm audit --omit=dev` 为 0 个漏洞；
+- 1366×768 桌面验收显示 577 人、349 条关系、180 个可浏览来源；主页和史料页均无
+  维基体系文案、外链或外部请求，史料卷次和引用仍正常显示；
+- 390×844 移动端验收无横向溢出，页面控制台无 warning/error，全部请求均留在本地
+  开发源站。

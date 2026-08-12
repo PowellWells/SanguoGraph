@@ -6,7 +6,7 @@ function officialSource(
   section: string,
   quotation: string | null,
   reference: string,
-  url: string,
+  url: string | null,
 ): HistoricalSource {
   return {
     id,
@@ -31,7 +31,7 @@ export const familySources: HistoricalSource[] = [
     '卷五·魏书五·后妃传',
     null,
     '《三国志》卷五《魏书五·后妃传》',
-    'https://zh.wikisource.org/wiki/三國志/卷05',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_05_zhen_yuan_xi',
@@ -39,7 +39,7 @@ export const familySources: HistoricalSource[] = [
     '卷五·魏书五·后妃传·文昭甄皇后',
     '建安中，袁绍为中子熙纳之。熙出为幽州，后留养姑。',
     '《三国志》卷五《魏书五·后妃传·文昭甄皇后》',
-    'https://zh.wikisource.org/wiki/三國志/卷05',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_06_yuan_house',
@@ -47,7 +47,7 @@ export const familySources: HistoricalSource[] = [
     '卷六·魏书六·董二袁刘传·袁绍子谭熙尚',
     '子谭、熙、尚。绍爱少子尚，貌美，欲以为后而未显。',
     '《三国志》卷六《魏书六·董二袁刘传·袁绍子谭熙尚》',
-    'https://zh.wikisource.org/wiki/三國志/卷06',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_32_liubei_lineage',
@@ -55,7 +55,7 @@ export const familySources: HistoricalSource[] = [
     '卷三十二·蜀书二·先主传',
     '先主祖雄，父弘。……权稍畏之，进妹固好。',
     '《三国志》卷三十二《蜀书二·先主传》',
-    'https://zh.wikisource.org/wiki/三國志/卷32',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_34_liubei_house',
@@ -63,7 +63,7 @@ export const familySources: HistoricalSource[] = [
     '卷三十四·蜀书四·二主妃子传',
     null,
     '《三国志》卷三十四《蜀书四·二主妃子传》',
-    'https://zh.wikisource.org/wiki/三國志/卷34',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_36_shu_heirs',
@@ -71,7 +71,7 @@ export const familySources: HistoricalSource[] = [
     '卷三十六·蜀书六·关张马黄赵传',
     null,
     '《三国志》卷三十六《蜀书六·关张马黄赵传》',
-    'https://zh.wikisource.org/wiki/三國志/卷36',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_38_mi_house',
@@ -79,7 +79,7 @@ export const familySources: HistoricalSource[] = [
     '卷三十八·蜀书八·许麋孙简伊秦传',
     null,
     '《三国志》卷三十八《蜀书八·许麋孙简伊秦传》',
-    'https://zh.wikisource.org/wiki/三國志/卷38',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_46_sun_house',
@@ -87,7 +87,7 @@ export const familySources: HistoricalSource[] = [
     '卷四十六·吴书一·孙破虏讨逆传',
     null,
     '《三国志》卷四十六《吴书一·孙破虏讨逆传》',
-    'https://zh.wikisource.org/wiki/三國志/卷46',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_50_sun_consorts',
@@ -95,7 +95,7 @@ export const familySources: HistoricalSource[] = [
     '卷五十·吴书五·妃嫔传',
     '生四男一女。……生二女，长曰鲁班……少曰鲁育。……使母养子登。',
     '《三国志》卷五十《吴书五·妃嫔传》',
-    'https://zh.wikisource.org/wiki/三國志/卷50',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_54_zhou_house',
@@ -103,7 +103,7 @@ export const familySources: HistoricalSource[] = [
     '卷五十四·吴书九·周瑜鲁肃吕蒙传',
     '策自纳大桥，瑜纳小桥。……瑜两男一女，女配太子登。',
     '《三国志》卷五十四《吴书九·周瑜鲁肃吕蒙传》',
-    'https://zh.wikisource.org/wiki/三國志/卷54',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_58_lu_house',
@@ -111,7 +111,7 @@ export const familySources: HistoricalSource[] = [
     '卷五十八·吴书十三·陆逊传',
     '长子延早夭，次子抗袭爵。',
     '《三国志》卷五十八《吴书十三·陆逊传》',
-    'https://zh.wikisource.org/wiki/三國志/卷58',
+    null,
   ),
   officialSource(
     'source:sg:family_sgz_59_sun_sons',
@@ -119,7 +119,7 @@ export const familySources: HistoricalSource[] = [
     '卷五十九·吴书十四·吴主五子传',
     null,
     '《三国志》卷五十九《吴书十四·吴主五子传》',
-    'https://zh.wikisource.org/wiki/三國志/卷59',
+    null,
   ),
   officialSource(
     'source:sg:family_jinshu_31_sima_house',
@@ -127,7 +127,7 @@ export const familySources: HistoricalSource[] = [
     '卷三十一·列传第一·后妃上',
     '宣穆张皇后讳春华……生景帝、文帝、平原王干、南阳公主。……既笄，归于文帝，生武帝及齐献王攸。',
     '《晋书》卷三十一《后妃上》',
-    'https://zh.wikisource.org/wiki/晉書/卷031',
+    null,
   ),
   {
     id: 'source:sg:family_xiangyangji_huang_lady',
@@ -138,7 +138,7 @@ export const familySources: HistoricalSource[] = [
     quotation:
       '黄承彦……谓孔明曰：“闻君择妇；身有丑女……才堪相配。”孔明许焉。',
     reference: '《襄阳记·黄承彦》',
-    url: 'https://zh.wikisource.org/wiki/襄陽記',
+    url: null,
     sourceType: 'primary',
     historicalLayer: 'later_tradition',
     reviewStatus: 'verified',
@@ -152,7 +152,7 @@ export const familySources: HistoricalSource[] = [
     commentator: null,
     quotation: '原来吕布有二妻一妾……后娶貂蝉为妾。',
     reference: '《三国演义》第十六回',
-    url: 'https://zh.wikisource.org/wiki/三國演義/第016回',
+    url: null,
     sourceType: 'literary',
     historicalLayer: 'literature',
     reviewStatus: 'verified',

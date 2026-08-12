@@ -214,7 +214,7 @@ describe('PersonPanel', () => {
     expect(screen.getByText(/只存在于《三国演义》叙事/)).toBeInTheDocument();
   });
 
-  it('shows relation status, quotation and source link', () => {
+  it('shows relation status and quotation without a blocked source link', () => {
     const relation = graphData.relations.find(
       (item) => item.id === 'relation:sg:cao_song_father_cao_cao',
     );
@@ -238,10 +238,7 @@ describe('PersonPanel', () => {
     expect(screen.getByText('当前未登记反对材料')).toBeInTheDocument();
     expect(screen.getByText(/已录史料将曹嵩记为曹操之父/)).toBeInTheDocument();
     expect(screen.getByText(/养子嵩嗣/)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: '查看原文' })).toHaveAttribute(
-      'href',
-      'https://zh.wikisource.org/wiki/三國志/卷01',
-    );
+    expect(screen.queryByRole('link', { name: '查看原文' })).not.toBeInTheDocument();
   });
 
   it('shows Empress Zhen\'s earlier marriage to Yuan Xi with direct evidence', () => {
@@ -268,10 +265,7 @@ describe('PersonPanel', () => {
     expect(
       screen.getByText(/建安中，袁绍为中子熙纳之/),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: '查看原文' })).toHaveAttribute(
-      'href',
-      'https://zh.wikisource.org/wiki/三國志/卷05',
-    );
+    expect(screen.queryByRole('link', { name: '查看原文' })).not.toBeInTheDocument();
   });
 
   it('shows an undirected, precisely qualified clan relation', () => {
@@ -304,9 +298,6 @@ describe('PersonPanel', () => {
       screen.getByText(/姑表亲；夏侯玄为曹爽姑母之子；当前判断为/),
     ).toBeInTheDocument();
     expect(screen.getAllByText(/玄，爽之姑子也/)).toHaveLength(2);
-    expect(screen.getByRole('link', { name: '查看原文' })).toHaveAttribute(
-      'href',
-      'https://zh.wikisource.org/wiki/三國志/卷09',
-    );
+    expect(screen.queryByRole('link', { name: '查看原文' })).not.toBeInTheDocument();
   });
 });

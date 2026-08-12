@@ -16,7 +16,7 @@ function source(seed: SourceSeed): HistoricalSource {
     commentator: '裴松之',
     quotation: seed.quotation,
     reference: `《三国志》卷${seed.volume}《${seed.section}》`,
-    url: `https://zh.wikisource.org/wiki/三國志/卷${String(seed.volume).padStart(2, '0')}`,
+    url: null,
     sourceType: 'primary',
     historicalLayer: 'official_history',
     reviewStatus: 'verified',

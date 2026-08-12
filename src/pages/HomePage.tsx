@@ -8,12 +8,9 @@ import { PersonPanel } from '../components/person/PersonPanel';
 import { SourceCatalogPanel } from '../components/source/SourceCatalogPanel';
 import { graphData } from '../data';
 import type {
-  HistoricalSource,
-  Relation,
   RelationType,
   VisualFaction,
 } from '../domain';
-import { loadCandidateGraph } from '../services/candidateDataLoader';
 import {
   filterRelations,
   selectNeighborhood,
@@ -83,14 +80,6 @@ export function HomePage() {
   const [selectedRelationId, setSelectedRelationId] = useState<string | null>(
     'relation:sg:cao_cao_spouse_lady_huan',
   );
-  const [candidateRelations, setCandidateRelations] = useState<Relation[]>([]);
-  const [candidateSources, setCandidateSources] = useState<HistoricalSource[]>(
-    [],
-  );
-  const [candidateStatus, setCandidateStatus] = useState<
-    'idle' | 'loading' | 'loaded' | 'error'
-  >('idle');
-  const [candidateError, setCandidateError] = useState<string | null>(null);
   const [explorationPersonIds, setExplorationPersonIds] = useState(
     () => new Set(allFormalPersonIds),
   );
@@ -110,29 +99,13 @@ export function HomePage() {
     () => searchPersons(graphData.persons, query),
     [query],
   );
-  const candidateEnabled = enabledSourceLayers.has('structured_candidate');
-  const combinedRelations = useMemo(
-    () => [
-      ...graphData.relations,
-      ...(candidateEnabled ? candidateRelations : []),
-    ],
-    [candidateEnabled, candidateRelations],
-  );
-  const combinedSources = useMemo(
-    () => [...graphData.sources, ...candidateSources],
-    [candidateSources],
-  );
   const typeFilteredRelations = useMemo(
-    () => filterRelations(combinedRelations, enabledTypes),
-    [combinedRelations, enabledTypes],
+    () => filterRelations(graphData.relations, enabledTypes),
+    [enabledTypes],
   );
   const sourceLayerCounts = useMemo(
-    () =>
-      countRelationsBySourceLayer(
-        [...graphData.relations, ...candidateRelations],
-        graphData.persons,
-      ),
-    [candidateRelations],
+    () => countRelationsBySourceLayer(graphData.relations, graphData.persons),
+    [],
   );
   const filteredRelations = useMemo(
     () =>
@@ -195,8 +168,8 @@ export function HomePage() {
   );
   const visibleSources = useMemo(
     () =>
-      combinedSources.filter((source) => visibleSourceIds.has(source.id)),
-    [combinedSources, visibleSourceIds],
+      graphData.sources.filter((source) => visibleSourceIds.has(source.id)),
+    [visibleSourceIds],
   );
 
   const selectPerson = useCallback((personId: string) => {
@@ -318,35 +291,8 @@ export function HomePage() {
     });
   };
 
-  const loadCandidates = async () => {
-    if (candidateStatus === 'loaded') {
-      return true;
-    }
-    setCandidateStatus('loading');
-    setCandidateError(null);
-    try {
-      const candidates = await loadCandidateGraph(graphData.persons);
-      setCandidateRelations(candidates.relations);
-      setCandidateSources(candidates.sources);
-      setCandidateStatus('loaded');
-      return true;
-    } catch (error) {
-      setCandidateStatus('error');
-      setCandidateError(
-        error instanceof Error ? error.message : '候选数据加载失败。',
-      );
-      return false;
-    }
-  };
-
-  const toggleSourceLayer = async (layer: SourceLayerKey) => {
+  const toggleSourceLayer = (layer: SourceLayerKey) => {
     const enabling = !enabledSourceLayers.has(layer);
-    if (layer === 'structured_candidate' && enabling) {
-      const loaded = await loadCandidates();
-      if (!loaded) {
-        return;
-      }
-    }
     setEnabledSourceLayers((current) => {
       const next = new Set(current);
       if (enabling) {
@@ -356,13 +302,6 @@ export function HomePage() {
       }
       return next;
     });
-    if (
-      layer === 'structured_candidate' &&
-      !enabling &&
-      selectedRelationId?.includes(':candidate_')
-    ) {
-      setSelectedRelationId(null);
-    }
   };
 
   const runPathQuery = () => {
@@ -386,7 +325,7 @@ export function HomePage() {
   const selectedPerson =
     graphData.persons.find((person) => person.id === selectedPersonId) ?? null;
   const selectedRelation =
-    combinedRelations.find(
+    graphData.relations.find(
       (relation) => relation.id === selectedRelationId,
     ) ?? null;
   const highlightedRelationIds = useMemo(
@@ -466,8 +405,6 @@ export function HomePage() {
         depth={depth}
         enabledSourceLayers={enabledSourceLayers}
         sourceLayerCounts={sourceLayerCounts}
-        candidateStatus={candidateStatus}
-        candidateError={candidateError}
         visualFactionCounts={visualFactionCounts}
         pathStartId={pathStartId}
         pathEndId={pathEndId}
@@ -475,7 +412,7 @@ export function HomePage() {
         onSelectPerson={selectPerson}
         onToggleType={toggleType}
         onDepthChange={setDepth}
-        onSourceLayerToggle={(layer) => void toggleSourceLayer(layer)}
+        onSourceLayerToggle={toggleSourceLayer}
         onShowVisualFaction={showVisualFaction}
         onPathStartChange={setPathStartId}
         onPathEndChange={setPathEndId}
@@ -534,8 +471,8 @@ export function HomePage() {
               selectedPerson={selectedRelation ? null : selectedPerson}
               selectedRelation={selectedRelation}
               persons={graphData.persons}
-              relations={combinedRelations}
-              sources={combinedSources}
+              relations={graphData.relations}
+              sources={graphData.sources}
               actions={
                 selectedPerson
                   ? {

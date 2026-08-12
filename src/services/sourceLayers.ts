@@ -43,11 +43,6 @@ export const sourceLayerOptions: readonly SourceLayerOption[] = [
     description: '《三国演义》等文学叙事，与正史关系分层并以虚线展示。',
   },
   {
-    key: 'structured_candidate',
-    label: '开放知识库候选',
-    description: 'Wikidata 候选线索，默认关闭且不构成史实认定。',
-  },
-  {
     key: 'editor_inference',
     label: '编辑者推断',
     description: '程序或编辑推断，当前正式图谱不展示。',

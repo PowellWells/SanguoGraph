@@ -1,10 +1,10 @@
 {
   "baseline": {
     "personCount": 577,
-    "relationCount": 318,
-    "relatedPersonCount": 325,
-    "maxIsolatedPersonCount": 252,
-    "minCoveragePercent": 56.3
+    "relationCount": 349,
+    "relatedPersonCount": 365,
+    "maxIsolatedPersonCount": 212,
+    "minCoveragePercent": 63.3
   },
   "phaseOneTarget": {
     "maxIsolatedPersonCount": 200,
