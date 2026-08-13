@@ -100,7 +100,7 @@
 - keep political, military, office, and inferred relationship lines out of the formal graph
 - preserve exact quotations and volume-level links for every added relation
 
-## Milestone 2.7 — Formal relationship coverage (in progress)
+## Milestone 2.7 — Formal relationship coverage (data frozen)
 
 - measure the starting baseline of 187 related and 350 isolated people
 - complete all three major-roster research batches and the first volume-20 complete-roster batch at 281 related and 256 isolated people
@@ -110,15 +110,17 @@
 - complete the volumes 31-50 review without adding people: 341 relations, 357 related people, and 220 isolated people
 - complete the volumes 51-65 review without adding people: 349 relations, 365 related people, and 212 isolated people
 - complete the global omission, identity, provenance, and evidence audit without adding people: 353 relations, 371 related people, and 206 isolated people
+- complete the Round 6 pre-freeze omission audit by adding Cao Xian, Cao Jie, and Cao Hua with six direct-record relations, replacing one aggregate placeholder: 580 people, 358 relations, 374 related people, and 206 isolated people
 - keep a deterministic full isolation audit and prevent coverage regressions in CI
 - retain 61 unresolved major-roster people for later review and reduce the sixth-batch isolated count from 206 to 144 people
 - reduce isolated people to no more than 200 in the first relationship-enrichment phase
 - add only source-backed relationships and keep research leads out of the formal graph
-- prioritize relations among the frozen 577-person roster; add an omitted person only when qualified evidence immediately connects that person to the formal network
+- prioritize relations among the frozen 580-person roster; add an omitted person only when qualified evidence immediately connects that person to the formal network
 - require at least one quoted source for every formal relationship and preserve the remaining six-person target gap without weakening evidence standards
 - decide political, office, military, and event modeling in a separate milestone
+- retain the recalculated six-person Phase A gap instead of weakening the evidence standard; the data stage is frozen even though the 200-isolate threshold remains unmet
 
-## Milestone 2.8 — 65-volume omission audit (in progress)
+## Milestone 2.8 — 65-volume omission audit (completed)
 
 - keep post-freeze discoveries in import batch seven instead of rewriting the 232-person sixth batch
 - add the first 20 verified omissions: 18 named mothers from volume 20, Dong Jue, and Sun Lü
@@ -128,6 +130,7 @@
 - avoid assigning Xiahou lady's unnamed daughter to either Zhang empress without disambiguating evidence
 - keep Dong Jue isolated until a separately approved non-family relation model exists
 - continue auditing named women, attached biographies, and same-name identities against the local source index
+- close the freeze audit with three named Cao daughters located in *Book of the Later Han* and immediately connected to Cao Cao and Liu Xie
 
 ## Milestone 3 — evidence system
 

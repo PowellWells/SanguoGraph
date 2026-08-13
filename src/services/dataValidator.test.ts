@@ -14,9 +14,9 @@ function issueCodes(data: GraphData): ValidationCode[] {
 
 describe('formal graph data', () => {
   it('contains the seven reviewed import batches and fixed family relations', () => {
-    expect(graphData.persons).toHaveLength(577);
-    expect(graphData.relations).toHaveLength(353);
-    expect(graphData.sources).toHaveLength(188);
+    expect(graphData.persons).toHaveLength(580);
+    expect(graphData.relations).toHaveLength(358);
+    expect(graphData.sources).toHaveLength(189);
     expect(
       graphData.persons.filter((person) => person.importBatch === 1),
     ).toHaveLength(24);
@@ -37,10 +37,10 @@ describe('formal graph data', () => {
     ).toHaveLength(232);
     expect(
       graphData.persons.filter((person) => person.importBatch === 7),
-    ).toHaveLength(40);
+    ).toHaveLength(43);
     expect(
       graphData.persons.filter((person) => person.visualFaction === 'wei'),
-    ).toHaveLength(261);
+    ).toHaveLength(264);
     expect(
       graphData.persons.filter((person) => person.visualFaction === 'shu'),
     ).toHaveLength(122);

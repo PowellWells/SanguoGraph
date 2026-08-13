@@ -5,7 +5,7 @@ import { globalDataEvidenceAuditSources } from './globalDataEvidenceAuditSources
 
 describe('Round 5 global omission and evidence audit', () => {
   it('adds four official-history relations without expanding the roster', () => {
-    expect(graphData.persons).toHaveLength(577);
+    expect(graphData.persons).toHaveLength(580);
     expect(globalDataEvidenceAuditRelations).toHaveLength(4);
     expect(globalDataEvidenceAuditSources).toHaveLength(5);
 

@@ -21,6 +21,8 @@ import { seventhSourceAuditBatchOnePersons } from './seventhSourceAuditBatchOneP
 import { seventhSourceAuditBatchOneSources } from './seventhSourceAuditBatchOneSources';
 import { seventhSourceAuditBatchTwoPersons } from './seventhSourceAuditBatchTwoPersons';
 import { seventhSourceAuditBatchTwoSources } from './seventhSourceAuditBatchTwoSources';
+import { dataFreezeOmissionPersons } from './dataFreezeOmissionPersons';
+import { dataFreezeOmissionSources } from './dataFreezeOmissionSources';
 
 export interface CompleteRosterManifestEntry {
   id: string;
@@ -51,6 +53,7 @@ const sources: HistoricalSource[] = [
   ...sixthRosterRelationshipBatchOneSources,
   ...seventhSourceAuditBatchOneSources,
   ...seventhSourceAuditBatchTwoSources,
+  ...dataFreezeOmissionSources,
 ];
 
 const sourcesById = new Map(sources.map((source) => [source.id, source]));
@@ -91,6 +94,7 @@ const sixthManifest: CompleteRosterManifestEntry[] =
 const seventhAuditManifest: CompleteRosterManifestEntry[] = [
   ...seventhSourceAuditBatchOnePersons,
   ...seventhSourceAuditBatchTwoPersons,
+  ...dataFreezeOmissionPersons,
 ].map((person) => {
     const source = sourcesById.get(person.sourceIds[0] ?? '');
     return {
@@ -115,11 +119,11 @@ export const completeRosterManifest: readonly CompleteRosterManifestEntry[] = [
   ...seventhAuditManifest,
 ];
 
-export const COMPLETE_ROSTER_EXPECTED_COUNT = 577;
+export const COMPLETE_ROSTER_EXPECTED_COUNT = 580;
 export const COMPLETE_ROSTER_EXPECTED_FACTION_COUNTS: Readonly<
   Record<VisualFaction, number>
 > = {
-  wei: 283,
+  wei: 286,
   shu: 122,
   wu: 133,
   other: 39,

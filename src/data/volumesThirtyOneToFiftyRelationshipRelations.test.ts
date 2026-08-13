@@ -7,7 +7,7 @@ describe('volumes 31-50 isolated-person relationship review', () => {
   it('adds eight relations without expanding the frozen roster', () => {
     expect(volumesThirtyOneToFiftyRelationshipRelations).toHaveLength(8);
     expect(volumesThirtyOneToFiftyRelationshipSources).toHaveLength(7);
-    expect(graphData.persons).toHaveLength(577);
+    expect(graphData.persons).toHaveLength(580);
 
     const personIds = new Set(graphData.persons.map(({ id }) => id));
     volumesThirtyOneToFiftyRelationshipRelations.forEach((relation) => {

@@ -4,10 +4,10 @@ import { majorRosterSecondPassRelations } from './majorRosterSecondPassRelations
 import { majorRosterSecondPassSources } from './majorRosterSecondPassSources';
 
 describe('major-roster second pass', () => {
-  it('connects existing people without expanding the frozen roster', () => {
-    expect(majorRosterSecondPassRelations).toHaveLength(6);
+  it('keeps the remaining bounded links after concrete daughter nodes replace the aggregate edge', () => {
+    expect(majorRosterSecondPassRelations).toHaveLength(5);
     expect(majorRosterSecondPassSources).toHaveLength(6);
-    expect(graphData.persons).toHaveLength(577);
+    expect(graphData.persons).toHaveLength(580);
 
     const personIds = new Set(graphData.persons.map(({ id }) => id));
     majorRosterSecondPassRelations.forEach((relation) => {
@@ -21,7 +21,7 @@ describe('major-roster second pass', () => {
     const official = majorRosterSecondPassRelations.filter(
       ({ historicalLayer }) => historicalLayer === 'official_history',
     );
-    expect(official).toHaveLength(4);
+    expect(official).toHaveLength(3);
     official.forEach((relation) => {
       expect(relation).toMatchObject({
         certainty: 'confirmed',

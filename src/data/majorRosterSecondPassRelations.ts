@@ -49,15 +49,6 @@ function relation(seed: RelationSeed): Relation {
 
 const seeds: readonly RelationSeed[] = [
   {
-    slug: 'liu_xie_clan_cao_cao',
-    sourcePersonId: 'person:sg:liu_xie',
-    targetPersonId: 'person:sg:cao_cao',
-    sourceId: 'source:sg:major_roster_second_pass_sgz_01_cao_daughters',
-    qualifier: '汉献帝刘协聘曹操三女为贵人，刘协与曹操形成姻亲',
-    interpretation:
-      '正文直接记载汉献帝聘曹操三女入宫；以有界姻亲边连接刘协与曹操，不补造三名女儿节点。',
-  },
-  {
     slug: 'zhang_xiu_clan_cao_jun',
     sourcePersonId: 'person:sg:zhang_xiu',
     targetPersonId: 'person:sg:sgz_v20_14',

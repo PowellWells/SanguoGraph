@@ -1518,6 +1518,21 @@ function routeCollisionCount(
   }).length;
 }
 
+function routeCollisionCountAll(
+  points: GraphPosition[],
+  relation: Relation,
+  positions: Readonly<Record<string, GraphPosition>>,
+  anchorPersonId: string,
+): number {
+  return Object.entries(positions).filter(
+    ([personId, position]) =>
+      personId !== relation.sourcePersonId &&
+      personId !== relation.targetPersonId &&
+      polylineDistanceToPoint(points, position) <
+        (personId === anchorPersonId ? 47 : 41),
+  ).length;
+}
+
 function createEdgeRoutes(
   relations: Relation[],
   positions: Readonly<Record<string, GraphPosition>>,
@@ -1672,7 +1687,7 @@ function createEdgeRoutes(
             controlPointDistance,
             controlPointWeight,
           };
-          const points = sampleGraphEdgeRoute(source, target, route);
+          const points = sampleGraphEdgeRoute(source, target, route, 64);
           const collisions = routeCollisionCount(
             points,
             relation,
@@ -1706,7 +1721,7 @@ function createEdgeRoutes(
         break;
       }
     }
-    const selected =
+    let selected =
       best ?? {
         route: {
           kind,
@@ -1717,6 +1732,45 @@ function createEdgeRoutes(
         points: [source, target],
         score: 0,
       };
+    if (
+      routeCollisionCountAll(
+        selected.points,
+        relation,
+        positions,
+        anchorPersonId,
+      ) > 0 &&
+      !isParallel
+    ) {
+      const farMagnitude = Math.ceil((length * 0.55) / 36) * 36;
+      const fallbackDistances = Array.from(
+        { length: 6 },
+        (_, index) => farMagnitude + index * 360,
+      ).flatMap((magnitude) => [-magnitude, magnitude]);
+      fallbackDistances.push(-14_400, 14_400);
+      const fallbackWeights = [0.925, 0.075, 0.95, 0.05, 0.5];
+      outer: for (const controlPointDistance of fallbackDistances) {
+        for (const controlPointWeight of fallbackWeights) {
+          const route: GraphEdgeRoute = {
+            kind,
+            curveStyle: 'unbundled-bezier',
+            controlPointDistance,
+            controlPointWeight,
+          };
+          const points = sampleGraphEdgeRoute(source, target, route, 64);
+          if (
+            routeCollisionCountAll(
+              points,
+              relation,
+              positions,
+              anchorPersonId,
+            ) === 0
+          ) {
+            selected = { route, points, score: 0 };
+            break outer;
+          }
+        }
+      }
+    }
     routes[relation.id] = selected.route;
     routed.push({ relation, points: selected.points });
   });

@@ -7,7 +7,7 @@
 > **Explore online:** [Open the relationship graph](https://powellwells.github.io/SanguoGraph/)
 
 三国人物关系谱 · SanguoGraph is an early-stage, source-traceable knowledge graph for historical
-relationships in the Three Kingdoms period. The formal layer now covers 577
+relationships in the Three Kingdoms period. The formal layer now covers 580
 historical or explicitly literary-layer people across Wei, Shu, Wu, and
 late-Han groups while keeping verified records, presentation factions,
 literary claims, and internal research candidates separate.
@@ -29,13 +29,13 @@ npm run validate:offline
 
 ## Current milestone
 
-- 577 locally identified people (`person:sg:*`) across seven import batches;
-- 353 recorded father, mother, spouse, adoptive-parent, and clan relationships,
+- 580 locally identified people (`person:sg:*`) across seven import batches;
+- 358 recorded father, mother, spouse, adoptive-parent, and clan relationships,
   with no political or battle edges;
-- 371 people currently have at least one formal relationship while 206 remain
+- 374 people currently have at least one formal relationship while 206 remain
   isolated; the active [formal relationship coverage](docs/RELATION_COVERAGE.md)
   milestone has completed its global omission and evidence audit;
-- all 577 formal people load into the front-end map on first entry; people
+- all 580 formal people load into the front-end map on first entry; people
   without an in-scope relation remain visible as independent nodes;
 - inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
   annotations;
