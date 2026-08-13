@@ -37,8 +37,8 @@ npm run validate:offline
   milestone has completed its global omission and evidence audit;
 - all 580 formal people load into the front-end map on first entry; people
   without an in-scope relation remain visible as independent nodes;
-- inspectable citations to *Records of the Three Kingdoms* and Pei Songzhi's
-  annotations;
+- a searchable, layered source browser that distinguishes person locators,
+  supporting relation evidence, and opposing evidence;
 - Cytoscape.js graph with search, relation filters, and all/one-hop/two-hop
   views;
 - deterministic radial family-branch layouts with collision-free spacing,

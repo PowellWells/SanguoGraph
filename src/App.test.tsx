@@ -286,17 +286,26 @@ describe('application routes and home interaction', () => {
     expect(screen.getByText('共经过 3 条关系；点击任一关系查看完整证据。')).toBeInTheDocument();
   });
 
-  it('renders the sources page with the source catalog', () => {
+  it('searches the source browser by person and relation context', () => {
     renderRoute('/sources');
     expect(
-      screen.getByRole('heading', { name: '史料说明', level: 1 }),
+      screen.getByRole('heading', { name: '史料浏览', level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getByText('候选数据不等于史实')).toBeInTheDocument();
+    expect(screen.getByText('189 条结果')).toBeInTheDocument();
+
+    fireEvent.change(screen.getByRole('searchbox', { name: '检索史料' }), {
+      target: { value: '曹节 刘协' },
+    });
+
+    expect(screen.getByText('1 条结果')).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', {
-        name: '《三国志》卷一《魏书一·武帝纪》',
-      }),
+      screen.getByText('《后汉书》卷十下《皇后纪第十下·献穆曹皇后纪》'),
     ).toBeInTheDocument();
+    expect(screen.getByText('人物定位引用（3）')).toBeInTheDocument();
+    expect(screen.getByText('关系支持证据（6）')).toBeInTheDocument();
+    expect(screen.getByText('关系反对证据（0）')).toBeInTheDocument();
+    expect(screen.getByText('曹宪、曹节、曹华')).toBeInTheDocument();
   });
 
   it('renders the Milestone 1 about page', () => {

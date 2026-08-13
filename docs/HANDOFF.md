@@ -1,7 +1,7 @@
 # 三国人物关系谱 · SanguoGraph 关系覆盖专项交接文档
 
 更新时间：2026-08-13
-当前分支：`codex/data-freeze-release-acceptance`
+当前分支：`codex/source-browser`
 
 ## 0. 新窗口接续说明（必须先读）
 
@@ -19,8 +19,9 @@ Round 6“数据冻结与发布验收”已经完成。冻结前依据《后汉�
 
 按 580 人重新计算，第一阶段需至少 380 人入网／不超过 200 人孤立／覆盖率至少
 65.5%，当前仍差 6 人；不通过猜测关系、非亲属边或降低证据标准填充。数据阶段已
-冻结，下一阶段进入 Milestone 3 的史料浏览、深链接、纠错、许可证治理和稳定版发布。
-完整记录见 `docs/DATA_FREEZE_RELEASE_ACCEPTANCE.md`。
+冻结。Round 7 已完成史料浏览与来源详情优化：189 条史料可按典籍、史料层、人物与
+关系检索，并明确区分人物定位、关系支持和关系反对证据。下一轮为 Round 8：人物、
+关系与史料的稳定 Deep Link。记录见 `docs/SOURCE_BROWSER_ROUND_7.md`。
 
 前端发布边界继续有效：书名、作者、卷次、篇章和史料引文正常展示，但网页与离线
 成品不显示、链接或打包维基体系名称、域名、候选数据和 QID。内部 `data/processed`
@@ -156,6 +157,7 @@ docs/VOLUMES_31_50_RELATIONSHIP_REVIEW.md
 docs/VOLUMES_51_65_RELATIONSHIP_REVIEW.md
 docs/GLOBAL_DATA_EVIDENCE_AUDIT.md
 docs/DATA_FREEZE_RELEASE_ACCEPTANCE.md
+docs/SOURCE_BROWSER_ROUND_7.md
 src/data/completeRosterManifest.ts
 src/data/sixthRoster/manifest.ts
 src/data/seventhSourceAuditBatchOnePersons.ts
@@ -224,3 +226,15 @@ Round 6 完整交付验证已于 2026-08-13 完成：
 - 桌面验收显示 580 人、358 条关系、186 个可浏览来源；曹节检索及父女／婚姻档案
   正常，主页无维基体系可见文案或外链；
 - 390×844 移动端验收无横向溢出，页面控制台无 warning/error。
+
+Round 7 完整交付验证已于 2026-08-13 完成：
+
+- `npm run lint` 通过；
+- `npm run test -- --reporter=dot --maxWorkers=1` 通过，共 28 个测试文件、135 项测试；
+- 数据、关系覆盖、processed 数据与本地史料索引校验继续通过；
+- 生产构建、离线单文件构建和根入口校验通过，`offline/index.html` 为 879.5 KiB；
+- `npm audit --omit=dev` 为 0 个漏洞；
+- 桌面史料页默认显示 189 条折叠记录；“曹节 刘协”检索返回 1 条并自动展开，引用
+  分类显示 3 个人物、6 条支持关系、0 条反对关系；
+- 390×844 移动端筛选控件均在视口内，无横向溢出；桌面与移动端控制台均无
+  warning/error，且页面无维基体系可见文案或外链。

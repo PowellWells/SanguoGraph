@@ -2,7 +2,7 @@ import type { AppRoute } from '../../App';
 
 const navigation = [
   { to: '/', label: '关系图谱' },
-  { to: '/sources', label: '史料说明' },
+  { to: '/sources', label: '史料浏览' },
   { to: '/about', label: '关于项目' },
 ] as const;
 

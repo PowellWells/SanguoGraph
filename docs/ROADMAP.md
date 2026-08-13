@@ -132,9 +132,9 @@
 - continue auditing named women, attached biographies, and same-name identities against the local source index
 - close the freeze audit with three named Cao daughters located in *Book of the Later Han* and immediately connected to Cao Cao and Liu Xie
 
-## Milestone 3 — evidence system
+## Milestone 3 — evidence system (in progress)
 
-- improve source browsing and claim comparison
+- improve source browsing and claim comparison (Round 7 source browser completed)
 - add correction and source-suggestion issue templates
 - consider stable deep links for people and claims
 

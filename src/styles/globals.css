@@ -930,6 +930,184 @@ a {
   color: var(--ink-soft);
 }
 
+.sources-page {
+  max-width: 1180px;
+}
+
+.section-heading-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.section-heading-row h2 {
+  margin-bottom: 4px !important;
+}
+
+.section-heading-row > strong {
+  flex: none;
+  color: var(--seal);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.78rem;
+}
+
+.source-browser-controls {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.6fr) minmax(150px, 0.8fr) minmax(150px, 0.8fr) auto;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: #f8f5ee;
+}
+
+.source-browser-controls label {
+  display: grid;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.source-browser-controls input,
+.source-browser-controls select,
+.source-browser-controls button {
+  min-width: 0;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 400;
+}
+
+.source-browser-controls button {
+  color: var(--seal);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.source-browser-results {
+  display: grid;
+  gap: 10px;
+}
+
+.source-browser-results details {
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.source-browser-results summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.source-browser-results summary > span:first-child {
+  display: inline-flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+  vertical-align: middle;
+}
+
+.source-browser-results summary strong,
+.source-browser-results summary small {
+  overflow-wrap: anywhere;
+}
+
+.source-browser-results summary small {
+  color: var(--ink-soft);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+}
+
+.source-record-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: end;
+}
+
+.source-record-badges em {
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: #f1efeb;
+  color: var(--ink-soft);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.62rem;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.source-record-body {
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--line);
+}
+
+.source-record-body > .evidence-metadata {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 14px;
+  margin-top: 14px;
+}
+
+.source-record-body > blockquote {
+  margin: 14px 0;
+  padding-left: 14px;
+  border-left: 3px solid var(--seal);
+  color: var(--ink-soft);
+  font-family: "Songti SC", serif;
+  line-height: 1.8;
+}
+
+.source-usage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.source-usage-grid section {
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: #faf9f6;
+}
+
+.source-usage-grid h3 {
+  margin: 0 0 8px;
+  font-size: 0.76rem;
+}
+
+.source-empty-state {
+  padding: 34px;
+  border: 1px dashed var(--line);
+  background: #faf9f6;
+  text-align: center;
+}
+
+.source-browser-link {
+  display: block;
+  margin: 0 0 10px;
+  color: var(--seal);
+  font-family: "Microsoft YaHei", sans-serif;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
 .person-actions {
   margin-top: 26px;
 }
@@ -1232,8 +1410,29 @@ a {
   }
 
   .source-layer-catalog,
+  .source-usage-grid,
   .action-grid {
     grid-template-columns: 1fr;
+  }
+
+  .source-browser-controls {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .source-browser-controls label:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .source-record-body > .evidence-metadata {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .source-browser-results summary {
+    grid-template-columns: 1fr;
+  }
+
+  .source-record-badges {
+    justify-content: start;
   }
 
   .action-grid button:last-child {
@@ -2288,6 +2487,24 @@ select {
 
   .site-footer p + p::before {
     content: none;
+  }
+
+  .source-browser-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .source-browser-controls label:first-child {
+    grid-column: auto;
+  }
+
+  .source-record-body > .evidence-metadata {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
   }
 }
 

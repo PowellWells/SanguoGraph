@@ -33,6 +33,9 @@ export function SourceCatalogPanel({
         <p className="detail-note">
           这里只统计当前画布中人物与关系实际引用的史料，筛选后会同步更新。
         </p>
+        <a className="source-browser-link" href="#/sources">
+          打开完整史料浏览器
+        </a>
         <div className="source-panel-list">
         {sources.map((source) => {
           const related = relations.filter((relation) =>
