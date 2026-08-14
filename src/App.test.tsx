@@ -329,6 +329,16 @@ describe('application routes and home interaction', () => {
       'href',
       '#/person/cao_jie_empress',
     );
+    const correctionLink = screen.getByRole('link', {
+      name: '报告数据问题',
+    });
+    const correctionUrl = new URL(correctionLink.getAttribute('href') ?? '');
+    expect(correctionUrl.searchParams.get('template')).toBe(
+      '01-data-correction.yml',
+    );
+    expect(correctionUrl.searchParams.get('entity')).toBe(
+      'person:sg:cao_jie_empress',
+    );
   });
 
   it('opens a stable relation deep link', () => {
@@ -356,6 +366,18 @@ describe('application routes and home interaction', () => {
       'href',
       '#/person/cao_jie_empress',
     );
+    const sourceSuggestionLink = screen.getByRole('link', {
+      name: '补充史料来源',
+    });
+    const sourceSuggestionUrl = new URL(
+      sourceSuggestionLink.getAttribute('href') ?? '',
+    );
+    expect(sourceSuggestionUrl.searchParams.get('template')).toBe(
+      '02-source-suggestion.yml',
+    );
+    expect(sourceSuggestionUrl.searchParams.get('entity')).toBe(
+      'source:sg:round_06_hhs_10b_cao_daughters',
+    );
   });
 
   it('shows a clear not-found page for an invalid deep link', () => {
@@ -376,5 +398,11 @@ describe('application routes and home interaction', () => {
       screen.getByRole('heading', { name: '关于 三国人物关系谱 · SanguoGraph', level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getByText('如何阅读')).toBeInTheDocument();
+    expect(screen.getByText('纠错与来源建议')).toBeInTheDocument();
+    expect(screen.getByText('许可证边界')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '报告数据问题' })).toHaveAttribute(
+      'target',
+      '_blank',
+    );
   });
 });

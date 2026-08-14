@@ -41,6 +41,8 @@ npm run validate:offline
   supporting relation evidence, and opposing evidence;
 - stable hash links that open a specific person, relation, or source in both
   hosted and direct-open offline builds;
+- structured correction and source-suggestion forms from person, relation,
+  and source records, with mandatory editorial review before data changes;
 - Cytoscape.js graph with search, relation filters, and all/one-hop/two-hop
   views;
 - deterministic radial family-branch layouts with collision-free spacing,
@@ -129,6 +131,8 @@ download Wikidata.
 ## License
 
 Source code is available under the [MIT License](LICENSE). Project-maintained
-historical data is currently curated by the maintainers. A standalone data
-license remains an open governance decision in the
-[roadmap](docs/ROADMAP.md); third-party data is not re-licensed as CC0.
+historical data is curated separately from third-party candidate data; its own
+license still requires explicit maintainer approval. See the
+[data-license governance policy](docs/DATA_LICENSE_GOVERNANCE.md) and
+[contribution guide](CONTRIBUTING.md); third-party data is not re-licensed as
+CC0.

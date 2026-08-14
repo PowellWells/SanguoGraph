@@ -14,6 +14,7 @@ import {
 } from '../../services/relationPresentation';
 import { EvidencePanel } from '../source/EvidencePanel';
 import { createDeepLinkHash } from '../../services/deepLinks';
+import { FeedbackLinks } from '../feedback/FeedbackLinks';
 
 export interface PersonPanelActions {
   isLocked: boolean;
@@ -115,6 +116,14 @@ export function PersonPanel({
         >
           此关系的永久链接
         </a>
+        <FeedbackLinks
+          compact
+          target={{
+            kind: 'relation',
+            id: selectedRelation.id,
+            label: `${from?.name ?? '未知'} — ${to?.name ?? '未知'}`,
+          }}
+        />
         <p className="relation-qualifier">{claim.relationshipQualifier}</p>
         <dl className="detail-metadata">
           <div>
@@ -215,6 +224,14 @@ export function PersonPanel({
         >
           此人物的永久链接
         </a>
+        <FeedbackLinks
+          compact
+          target={{
+            kind: 'person',
+            id: selectedPerson.id,
+            label: selectedPerson.name,
+          }}
+        />
         <p className="person-years">
           {selectedPerson.courtesyName && `字${selectedPerson.courtesyName} · `}
           {years(selectedPerson)}

@@ -1,7 +1,7 @@
 # 三国人物关系谱 · SanguoGraph 关系覆盖专项交接文档
 
 更新时间：2026-08-14
-当前分支：`codex/stable-deep-links`
+当前分支：`codex/corrections-license-governance`
 
 ## 0. 新窗口接续说明（必须先读）
 
@@ -22,8 +22,10 @@ Round 6“数据冻结与发布验收”已经完成。冻结前依据《后汉�
 冻结。Round 7 已完成史料浏览与来源详情优化：189 条史料可按典籍、史料层、人物与
 关系检索，并明确区分人物定位、关系支持和关系反对证据。Round 8 已完成人物、关系与
 史料的稳定永久链接，并修复桌面端“史料浏览”和“关于项目”无法滚动到底的问题。
-下一轮为 Round 9：纠错／来源建议机制与数据许可证治理。记录见
-`docs/STABLE_DEEP_LINKS_ROUND_8.md`。
+Round 9 已完成结构化纠错／来源建议机制，并建立数据许可证的范围、引入规则和发布
+门槛。下一轮为 Round 10：稳定版发布验收；开始前须由维护者明确选择 CC BY 4.0、
+ODbL 1.0 或继续不授予独立数据许可。记录见
+`docs/CORRECTIONS_LICENSE_GOVERNANCE_ROUND_9.md`。
 
 前端发布边界继续有效：书名、作者、卷次、篇章和史料引文正常展示，但网页与离线
 成品不显示、链接或打包维基体系名称、域名、候选数据和 QID。内部 `data/processed`
@@ -160,6 +162,9 @@ docs/VOLUMES_51_65_RELATIONSHIP_REVIEW.md
 docs/GLOBAL_DATA_EVIDENCE_AUDIT.md
 docs/DATA_FREEZE_RELEASE_ACCEPTANCE.md
 docs/SOURCE_BROWSER_ROUND_7.md
+docs/STABLE_DEEP_LINKS_ROUND_8.md
+docs/DATA_LICENSE_GOVERNANCE.md
+docs/CORRECTIONS_LICENSE_GOVERNANCE_ROUND_9.md
 src/data/completeRosterManifest.ts
 src/data/sixthRoster/manifest.ts
 src/data/seventhSourceAuditBatchOnePersons.ts
@@ -249,3 +254,14 @@ Round 8 完整交付验证已于 2026-08-14 完成：
 - 1366×768 与 390×844 下“史料浏览”“关于项目”均可滚至页尾且无横向溢出；
 - 人物、关系、史料永久链接和无效链接回退均通过浏览器验收；
 - 前端无维基体系可见文案或外链，控制台无 warning/error，依赖审计为 0 个漏洞。
+
+Round 9 完整交付验证已于 2026-08-14 完成：
+
+- 新增数据纠错与史料来源建议两个 GitHub Issue Form，YAML 与必要字段校验通过；
+- 人物、关系和史料反馈入口会预填实体 ID、永久链接、表单与标题；
+- 30 个测试文件、143 项测试全部通过；
+- 数据、关系覆盖、processed 数据与本地史料索引校验继续通过；
+- 生产构建、离线单文件构建和根入口校验通过，`offline/index.html` 为 885.5 KiB；
+- 1366×768 与 390×844 浏览器验收无横向溢出，反馈按钮均位于视口内；
+- 前端无维基体系可见文案或外链，控制台无 warning/error，依赖审计为 0 个漏洞；
+- 数据治理规则已经冻结，但独立数据许可证仍须维护者在 Round 10 前明确批准。

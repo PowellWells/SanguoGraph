@@ -1,0 +1,77 @@
+name: 数据纠错
+description: 报告人物、关系、史料或页面中的事实与标注问题
+title: "[数据纠错] "
+labels: ["data-correction", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢帮助改进 SanguoGraph。提交只会进入人工审校队列，不会自动修改正式图谱。
+        请提供可复核的典籍、卷篇或研究出处；不要粘贴大段受版权保护的现代文本。
+  - type: dropdown
+    id: record-type
+    attributes:
+      label: 问题类型
+      options:
+        - 人物档案
+        - 人物关系
+        - 史料记录
+        - 身份或同名消歧
+        - 页面展示
+        - 其他
+    validations:
+      required: true
+  - type: input
+    id: entity
+    attributes:
+      label: 实体 ID
+      description: 可从人物、关系或史料永久链接旁取得；不知道时可填写“未定位”。
+      placeholder: person:sg:cao_jie_empress
+    validations:
+      required: true
+  - type: input
+    id: permalink
+    attributes:
+      label: 永久链接
+      description: 粘贴以 #/person、#/relation 或 #/source 开头的定位地址。
+      placeholder: "#/person/cao_jie_empress"
+    validations:
+      required: false
+  - type: textarea
+    id: current
+    attributes:
+      label: 当前内容
+      description: 简要说明页面或数据现在如何表述。
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: 建议修正
+      description: 说明应改成什么，以及为什么。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 可复核证据
+      description: 请提供书名、作者、卷篇、版本或论文书目信息；网络链接不是必需条件。
+      placeholder: 《后汉书》卷十下《皇后纪第十下·献穆曹皇后纪》……
+    validations:
+      required: true
+  - type: textarea
+    id: excerpt
+    attributes:
+      label: 必要的短摘录
+      description: 只摘录定位所需的最短文字；现代出版物请避免长段复制。
+    validations:
+      required: false
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: 提交确认
+      options:
+        - label: 我理解此提交不会自动进入正式数据，仍需人工核验。
+          required: true
+        - label: 我有权提交上述内容供项目核验，且没有复制大段受版权保护的文本。
+          required: true

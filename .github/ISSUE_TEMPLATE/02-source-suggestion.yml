@@ -1,0 +1,75 @@
+name: 史料来源建议
+description: 为人物或关系补充正史、注引材料及可复核研究来源
+title: "[来源建议] "
+labels: ["source-suggestion", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        来源建议是候选线索，不会因提交而自动成为已确认史实。编辑者会独立核对卷篇、
+        版本、史料层和它实际支持或反对的主张。
+  - type: input
+    id: entity
+    attributes:
+      label: 相关实体 ID
+      description: 人物、关系或现有史料 ID；不知道时可填写“未定位”。
+      placeholder: relation:sg:round_06_cao_jie_empress_spouse_liu_xie
+    validations:
+      required: true
+  - type: input
+    id: permalink
+    attributes:
+      label: 相关永久链接
+      placeholder: "#/relation/round_06_cao_jie_empress_spouse_liu_xie"
+    validations:
+      required: false
+  - type: dropdown
+    id: source-layer
+    attributes:
+      label: 建议的史料层
+      options:
+        - 正史正文
+        - 正史注引材料
+        - 其他古代史料
+        - 现代学术研究
+        - 文学作品
+        - 尚不确定
+    validations:
+      required: true
+  - type: textarea
+    id: citation
+    attributes:
+      label: 完整出处
+      description: 提供书名、作者、卷篇、版本、页码或论文书目信息。
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: 该来源支持或反对什么
+      description: 明确说明它与人物定位或关系主张的对应方式。
+    validations:
+      required: true
+  - type: textarea
+    id: excerpt
+    attributes:
+      label: 必要的短摘录
+      description: 只提交核验所需的最短摘录，并注明具体位置。
+    validations:
+      required: false
+  - type: input
+    id: source-url
+    attributes:
+      label: 可选访问地址
+      description: 可留空；正式数据不要求依赖外部网页才能成立。
+    validations:
+      required: false
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: 提交确认
+      options:
+        - label: 我理解该来源只作为待核验线索，不会自动提升为已确认史实。
+          required: true
+        - label: 我有权提交上述内容供项目核验，且没有复制大段受版权保护的文本。
+          required: true

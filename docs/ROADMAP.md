@@ -136,12 +136,13 @@
 
 - improve source browsing and claim comparison (Round 7 source browser completed)
 - provide stable deep links for people, relations, and sources (Round 8 completed)
-- add correction and source-suggestion issue templates
-- finalize historical-data license governance before stable release
+- add correction and source-suggestion issue forms with entity-aware frontend links (Round 9 completed)
+- establish historical-data license scope, intake rules, and release gates (Round 9 completed)
+- obtain explicit maintainer approval for the standalone data license before stable release
 
 ## Open governance decisions
 
-- Select a standalone license for project-maintained historical data.
+- Approve CC BY 4.0, ODbL 1.0, or no separate grant for project-maintained historical data.
 - Review provenance and license compatibility before every external import.
 - Reassess whether an API/backend is needed only after the static approach
   reaches practical limits.

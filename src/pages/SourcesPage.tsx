@@ -14,6 +14,7 @@ import {
   sourceLayerOptions,
 } from '../services/sourceLayers';
 import { createDeepLinkHash } from '../services/deepLinks';
+import { FeedbackLinks } from '../components/feedback/FeedbackLinks';
 
 const browsableLayers: readonly SourceBrowserLayer[] = [
   'all',
@@ -197,6 +198,14 @@ export function SourcesPage({ focusedSourceId }: SourcesPageProps) {
                     >
                       此史料的永久链接
                     </a>
+                    <FeedbackLinks
+                      compact
+                      target={{
+                        kind: 'source',
+                        id: source.id,
+                        label: source.reference,
+                      }}
+                    />
                     <dl className="evidence-metadata">
                       <div><dt>典籍</dt><dd>{source.work}</dd></div>
                       <div><dt>作者</dt><dd>{source.author ?? '未详'}</dd></div>

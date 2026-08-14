@@ -1,6 +1,7 @@
 import type { HistoricalSource, Person, Relation } from '../../domain';
 import { relationTypeLabels } from '../../services/relationPresentation';
 import { createDeepLinkHash } from '../../services/deepLinks';
+import { FeedbackLinks } from '../feedback/FeedbackLinks';
 
 interface SourceCatalogPanelProps {
   sources: HistoricalSource[];
@@ -54,6 +55,10 @@ export function SourceCatalogPanel({
               >
                 此史料的永久链接
               </a>
+              <FeedbackLinks
+                compact
+                target={{ kind: 'source', id: source.id, label: source.reference }}
+              />
               <dl className="evidence-metadata">
                 <div><dt>作者</dt><dd>{source.author ?? '未详'}</dd></div>
                 <div><dt>卷篇</dt><dd>{source.section}</dd></div>

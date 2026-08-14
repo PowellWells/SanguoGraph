@@ -1,4 +1,5 @@
 import { graphData } from '../data';
+import { FeedbackLinks } from '../components/feedback/FeedbackLinks';
 
 export function AboutPage() {
   const personCount = graphData.persons.length;
@@ -45,6 +46,23 @@ export function AboutPage() {
           0；外部候选线索不进入前端，也不参与正式史实认定。双人物查询只在
           当前{personCount}人和当前筛选条件内计算最短路径；没有正式关系路径时会明确返回
           未找到，而不会自动补造政治或事件关系。
+        </p>
+      </section>
+      <section id="feedback">
+        <h2>纠错与来源建议</h2>
+        <p>
+          人物、关系和史料档案旁均提供带实体 ID 与永久链接的反馈入口。请说明当前
+          内容、建议修改以及可复核的书名、卷篇或研究出处。所有提交先进入人工审校
+          队列；只有完成身份、证据、史料层和授权边界核验后，才可能修改正式数据。
+        </p>
+        <FeedbackLinks />
+      </section>
+      <section id="data-license">
+        <h2>许可证边界</h2>
+        <p>
+          项目软件代码采用 MIT License。项目整理的历史数据尚未授予独立开放数据
+          许可证；史料短摘录和第三方材料继续遵循各自来源权利，不因进入仓库而自动
+          改用 MIT 或 CC0。正式发布前必须完成独立数据许可证决定和兼容性复核。
         </p>
       </section>
     </article>

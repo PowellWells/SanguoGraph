@@ -37,6 +37,11 @@ review it through the documented candidate pipeline.
   non-structured historical source record.
 - Do not invent quotations or fill missing source fields with guesses.
 - Provide a direct, verifiable reference wherever lawful and practical.
+- Start factual corrections with the structured **数据纠错** issue form and
+  source additions with **史料来源建议**; include the entity ID and permanent
+  link whenever available.
+- Quote only the minimum text necessary to locate and verify a claim. Do not
+  paste long passages from modern publications or paywalled works.
 
 Wikidata, encyclopedias, and other knowledge graphs are discovery aids only.
 They are not sufficient evidence for a `confirmed` relationship.
@@ -48,4 +53,5 @@ License. Do not import third-party datasets or code unless their license and
 provenance are documented and compatible with the project.
 
 The standalone license for project-maintained historical data is not yet
-settled; see `docs/ROADMAP.md`.
+settled. The scope, intake rules, candidate options, and stable-release gate
+are defined in `docs/DATA_LICENSE_GOVERNANCE.md`.
