@@ -1,207 +1,178 @@
-# 三国人物关系谱 · SanguoGraph 关系覆盖专项交接文档
+# 三国人物关系谱 · SanguoGraph 新窗口交班基线
 
 更新时间：2026-08-14
-当前分支：`codex/v1-stable-release`
 
-## 0. 新窗口接续说明（必须先读）
+基线版本：v1.0.0
 
-Round 6“数据冻结与发布验收”已经完成。冻结前依据《后汉书》卷十下补录曹宪、曹节、
-曹华三名具名人物，并将原曹操—刘协聚合占位边替换为 3 条父女关系和 3 条婚姻关系：
+目标分支：`main`
 
-- 三名新增人物均立即进入现有关系网，不产生新的孤立节点；
-- 六条关系均为 `confirmed + verified + direct_record`，引用 URL 为空的本地史料；
-- 正式数据冻结为 580 人、358 条家庭关系、189 条史料，其中 186 条可浏览；
-- 374 人有关系、206 人孤立，覆盖率 64.5%；
-- 展示阵营为魏 286、蜀 122、吴 133、其他 39；
-- 全局类型为父亲 199、母亲 54、婚姻 53、养父 6、养母 2、宗族／姻亲 44；
-- 关系 JSON SHA-256 为
-  `99850ae436763c9f6ce5fad5b06b7cb15fa966405bd2537e74084ae4a35c9f8b`。
+## 0. 新窗口接续说明（先读本节）
 
-按 580 人重新计算，第一阶段需至少 380 人入网／不超过 200 人孤立／覆盖率至少
-65.5%，当前仍差 6 人；不通过猜测关系、非亲属边或降低证据标准填充。数据阶段已
-冻结。Round 7 已完成史料浏览与来源详情优化：189 条史料可按典籍、史料层、人物与
-关系检索，并明确区分人物定位、关系支持和关系反对证据。Round 8 已完成人物、关系与
-史料的稳定永久链接，并修复桌面端“史料浏览”和“关于项目”无法滚动到底的问题。
-Round 9 已完成结构化纠错／来源建议机制，并建立数据许可证的范围、引入规则和发布
-门槛。Round 10 已根据维护者“项目可公开展示、转载或使用正式数据必须注明
-SanguoGraph”的决定，正式采用 CC BY 4.0，并完成 v1.0 稳定版发布验收。代码继续
-采用 MIT；正式数据授权、排除范围和署名方式见 `LICENSE-DATA`；完整验收记录见
-`docs/STABLE_RELEASE_ROUND_10.md`。当前路线图已经完成，后续工作应作为新里程碑规划，
-不得在未明确范围时继续扩展数据类型或降低证据标准。
+Round 1—10 已全部完成，SanguoGraph 当前路线图已经收口为 v1.0 稳定版。新窗口不要
+继续以 Round 11 名义自动扩展旧路线；应先确认用户的新任务属于数据增补、界面功能、
+发布维护还是新的知识图谱层，再建立独立范围和验收标准。
 
-前端发布边界继续有效：书名、作者、卷次、篇章和史料引文正常展示，但网页与离线
-成品不显示、链接或打包维基体系名称、域名、候选数据和 QID。内部 `data/processed`
-候选管线可用于研究，但不参与构建；Vite 构建和离线校验会阻止相关内容重新进入前端产物。
+开始新任务前：
 
-## 1. 当前状态
+1. 运行 `git status --short --branch`，确认从最新 `main` 开始且没有未归属改动；
+2. 阅读本文件中与任务有关的边界，不必重新扫描全部历史轮次文档；
+3. 新开发使用 `codex/` 前缀专题分支，除非用户明确要求直接修改或推送 `main`；
+4. 数据、许可证、前端去维基和离线直接打开能力均属于已冻结基线，不能无意回退。
 
-三国人物关系谱 · SanguoGraph 是来源可追溯的三国人物关系知识图谱。项目仍为 React、严格
-TypeScript、Vite 和 Cytoscape.js 构建的纯前端应用，没有后端、数据库、登录或
-AI API。
+## 1. 当前完成状态
 
-当前正式数据：
+### 路线图
 
-- 580 个人物；
-- 358 条家庭关系；
-- 189 条史料，其中 186 条被人物或关系使用并可浏览；
-- 374 人至少拥有一条正式关系，206 人完全孤立，覆盖率 64.5%；
+- Milestone 0—3 已完成；
+- Round 6 完成数据冻结；
+- Round 7 完成史料浏览；
+- Round 8 完成人物、关系、史料永久链接及长页面滚动修复；
+- Round 9 完成结构化纠错、来源建议和数据许可证治理；
+- Round 10 完成 CC BY 4.0 决策、v1.0 元数据、发布门禁和稳定版验收。
+
+### 正式数据快照
+
+- 人物：580；
+- 正式家庭关系：358；
+- 史料：189，其中 186 条被人物或关系使用并可浏览；
+- 有关系人物：374；
+- 孤立人物：206；
+- 覆盖率：64.5%；
+- 连通分量：58；
+- 最大连通分量：241 人；
 - 展示阵营：魏 286、蜀 122、吴 133、其他 39；
-- 首次进入前端即加载全部 580 人和 358 条关系；
-- 99 个候选人物和 738 条候选关系只保留在内部研究数据，不进入网页或离线成品；
-- 离线入口：`E:\SanGuo\offline\index.html`。
+- 正式关系类型：父亲 199、母亲 54、婚姻 53、养父 6、养母 2、宗族／姻亲 44。
 
-人物批次：
+人物批次为 `1 | 2 | 3 | 4 | 5 | 6 | 7`。第六批是 232 位列传级全量人物，
+第七批是 43 位遗漏审计人物。当前正式人物、关系和史料在 v1.0 不再继续改动，除非
+新任务明确要求数据增补或纠错并提供足够证据。
 
-- 第一批：24 人；
-- 第二批：176 人；
-- 第三批：35 人；
-- 第四批：35 人；
-- 第五批：35 人；
-- 第六批：232 位列传级全量人物。
-- 第七批：43 位遗漏审计补录人物。
+### 已知未完成指标
 
-`Person.importBatch` 允许 `1 | 2 | 3 | 4 | 5 | 6 | 7`；第六批档案显示
-“第六批全量导入”，第七批显示“第七批遗漏审计”。
+第一阶段关系覆盖目标按 580 人重新计算为至少 380 人入网、至多 200 人孤立、覆盖率
+至少 65.5%。当前仍差 6 人。v1.0 接受并记录这一证据约束缺口，不通过猜测关系、降低
+证据标准或混入战争、官职、事件、阵营关系来填补。
 
-## 2. 第六批名单与来源
+## 2. 产品与技术现状
 
-完整范围、去重规则、计数、授权边界与布局规则见：
+项目是纯前端 React 18、严格 TypeScript、Vite 6 和 Cytoscape.js 应用：
 
-```text
-docs/SIXTH_COMPLETE_ROSTER.md
+- 没有后端、数据库、登录、在线编辑或 AI API；
+- 首次进入加载全部 580 人和 358 条关系；
+- 支持人物搜索、身份消歧、阵营浏览、关系过滤、史料层过滤和双人物最短路径；
+- 人物、关系和史料使用稳定 Hash Deep Link；
+- 人物、关系和史料档案提供 GitHub 数据纠错和来源建议入口；
+- 史料浏览支持典籍、卷篇、人物与关系检索，并区分人物定位、支持证据和反对证据；
+- 网页版适配 GitHub Pages；离线版为单文件 `offline/index.html`。
+
+根目录 `index.html` 必须继续保留 `file:` 到 `./offline/index.html` 的跳转。用户会直接
+双击根文件使用应用；任何用户可见修改后必须重新运行：
+
+```powershell
+npm run build:offline
+npm run validate:offline
 ```
 
-主要实现文件：
+## 3. 数据与史料红线
 
-```text
-src/data/sixthRoster/manifest.ts
-src/data/sixthRoster/persons.ts
-src/data/completeRosterManifest.ts
-src/data/majorSources.ts
-```
+- 每条正式关系必须至少有一条非空原文摘录；
+- `confirmed` 关系必须同时是 `verified`，并有非结构化候选史料支持；
+- 正史正文、正史间接推定、其他古代史料、现代研究、文学作品和编辑者推断必须分层；
+- 外部结构化数据只作候选线索，不能单独支撑正式关系；
+- 不伪造引文、卷次、链接、生卒年、别名、身份或政治归属；
+- `data/processed` 是内部只读候选层，不参与网页和离线构建，不手工编辑；
+- 正式基础关系类型仍只有 `father_of`、`mother_of`、`spouse_of`、
+  `adoptive_father_of`、`adoptive_mother_of`、`clan_relative_of`；
+- 战争、敌对、主从、官职、联盟、事件、地点和阵营边需要新的里程碑决定，不能混入
+  当前家庭关系层。
 
-第六批名单以《三国志》65 卷的本纪、独立列传和具名附传为基线，排除民族或
-政权集合、无法区分的“某子等”、偶然提名者与新的文学或传闻人物。
-新增人物每人至少引用一条已核验的《三国志》卷级史料。
+## 4. 前端发布边界
 
-## 3. 袁氏家庭关系补充与关系红线
+正式网页和离线成品不得显示、链接或打包维基体系名称、域名、候选数据或 QID。
+书名、作者、卷次、篇章和合法使用的史料短摘录正常展示。内部研究脚本、候选管线和
+维护文档可以保留必要的来源与许可证记录，但不得进入前端产物。
 
-第六批人物导入完成后，依据《三国志》卷五《文昭甄皇后传》和卷六《袁绍传》
-袁氏补充新增 4 条原文明确关系；关系覆盖三批随后新增 16 条魏系、27 条吴系和
-8 条蜀系与其他关系；第六批名册首轮再新增 24 条卷二十宗室父子关系。第七批遗漏
-审计第一组补录 24 条卷二十母子关系和 1 条孙权—孙虑父子关系；第二组补录 20 名
-女性及 34 条父母、婚姻和宗族关系。主要人物二次复核再新增 6 条既有节点间的姻亲与
-宗族关系；卷一至三十复核新增 9 条正文或裴注直接关系，卷三十一至五十复核新增
-8 条正文或裴注直接关系，卷五十一至六十五复核再新增 8 条。Round 5 全局审计新增
-4 条正文直接关系并净连接 6 人。Round 6 冻结前再新增曹氏三女的 6 条父女及婚姻
-关系，并删除 1 条聚合占位边。当前正式关系为 358 条。
-关系 JSON 序列化后的 SHA-256 为：
+`scripts/frontend-policy-guard.ts`、`src/data/frontendPublicationPolicy.test.ts` 和
+`scripts/validate-offline.ts` 会共同阻止禁用内容进入发布成品，不要绕过这些门禁。
 
-```text
-99850ae436763c9f6ce5fad5b06b7cb15fa966405bd2537e74084ae4a35c9f8b
-```
+## 5. 阵营与历史身份
 
-正式基础类型仍只有：
+“魏、蜀、吴、其他”是图谱颜色与空间布局使用的展示阵营，不等同于人物生前的正式
+政治归属。`Person.visualFaction` 与 `Person.factions` 必须分开维护，不能从卷次、
+家族或颜色反推历史政治身份。
 
-```text
-father_of
-mother_of
-spouse_of
-adoptive_father_of
-adoptive_mother_of
-clan_relative_of
-```
+曹操 15 人核心家庭中，曹腾、曹嵩显示为“其他”，其余 13 人显示为“魏”。
 
-不增加战争、敌对、主从、官职、联盟、事件或阵营关系。传闻、裴注存疑与文学关系
-继续以虚线表达，不代表已获正史承认。
+## 6. 许可证基线
 
-## 4. 展示阵营与历史归属
+- 软件代码：根目录 `LICENSE`，MIT License；
+- 项目有权授权的正式结构化数据：根目录 `LICENSE-DATA`，CC BY 4.0；
+- 指定署名：`数据来源：三国人物关系谱 · SanguoGraph（CC BY 4.0）`；
+- 转载或再利用还应提供许可证信息并说明是否修改；
+- 史料摘录、现代出版物、图片、第三方材料和内部候选不属于 SanguoGraph 数据授权；
+- 新贡献者的数据与原创编辑说明按 `CONTRIBUTING.md` 接受 CC BY 4.0 发布。
 
-“魏、蜀、吴、其他”只是前端颜色和空间分类。`Person.visualFaction` 与
-`Person.factions` 必须分开维护。第六批的 `factions` 默认为空，不从卷次或
-展示阵营反推正式政治归属。
-
-曹腾、曹嵩继续显示为其他，原曹操核心家庭其余 13 人继续显示为魏。
-
-## 5. 地图布局与缩放
-
-- 有正式关系的家庭分量继续使用确定性放射布局；
-- 无关系人物进入阵营外围网格：魏在上、蜀在左下、吴在右下、其他在下方；
-- 旧人物按原数据顺序先占位，第六批按冻结名单顺序追加；
-- 桌面最小中心距为 112px，紧凑视图为 104px；
-- 连线避让使用二维空间索引，仅检查路径附近人物；跨阵营长距离关系在常规候选路径
-  仍碰撞时允许使用远距兜底曲线，避免穿过无关节点；
-- “适应画布”继续显示全部 580 人，极低缩放使用阵营色点总览；
-- 首次加载聚焦曹操，搜索只移动视口，不改变整图根节点。
-
-## 6. 数据与史料红线
-
-- 不伪造引文、卷次、链接或现代学术观点；
-- 外部结构化数据只作候选线索；
-- Wikidata 不得单独支撑 confirmed 关系；
-- 前端不得显示、链接或打包维基体系名称、域名与候选外部标识；书名、卷次、篇章和
-  史料引文正常保留，内部研究管线不受此发布边界影响；
-- 正文、裴注、地方旧闻、文学叙事和结构化候选必须分层；
-- 无法核验的生卒年、别名和政治归属保持空值；
-- 不为追求连通性补造关系；
-- 每条正式关系必须至少引用一条非空原文摘录；
-- `data/processed` 是生成的只读候选层，不手工编辑。
+不要把软件说成 CC BY 4.0，也不要把第三方材料说成 MIT、CC BY 4.0 或 CC0。
 
 ## 7. 关键文件
 
+### 发布与连续性
+
 ```text
-AGENTS.md
-docs/DATA_SCHEMA.md
-docs/SOURCE_POLICY.md
-docs/CANDIDATE_PIPELINE.md
-docs/SIXTH_COMPLETE_ROSTER.md
-docs/SEVENTH_SOURCE_AUDIT_BATCH_1.md
-docs/SEVENTH_SOURCE_AUDIT_BATCH_2.md
-docs/MAJOR_ROSTER_SECOND_PASS.md
-docs/VOLUMES_01_30_RELATIONSHIP_REVIEW.md
-docs/VOLUMES_31_50_RELATIONSHIP_REVIEW.md
-docs/VOLUMES_51_65_RELATIONSHIP_REVIEW.md
-docs/GLOBAL_DATA_EVIDENCE_AUDIT.md
-docs/DATA_FREEZE_RELEASE_ACCEPTANCE.md
-docs/SOURCE_BROWSER_ROUND_7.md
-docs/STABLE_DEEP_LINKS_ROUND_8.md
+index.html
+offline/index.html
+package.json
+CHANGELOG.md
+LICENSE
+LICENSE-DATA
+CONTRIBUTING.md
+docs/ROADMAP.md
+docs/STABLE_RELEASE_ROUND_10.md
 docs/DATA_LICENSE_GOVERNANCE.md
-docs/CORRECTIONS_LICENSE_GOVERNANCE_ROUND_9.md
-src/data/completeRosterManifest.ts
-src/data/sixthRoster/manifest.ts
-src/data/seventhSourceAuditBatchOnePersons.ts
-src/data/seventhSourceAuditBatchOneRelations.ts
-src/data/seventhSourceAuditBatchOneSources.ts
-src/data/seventhSourceAuditBatchTwoPersons.ts
-src/data/seventhSourceAuditBatchTwoRelations.ts
-src/data/seventhSourceAuditBatchTwoSources.ts
-src/data/majorRosterSecondPassRelations.ts
-src/data/majorRosterSecondPassSources.ts
-src/data/volumesOneToThirtyRelationshipRelations.ts
-src/data/volumesOneToThirtyRelationshipSources.ts
-src/data/volumesThirtyOneToFiftyRelationshipRelations.ts
-src/data/volumesThirtyOneToFiftyRelationshipSources.ts
-src/data/volumesFiftyOneToSixtyFiveRelationshipRelations.ts
-src/data/volumesFiftyOneToSixtyFiveRelationshipSources.ts
-src/data/globalDataEvidenceAuditRelations.ts
-src/data/globalDataEvidenceAuditSources.ts
-src/data/dataFreezeOmissionPersons.ts
-src/data/dataFreezeOmissionRelations.ts
-src/data/dataFreezeOmissionSources.ts
-src/services/graphLayout.ts
-src/services/graphViewport.ts
 ```
 
-## 8. 交付检查
+### 正式数据
 
-交付前必须运行：
+```text
+src/data/index.ts
+src/data/persons.json
+src/data/relations.json
+src/data/sources.json
+src/data/completeRosterManifest.ts
+src/data/sixthRoster/
+src/data/seventhSourceAuditBatchOnePersons.ts
+src/data/seventhSourceAuditBatchTwoPersons.ts
+```
+
+### 应用与门禁
+
+```text
+src/App.tsx
+src/pages/HomePage.tsx
+src/pages/SourcesPage.tsx
+src/pages/AboutPage.tsx
+src/services/deepLinks.ts
+src/services/feedbackLinks.ts
+src/services/graphLayout.ts
+scripts/validate-data.ts
+scripts/audit-relation-coverage.ts
+scripts/validate-processed.ts
+scripts/validate-release.ts
+scripts/validate-offline.ts
+scripts/frontend-policy-guard.ts
+```
+
+## 8. 完整交付检查
+
+任何用户可见功能、数据或发布边界变更在交付前运行：
 
 ```powershell
 npm run lint
-npm run test
+npm run test -- --reporter=dot --maxWorkers=1
 npm run validate:data
 npm run validate:relation-coverage
 npm run validate:processed
+npm run test:source-index
 npm run validate:release
 npm run build
 npm run build:offline
@@ -209,75 +180,27 @@ npm run validate:offline
 npm audit --omit=dev
 ```
 
-浏览器验收尺寸为 1366×768 和 390×844，需确认：
+涉及页面布局、交互或发布文案时，还要在 1366×768 与 390×844 验收：
 
-- 默认地图加载 580 人、358 条关系；
-- 搜索曹节并显示曹操父女与刘协婚姻关系；
-- 四阵营计数为 286、122、133、39；
-- 页面文案、链接和网络请求均不得指向维基体系；正常史料书名、卷次和引文继续显示；
-- “适应画布”显示全部人物，放大后姓名可读；
-- 没有节点重叠、连线穿过无关人物或横向页面溢出；
-- 控制台没有 warning/error。
+- 无横向溢出；
+- 史料浏览和关于项目可滚动到底；
+- 控制台无 warning/error；
+- 前端无禁用的维基体系可见内容或链接；
+- 首页人数、关系数和阵营计数未意外回退；
+- 根目录直接打开和离线成品仍然可用。
 
-仓库已配置 `origin` 远程；通过专题分支和拉取请求交付，不直接改写远程 `main`。
+## 9. v1.0 最后验证结果
 
-Round 6 完整交付验证已于 2026-08-13 完成：
+2026-08-14 的 Round 10 验收结果：
 
-- `npm run lint` 通过；
-- `npm run test -- --reporter=dot --maxWorkers=1` 通过，共 27 个测试文件、132 项测试；
-- 数据校验通过：580 人、358 条正式关系、189 条史料；
-- 关系覆盖回归通过：374 人入网、206 人孤立、覆盖率 64.5%；
-- processed 数据校验通过：99 人、738 条未核验候选、4 个文件哈希一致；
-- 本地史料索引 5 项测试通过；
-- 生产构建与离线单文件构建通过，候选数据不生成网页分块，`offline/index.html`
-  为 872.0 KiB；
-- 根入口与离线包校验通过；
-- `npm audit --omit=dev` 为 0 个漏洞；
-- 桌面验收显示 580 人、358 条关系、186 个可浏览来源；曹节检索及父女／婚姻档案
-  正常，主页无维基体系可见文案或外链；
-- 390×844 移动端验收无横向溢出，页面控制台无 warning/error。
+- 30 个测试文件、143 项测试通过；
+- 正式数据、关系覆盖、processed 候选和本地史料索引校验通过；
+- 稳定版、生产构建、离线构建和根入口校验通过；
+- `offline/index.html` 为 885.8 KiB；
+- 依赖审计为 0 个漏洞；
+- 桌面与移动端关于页、史料页滚动正常；
+- 曹节可搜索，并正确显示曹操为父、刘协为丈夫；
+- 前端无维基体系可见文案或外链，控制台无 warning/error。
 
-Round 7 完整交付验证已于 2026-08-13 完成：
-
-- `npm run lint` 通过；
-- `npm run test -- --reporter=dot --maxWorkers=1` 通过，共 28 个测试文件、135 项测试；
-- 数据、关系覆盖、processed 数据与本地史料索引校验继续通过；
-- 生产构建、离线单文件构建和根入口校验通过，`offline/index.html` 为 879.5 KiB；
-- `npm audit --omit=dev` 为 0 个漏洞；
-- 桌面史料页默认显示 189 条折叠记录；“曹节 刘协”检索返回 1 条并自动展开，引用
-  分类显示 3 个人物、6 条支持关系、0 条反对关系；
-- 390×844 移动端筛选控件均在视口内，无横向溢出；桌面与移动端控制台均无
-  warning/error，且页面无维基体系可见文案或外链。
-
-Round 8 完整交付验证已于 2026-08-14 完成：
-
-- 29 个测试文件、141 项测试全部通过；
-- 数据、关系覆盖、processed 数据与本地史料索引校验继续通过；
-- 生产构建、离线单文件构建和根入口校验通过，`offline/index.html` 为 882.7 KiB；
-- 1366×768 与 390×844 下“史料浏览”“关于项目”均可滚至页尾且无横向溢出；
-- 人物、关系、史料永久链接和无效链接回退均通过浏览器验收；
-- 前端无维基体系可见文案或外链，控制台无 warning/error，依赖审计为 0 个漏洞。
-
-Round 9 完整交付验证已于 2026-08-14 完成：
-
-- 新增数据纠错与史料来源建议两个 GitHub Issue Form，YAML 与必要字段校验通过；
-- 人物、关系和史料反馈入口会预填实体 ID、永久链接、表单与标题；
-- 30 个测试文件、143 项测试全部通过；
-- 数据、关系覆盖、processed 数据与本地史料索引校验继续通过；
-- 生产构建、离线单文件构建和根入口校验通过，`offline/index.html` 为 885.5 KiB；
-- 1366×768 与 390×844 浏览器验收无横向溢出，反馈按钮均位于视口内；
-- 前端无维基体系可见文案或外链，控制台无 warning/error，依赖审计为 0 个漏洞；
-- 数据治理规则已经冻结，但独立数据许可证仍须维护者在 Round 10 前明确批准。
-
-Round 10 完整交付验证已于 2026-08-14 完成：
-
-- 维护者批准 CC BY 4.0，指定转载和再利用须注明“三国人物关系谱 · SanguoGraph”；
-- 软件继续为 MIT，史料摘录、第三方材料和内部候选明确排除在正式数据授权外；
-- 版本更新为 1.0.0，新增稳定版发布门禁并加入 CI 与 Pages 构建；
-- 30 个测试文件、143 项测试全部通过；
-- 数据、关系覆盖、processed 数据、本地史料索引和稳定版元数据校验通过；
-- 生产构建、离线单文件构建和根入口校验通过，`offline/index.html` 为 885.8 KiB；
-- 1366×768 与 390×844 浏览器验收通过，关于页与史料页均可滚动至页尾；
-- 首页加载 580 人、358 条关系，曹节父女／婚姻档案正常；
-- 前端无维基体系可见文案或外链，控制台无 warning/error，依赖审计为 0 个漏洞；
-- 当前路线图和 Milestone 3 完成，SanguoGraph 达到 v1.0 稳定版发布标准。
+详细历史不要重新堆入本文件；按需查阅 `docs/` 下 Round 6—10 验收记录、关系覆盖
+审计文件、数据模式和史料政策。本文件只维护新窗口继续工作的当前基线。
