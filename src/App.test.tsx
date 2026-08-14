@@ -117,6 +117,7 @@ describe('application routes and home interaction', () => {
     fireEvent.click(screen.getByRole('button', { name: /曹冲/ }));
 
     expect(screen.getByRole('heading', { name: '曹冲' })).toBeInTheDocument();
+    expect(window.location.hash).toBe('#/person/cao_chong');
   });
 
   it('selects a fourth-batch Xiahou person already loaded in the complete graph', () => {
@@ -305,7 +306,68 @@ describe('application routes and home interaction', () => {
     expect(screen.getByText('人物定位引用（3）')).toBeInTheDocument();
     expect(screen.getByText('关系支持证据（6）')).toBeInTheDocument();
     expect(screen.getByText('关系反对证据（0）')).toBeInTheDocument();
-    expect(screen.getByText('曹宪、曹节、曹华')).toBeInTheDocument();
+    const personUsage = screen
+      .getByRole('heading', { name: '人物定位引用（3）' })
+      .closest('section');
+    expect(personUsage).not.toBeNull();
+    expect(within(personUsage!).getByRole('link', { name: '曹宪' })).toHaveAttribute(
+      'href',
+      '#/person/cao_xian',
+    );
+    expect(within(personUsage!).getByRole('link', { name: '曹节' })).toHaveAttribute(
+      'href',
+      '#/person/cao_jie_empress',
+    );
+  });
+
+  it('opens a stable person deep link', () => {
+    renderRoute('/person/cao_jie_empress');
+    expect(
+      screen.getByRole('heading', { name: '曹节', level: 3 }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '此人物的永久链接' })).toHaveAttribute(
+      'href',
+      '#/person/cao_jie_empress',
+    );
+  });
+
+  it('opens a stable relation deep link', () => {
+    renderRoute('/relation/round_06_cao_jie_empress_spouse_liu_xie');
+    expect(
+      screen.getByRole('heading', { name: '曹节 — 刘协', level: 3 }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '此关系的永久链接' })).toHaveAttribute(
+      'href',
+      '#/relation/round_06_cao_jie_empress_spouse_liu_xie',
+    );
+  });
+
+  it('opens a focused source deep link and connects it back to graph entities', () => {
+    renderRoute('/source/round_06_hhs_10b_cao_daughters');
+
+    expect(screen.getByText('正在查看永久链接指定的史料')).toBeInTheDocument();
+    expect(screen.getByText('1 条结果')).toBeInTheDocument();
+    expect(screen.queryByRole('searchbox', { name: '检索史料' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '此史料的永久链接' })).toHaveAttribute(
+      'href',
+      '#/source/round_06_hhs_10b_cao_daughters',
+    );
+    expect(screen.getByRole('link', { name: '曹节' })).toHaveAttribute(
+      'href',
+      '#/person/cao_jie_empress',
+    );
+  });
+
+  it('shows a clear not-found page for an invalid deep link', () => {
+    renderRoute('/person/not-a-real-person');
+
+    expect(
+      screen.getByRole('heading', { name: '找不到这条档案', level: 1 }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '返回关系图谱' })).toHaveAttribute(
+      'href',
+      '#/',
+    );
   });
 
   it('renders the Milestone 1 about page', () => {

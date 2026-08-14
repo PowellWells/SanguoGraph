@@ -13,6 +13,7 @@ import {
   countRelationsBySourceLayer,
   sourceLayerOptions,
 } from '../services/sourceLayers';
+import { createDeepLinkHash } from '../services/deepLinks';
 
 const browsableLayers: readonly SourceBrowserLayer[] = [
   'all',
@@ -29,7 +30,11 @@ const sourceTypeLabels: Readonly<Record<HistoricalSource['sourceType'], string>>
   structured_dataset: '结构化候选',
 };
 
-export function SourcesPage() {
+interface SourcesPageProps {
+  focusedSourceId: string | null;
+}
+
+export function SourcesPage({ focusedSourceId }: SourcesPageProps) {
   const [query, setQuery] = useState('');
   const [layer, setLayer] = useState<SourceBrowserLayer>('all');
   const [work, setWork] = useState('all');
@@ -46,15 +51,19 @@ export function SourcesPage() {
     [],
   );
   const matchingSources = useMemo(
-    () =>
-      filterSources(
+    () => {
+      if (focusedSourceId) {
+        return graphData.sources.filter(({ id }) => id === focusedSourceId);
+      }
+      return filterSources(
         graphData.sources,
         graphData.persons,
         graphData.relations,
         query,
         layer,
-      ).filter((source) => work === 'all' || source.work === work),
-    [layer, query, work],
+      ).filter((source) => work === 'all' || source.work === work);
+    },
+    [focusedSourceId, layer, query, work],
   );
 
   const clearFilters = () => {
@@ -98,46 +107,57 @@ export function SourcesPage() {
           </div>
           <strong aria-live="polite">{matchingSources.length} 条结果</strong>
         </div>
-        <div className="source-browser-controls">
-          <label>
-            <span>检索史料</span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="书名、作者、卷篇、人物或关系"
-            />
-          </label>
-          <label>
-            <span>史料层</span>
-            <select
-              value={layer}
-              onChange={(event) =>
-                setLayer(event.target.value as SourceBrowserLayer)
-              }
-            >
-              {browsableLayers.map((value) => (
-                <option key={value} value={value}>
-                  {sourceBrowserLayerLabels[value]}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>典籍</span>
-            <select value={work} onChange={(event) => setWork(event.target.value)}>
-              <option value="all">全部典籍</option>
-              {works.map((value) => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button type="button" onClick={clearFilters}>
-            清除筛选
-          </button>
-        </div>
+        {focusedSourceId && (
+          <div className="focused-source-notice">
+            <strong>正在查看永久链接指定的史料</strong>
+            <a href="#/sources">返回全部史料</a>
+          </div>
+        )}
+        {!focusedSourceId && (
+          <div className="source-browser-controls">
+            <label>
+              <span>检索史料</span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="书名、作者、卷篇、人物或关系"
+              />
+            </label>
+            <label>
+              <span>史料层</span>
+              <select
+                value={layer}
+                onChange={(event) =>
+                  setLayer(event.target.value as SourceBrowserLayer)
+                }
+              >
+                {browsableLayers.map((value) => (
+                  <option key={value} value={value}>
+                    {sourceBrowserLayerLabels[value]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>典籍</span>
+              <select
+                value={work}
+                onChange={(event) => setWork(event.target.value)}
+              >
+                <option value="all">全部典籍</option>
+                {works.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button type="button" onClick={clearFilters}>
+              清除筛选
+            </button>
+          </div>
+        )}
         {matchingSources.length === 0 ? (
           <div className="source-empty-state">
             <strong>没有匹配的正式史料</strong>
@@ -151,9 +171,14 @@ export function SourcesPage() {
                 graphData.persons,
                 graphData.relations,
               );
-              const shouldExpand = query.trim().length > 0 && matchingSources.length <= 8;
+              const shouldExpand =
+                Boolean(focusedSourceId) ||
+                (query.trim().length > 0 && matchingSources.length <= 8);
               return (
-                <details key={`${source.id}:${query}:${layer}:${work}`} open={shouldExpand}>
+                <details
+                  key={`${source.id}:${query}:${layer}:${work}`}
+                  open={shouldExpand}
+                >
                   <summary>
                     <span>
                       <strong>{source.reference}</strong>
@@ -166,6 +191,12 @@ export function SourcesPage() {
                     </span>
                   </summary>
                   <div className="source-record-body">
+                    <a
+                      className="entity-permalink"
+                      href={createDeepLinkHash('source', source.id)}
+                    >
+                      此史料的永久链接
+                    </a>
                     <dl className="evidence-metadata">
                       <div><dt>典籍</dt><dd>{source.work}</dd></div>
                       <div><dt>作者</dt><dd>{source.author ?? '未详'}</dd></div>
@@ -185,7 +216,14 @@ export function SourcesPage() {
                         <h3>人物定位引用（{usage.persons.length}）</h3>
                         <p>
                           {usage.persons.length > 0
-                            ? usage.persons.map((person) => person.name).join('、')
+                            ? usage.persons.map((person, index) => (
+                                <span key={person.id}>
+                                  {index > 0 && '、'}
+                                  <a href={createDeepLinkHash('person', person.id)}>
+                                    {person.name}
+                                  </a>
+                                </span>
+                              ))
                             : '没有人物条目直接引用此来源。'}
                         </p>
                       </section>
@@ -195,10 +233,14 @@ export function SourcesPage() {
                           <ul className="source-page-relations">
                             {usage.supportingRelations.map((relation) => (
                               <li key={relation.id}>
-                                {peopleById.get(relation.sourcePersonId)?.name ?? '未知'}
-                                {' — '}
-                                {peopleById.get(relation.targetPersonId)?.name ?? '未知'}
-                                <small>{relationTypeLabels[relation.type]}</small>
+                                <a
+                                  href={createDeepLinkHash('relation', relation.id)}
+                                >
+                                  {peopleById.get(relation.sourcePersonId)?.name ?? '未知'}
+                                  {' — '}
+                                  {peopleById.get(relation.targetPersonId)?.name ?? '未知'}
+                                  <small>{relationTypeLabels[relation.type]}</small>
+                                </a>
                               </li>
                             ))}
                           </ul>
@@ -212,10 +254,14 @@ export function SourcesPage() {
                           <ul className="source-page-relations">
                             {usage.opposingRelations.map((relation) => (
                               <li key={relation.id}>
-                                {peopleById.get(relation.sourcePersonId)?.name ?? '未知'}
-                                {' — '}
-                                {peopleById.get(relation.targetPersonId)?.name ?? '未知'}
-                                <small>{relationTypeLabels[relation.type]}</small>
+                                <a
+                                  href={createDeepLinkHash('relation', relation.id)}
+                                >
+                                  {peopleById.get(relation.sourcePersonId)?.name ?? '未知'}
+                                  {' — '}
+                                  {peopleById.get(relation.targetPersonId)?.name ?? '未知'}
+                                  <small>{relationTypeLabels[relation.type]}</small>
+                                </a>
                               </li>
                             ))}
                           </ul>

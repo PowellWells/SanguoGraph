@@ -28,6 +28,7 @@ import {
   initialSourceLayers,
   type SourceLayerKey,
 } from '../services/sourceLayers';
+import { replaceCurrentDeepLink } from '../services/deepLinks';
 
 const corePersonId = 'person:sg:cao_cao';
 const initialTypes = new Set<RelationType>([
@@ -67,7 +68,15 @@ const visualFactionFocus: Record<VisualFaction, string> = {
 
 type DetailMode = 'record' | 'sources' | 'path';
 
-export function HomePage() {
+interface HomePageProps {
+  initialPersonId: string | null;
+  initialRelationId: string | null;
+}
+
+export function HomePage({
+  initialPersonId,
+  initialRelationId,
+}: HomePageProps) {
   const [query, setQuery] = useState('');
   const [enabledTypes, setEnabledTypes] = useState(initialTypes);
   const [depth, setDepth] = useState<NeighborhoodDepth>('all');
@@ -75,10 +84,11 @@ export function HomePage() {
     () => new Set(initialSourceLayers),
   );
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(
-    corePersonId,
+    initialRelationId ? null : (initialPersonId ?? corePersonId),
   );
   const [selectedRelationId, setSelectedRelationId] = useState<string | null>(
-    'relation:sg:cao_cao_spouse_lady_huan',
+    initialRelationId ??
+      (initialPersonId ? null : 'relation:sg:cao_cao_spouse_lady_huan'),
   );
   const [explorationPersonIds, setExplorationPersonIds] = useState(
     () => new Set(allFormalPersonIds),
@@ -182,10 +192,12 @@ export function HomePage() {
     setSelectedPersonId(personId);
     setSelectedRelationId(null);
     setDetailMode('record');
+    replaceCurrentDeepLink('person', personId);
   }, []);
   const selectRelation = useCallback((relationId: string) => {
     setSelectedRelationId(relationId);
     setDetailMode('record');
+    replaceCurrentDeepLink('relation', relationId);
   }, []);
 
   const commitVisibility = useCallback(

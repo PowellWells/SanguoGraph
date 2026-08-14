@@ -135,8 +135,9 @@
 ## Milestone 3 — evidence system (in progress)
 
 - improve source browsing and claim comparison (Round 7 source browser completed)
+- provide stable deep links for people, relations, and sources (Round 8 completed)
 - add correction and source-suggestion issue templates
-- consider stable deep links for people and claims
+- finalize historical-data license governance before stable release
 
 ## Open governance decisions
 

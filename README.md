@@ -39,6 +39,8 @@ npm run validate:offline
   without an in-scope relation remain visible as independent nodes;
 - a searchable, layered source browser that distinguishes person locators,
   supporting relation evidence, and opposing evidence;
+- stable hash links that open a specific person, relation, or source in both
+  hosted and direct-open offline builds;
 - Cytoscape.js graph with search, relation filters, and all/one-hop/two-hop
   views;
 - deterministic radial family-branch layouts with collision-free spacing,
@@ -53,7 +55,8 @@ npm run validate:offline
 - disambiguating search with pinyin/context matching and two-person shortest
   paths;
 - candidate datasets remain internal research inputs and are excluded from public builds;
-- responsive desktop and mobile layouts.
+- responsive desktop and mobile layouts, with native scrolling on long source
+  and about pages.
 
 External identifiers used by internal research are never project primary keys
 and cannot establish a `confirmed` relationship.

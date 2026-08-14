@@ -1,4 +1,5 @@
 import type { HistoricalSource } from '../../domain';
+import { createDeepLinkHash } from '../../services/deepLinks';
 
 interface EvidencePanelProps {
   sources: HistoricalSource[];
@@ -13,7 +14,11 @@ export function EvidencePanel({ sources }: EvidencePanelProps) {
     <div className="evidence-list">
       {sources.map((source) => (
         <article key={source.id}>
-          <h4>{source.reference}</h4>
+          <h4>
+            <a href={createDeepLinkHash('source', source.id)}>
+              {source.reference}
+            </a>
+          </h4>
           <dl className="evidence-metadata">
             <div>
               <dt>作者</dt>

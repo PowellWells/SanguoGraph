@@ -1,4 +1,4 @@
-import type { AppRoute } from '../../App';
+import type { AppPage } from '../../App';
 
 const navigation = [
   { to: '/', label: '关系图谱' },
@@ -7,7 +7,7 @@ const navigation = [
 ] as const;
 
 interface HeaderProps {
-  currentRoute: AppRoute;
+  currentRoute: AppPage;
 }
 
 export function Header({ currentRoute }: HeaderProps) {

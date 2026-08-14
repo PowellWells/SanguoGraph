@@ -13,6 +13,7 @@ import {
   reviewStatusLabels,
 } from '../../services/relationPresentation';
 import { EvidencePanel } from '../source/EvidencePanel';
+import { createDeepLinkHash } from '../../services/deepLinks';
 
 export interface PersonPanelActions {
   isLocked: boolean;
@@ -108,6 +109,12 @@ export function PersonPanel({
             : '→'}{' '}
           {to?.name}
         </h3>
+        <a
+          className="entity-permalink"
+          href={createDeepLinkHash('relation', selectedRelation.id)}
+        >
+          此关系的永久链接
+        </a>
         <p className="relation-qualifier">{claim.relationshipQualifier}</p>
         <dl className="detail-metadata">
           <div>
@@ -202,6 +209,12 @@ export function PersonPanel({
     return (
       <DetailFrame title="人物档案">
         <h3 className="relation-title">{selectedPerson.name}</h3>
+        <a
+          className="entity-permalink"
+          href={createDeepLinkHash('person', selectedPerson.id)}
+        >
+          此人物的永久链接
+        </a>
         <p className="person-years">
           {selectedPerson.courtesyName && `字${selectedPerson.courtesyName} · `}
           {years(selectedPerson)}
