@@ -6,8 +6,8 @@
 
 > **Explore online:** [Open the relationship graph](https://powellwells.github.io/SanguoGraph/)
 
-三国人物关系谱 · SanguoGraph is an early-stage, source-traceable knowledge graph for historical
-relationships in the Three Kingdoms period. The formal layer now covers 580
+三国人物关系谱 · SanguoGraph v1.0 is a stable, source-traceable knowledge graph for historical
+relationships in the Three Kingdoms period. The formal layer covers 580
 historical or explicitly literary-layer people across Wei, Shu, Wu, and
 late-Han groups while keeping verified records, presentation factions,
 literary claims, and internal research candidates separate.
@@ -107,6 +107,7 @@ npm run test
 npm run validate:data
 npm run validate:relation-coverage
 npm run validate:processed
+npm run validate:release
 npm run build
 npm run build:offline
 npm run validate:offline
@@ -131,8 +132,9 @@ download Wikidata.
 ## License
 
 Source code is available under the [MIT License](LICENSE). Project-maintained
-historical data is curated separately from third-party candidate data; its own
-license still requires explicit maintainer approval. See the
-[data-license governance policy](docs/DATA_LICENSE_GOVERNANCE.md) and
-[contribution guide](CONTRIBUTING.md); third-party data is not re-licensed as
-CC0.
+formal historical data is available under [CC BY 4.0](LICENSE-DATA), to the
+extent that SanguoGraph has authority to license it. Reuse and redistribution
+must credit “三国人物关系谱 · SanguoGraph”, link the license, and indicate
+changes. Source excerpts and third-party or internal candidate material remain
+outside this data license. See the [data-license governance
+policy](docs/DATA_LICENSE_GOVERNANCE.md) and [contribution guide](CONTRIBUTING.md).

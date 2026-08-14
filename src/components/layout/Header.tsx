@@ -21,7 +21,7 @@ export function Header({ currentRoute }: HeaderProps) {
           <strong>三国人物关系谱</strong>
           <small>SanguoGraph</small>
         </span>
-        <span className="open-source-badge">开源</span>
+        <span className="open-source-badge">v1.0</span>
       </a>
       <nav aria-label="主导航">
         {navigation.map((item) => (

@@ -6,7 +6,7 @@
 
 > **在线体验：**[打开人物关系图谱](https://powellwells.github.io/SanguoGraph/)
 
-三国人物关系谱 · SanguoGraph 是一个处于早期阶段、以可追溯史料为核心的三国历史人物关系知识图谱。
+三国人物关系谱 · SanguoGraph v1.0 是一个稳定、以可追溯史料为核心的三国历史人物关系知识图谱。
 当前正式层覆盖580名魏、蜀、吴及汉末群雄人物，并严格分离已经核验的历史记录、
 文学／传闻关系、展示阵营与内部研究候选。
 
@@ -88,6 +88,7 @@ npm run test
 npm run validate:data
 npm run validate:relation-coverage
 npm run validate:processed
+npm run validate:release
 npm run build
 npm run build:offline
 npm run validate:offline
@@ -110,7 +111,8 @@ SHA-256 校验 processed 文件，不重新下载 Wikidata。
 ## 许可证
 
 源代码采用 [MIT License](LICENSE)。当前历史数据由项目维护者整理，
-独立数据许可证仍待维护者明确批准；项目不会擅自把第三方数据声明为 CC0。
-软件、项目整理数据、史料摘录与第三方候选的边界见
+项目有权授权的正式结构化数据采用 [CC BY 4.0](LICENSE-DATA)。转载、修改或
+再利用时必须注明“数据来源：三国人物关系谱 · SanguoGraph”，提供许可证信息并
+说明是否修改。史料短摘录、第三方材料和内部候选不属于该数据授权范围。详细边界见
 [数据许可证治理](docs/DATA_LICENSE_GOVERNANCE.md)，参与纠错请阅读
 [贡献指南](CONTRIBUTING.md)。

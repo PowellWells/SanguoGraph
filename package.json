@@ -1,7 +1,7 @@
 {
   "name": "sanguo-graph",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "A source-traceable knowledge graph for historical relationships in the Three Kingdoms period.",
   "license": "MIT",
@@ -24,6 +24,7 @@
     "validate:data": "tsx scripts/validate-data.ts",
     "validate:relation-coverage": "tsx scripts/audit-relation-coverage.ts --check",
     "validate:processed": "tsx scripts/validate-processed.ts",
+    "validate:release": "tsx scripts/validate-release.ts",
     "validate:offline": "tsx scripts/validate-offline.ts",
     "preview": "vite preview"
   },

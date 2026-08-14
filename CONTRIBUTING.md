@@ -17,6 +17,7 @@ require a higher evidence standard than interface changes.
    npm run validate:data
    npm run validate:relation-coverage
    npm run validate:processed
+   npm run validate:release
    npm run build
    ```
 
@@ -49,9 +50,11 @@ They are not sufficient evidence for a `confirmed` relationship.
 ## Licensing
 
 By contributing code, you agree that it may be distributed under the MIT
-License. Do not import third-party datasets or code unless their license and
+License. By contributing project-maintained historical data or original
+editorial descriptions, you agree that your contribution may be distributed
+under CC BY 4.0 and confirm that you have the right to provide it on those
+terms. Do not import third-party datasets or code unless their license and
 provenance are documented and compatible with the project.
 
-The standalone license for project-maintained historical data is not yet
-settled. The scope, intake rules, candidate options, and stable-release gate
-are defined in `docs/DATA_LICENSE_GOVERNANCE.md`.
+The formal data attribution, exclusions, intake rules, and release boundary
+are defined in `LICENSE-DATA` and `docs/DATA_LICENSE_GOVERNANCE.md`.

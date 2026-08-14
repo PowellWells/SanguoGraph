@@ -392,7 +392,7 @@ describe('application routes and home interaction', () => {
     );
   });
 
-  it('renders the Milestone 1 about page', () => {
+  it('renders the v1.0 about page with the approved data license', () => {
     renderRoute('/about');
     expect(
       screen.getByRole('heading', { name: '关于 三国人物关系谱 · SanguoGraph', level: 1 }),
@@ -400,6 +400,13 @@ describe('application routes and home interaction', () => {
     expect(screen.getByText('如何阅读')).toBeInTheDocument();
     expect(screen.getByText('纠错与来源建议')).toBeInTheDocument();
     expect(screen.getByText('许可证边界')).toBeInTheDocument();
+    expect(screen.getByText(/当前稳定版为 v1\.0/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'CC BY 4.0' })).toHaveAttribute(
+      'href',
+      'https://creativecommons.org/licenses/by/4.0/',
+    );
+    expect(screen.getByText(/数据来源：三国人物关系谱/)).toBeInTheDocument();
+    expect(screen.getByText('代码 MIT · 正式数据 CC BY 4.0')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '报告数据问题' })).toHaveAttribute(
       'target',
       '_blank',

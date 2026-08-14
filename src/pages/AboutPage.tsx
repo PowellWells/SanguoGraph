@@ -10,8 +10,8 @@ export function AboutPage() {
         <p className="eyebrow">About the project</p>
         <h1>关于 三国人物关系谱 · SanguoGraph</h1>
         <p>
-          这是一个处于早期阶段的开源数字人文项目，目标是建立可查询、可校正、
-          可追溯证据的三国历史人物关系谱。
+          这是一个可公开浏览、可查询、可校正并可追溯证据的开源数字人文项目。
+          当前稳定版为 v1.0。
         </p>
       </header>
       <section>
@@ -60,9 +60,22 @@ export function AboutPage() {
       <section id="data-license">
         <h2>许可证边界</h2>
         <p>
-          项目软件代码采用 MIT License。项目整理的历史数据尚未授予独立开放数据
-          许可证；史料短摘录和第三方材料继续遵循各自来源权利，不因进入仓库而自动
-          改用 MIT 或 CC0。正式发布前必须完成独立数据许可证决定和兼容性复核。
+          项目软件代码采用 MIT License。项目有权授权的正式结构化数据采用
+          {' '}
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            CC BY 4.0
+          </a>
+          ：允许转载、修改和再利用，但必须注明“数据来源：三国人物关系谱 ·
+          SanguoGraph”，提供许可证信息并说明是否修改。
+        </p>
+        <p>
+          史料短摘录、现代出版物、图片和第三方材料继续遵循各自来源权利；内部研究
+          候选不属于正式数据授权范围。数据许可不表示项目为第三方材料授权，也不表示
+          对转载者或其修改内容背书。
         </p>
       </section>
     </article>

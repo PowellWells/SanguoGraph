@@ -103,8 +103,8 @@ export function App() {
       <Header currentRoute={route.page} />
       <main className="main-content">{page}</main>
       <footer className="site-footer">
-        <p>三国人物关系谱 · SanguoGraph · 开源项目</p>
-        <p>代码 MIT · 数据许可待定</p>
+        <p>三国人物关系谱 · SanguoGraph · v1.0</p>
+        <p>代码 MIT · 正式数据 CC BY 4.0</p>
       </footer>
     </div>
   );

@@ -132,20 +132,21 @@
 - continue auditing named women, attached biographies, and same-name identities against the local source index
 - close the freeze audit with three named Cao daughters located in *Book of the Later Han* and immediately connected to Cao Cao and Liu Xie
 
-## Milestone 3 — evidence system (in progress)
+## Milestone 3 — evidence system (completed)
 
 - improve source browsing and claim comparison (Round 7 source browser completed)
 - provide stable deep links for people, relations, and sources (Round 8 completed)
 - add correction and source-suggestion issue forms with entity-aware frontend links (Round 9 completed)
 - establish historical-data license scope, intake rules, and release gates (Round 9 completed)
-- obtain explicit maintainer approval for the standalone data license before stable release
+- publish project-maintained formal data under CC BY 4.0 with explicit SanguoGraph attribution and exclusions (Round 10 completed)
+- complete v1.0 stable-release metadata, automated release gates, and browser acceptance (Round 10 completed)
 
-## Open governance decisions
+## Continuing governance rules
 
-- Approve CC BY 4.0, ODbL 1.0, or no separate grant for project-maintained historical data.
 - Review provenance and license compatibility before every external import.
 - Reassess whether an API/backend is needed only after the static approach
   reaches practical limits.
-
-Until the data-license decision is complete, do not describe third-party or
-project-maintained data as CC0.
+- Keep source excerpts, third-party material, and internal research candidates
+  outside the project-maintained formal-data license.
+- Do not describe third-party material as CC0 or as covered by SanguoGraph's
+  CC BY 4.0 notice.

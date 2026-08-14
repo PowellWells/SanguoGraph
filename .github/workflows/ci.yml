@@ -30,6 +30,8 @@ jobs:
         run: npm run validate:relation-coverage
       - name: Validate processed candidate data
         run: npm run validate:processed
+      - name: Validate stable release metadata
+        run: npm run validate:release
       - name: Build
         run: npm run build
       - name: Build self-contained offline page

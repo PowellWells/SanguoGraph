@@ -1,0 +1,55 @@
+SanguoGraph Formal Historical Dataset License Notice
+
+Copyright (c) 2026 SanguoGraph contributors
+
+The project-maintained formal historical dataset of 三国人物关系谱 ·
+SanguoGraph is licensed under the Creative Commons Attribution 4.0
+International Public License (CC BY 4.0), to the extent that SanguoGraph
+contributors hold copyright or similar rights in the licensed material.
+
+Canonical license deed:
+https://creativecommons.org/licenses/by/4.0/
+
+Legal code:
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+Project:
+https://github.com/PowellWells/SanguoGraph
+
+Licensed material
+-----------------
+
+This license applies to SanguoGraph's project-maintained selection,
+arrangement, normalization, identifiers, relationship records, source
+metadata, classifications, and original editorial descriptions in the formal
+historical dataset distributed with the project, only to the extent that the
+project has authority to license them.
+
+Required attribution
+--------------------
+
+When sharing the licensed material, including in modified form, provide the
+following attribution in a manner reasonable for the medium:
+
+    数据来源：三国人物关系谱 · SanguoGraph（CC BY 4.0）
+
+Also provide a link to the CC BY 4.0 license and indicate whether changes were
+made. If reasonably practicable, link to the SanguoGraph project or the
+specific material used. Attribution must not imply endorsement by SanguoGraph.
+
+Excluded material
+-----------------
+
+This data license does not apply to:
+
+- software code, which remains licensed under the repository MIT License;
+- quotations or excerpts from historical sources, modern publications, or
+  other third-party works, which retain their respective rights status;
+- images, trademarks, personal rights, or other material that SanguoGraph
+  contributors do not have authority to license;
+- external structured candidates, external identifiers, or other internal
+  research material under data/processed or local research caches.
+
+No license term restricts uses that do not require permission under applicable
+law. The licensed material is provided as-is, without warranties, subject to
+the disclaimer and limitation of liability in the CC BY 4.0 legal code.

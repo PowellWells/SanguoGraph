@@ -1,7 +1,7 @@
 # 三国人物关系谱 · SanguoGraph 关系覆盖专项交接文档
 
 更新时间：2026-08-14
-当前分支：`codex/corrections-license-governance`
+当前分支：`codex/v1-stable-release`
 
 ## 0. 新窗口接续说明（必须先读）
 
@@ -23,9 +23,11 @@ Round 6“数据冻结与发布验收”已经完成。冻结前依据《后汉�
 关系检索，并明确区分人物定位、关系支持和关系反对证据。Round 8 已完成人物、关系与
 史料的稳定永久链接，并修复桌面端“史料浏览”和“关于项目”无法滚动到底的问题。
 Round 9 已完成结构化纠错／来源建议机制，并建立数据许可证的范围、引入规则和发布
-门槛。下一轮为 Round 10：稳定版发布验收；开始前须由维护者明确选择 CC BY 4.0、
-ODbL 1.0 或继续不授予独立数据许可。记录见
-`docs/CORRECTIONS_LICENSE_GOVERNANCE_ROUND_9.md`。
+门槛。Round 10 已根据维护者“项目可公开展示、转载或使用正式数据必须注明
+SanguoGraph”的决定，正式采用 CC BY 4.0，并完成 v1.0 稳定版发布验收。代码继续
+采用 MIT；正式数据授权、排除范围和署名方式见 `LICENSE-DATA`；完整验收记录见
+`docs/STABLE_RELEASE_ROUND_10.md`。当前路线图已经完成，后续工作应作为新里程碑规划，
+不得在未明确范围时继续扩展数据类型或降低证据标准。
 
 前端发布边界继续有效：书名、作者、卷次、篇章和史料引文正常展示，但网页与离线
 成品不显示、链接或打包维基体系名称、域名、候选数据和 QID。内部 `data/processed`
@@ -200,6 +202,7 @@ npm run test
 npm run validate:data
 npm run validate:relation-coverage
 npm run validate:processed
+npm run validate:release
 npm run build
 npm run build:offline
 npm run validate:offline
@@ -265,3 +268,16 @@ Round 9 完整交付验证已于 2026-08-14 完成：
 - 1366×768 与 390×844 浏览器验收无横向溢出，反馈按钮均位于视口内；
 - 前端无维基体系可见文案或外链，控制台无 warning/error，依赖审计为 0 个漏洞；
 - 数据治理规则已经冻结，但独立数据许可证仍须维护者在 Round 10 前明确批准。
+
+Round 10 完整交付验证已于 2026-08-14 完成：
+
+- 维护者批准 CC BY 4.0，指定转载和再利用须注明“三国人物关系谱 · SanguoGraph”；
+- 软件继续为 MIT，史料摘录、第三方材料和内部候选明确排除在正式数据授权外；
+- 版本更新为 1.0.0，新增稳定版发布门禁并加入 CI 与 Pages 构建；
+- 30 个测试文件、143 项测试全部通过；
+- 数据、关系覆盖、processed 数据、本地史料索引和稳定版元数据校验通过；
+- 生产构建、离线单文件构建和根入口校验通过，`offline/index.html` 为 885.8 KiB；
+- 1366×768 与 390×844 浏览器验收通过，关于页与史料页均可滚动至页尾；
+- 首页加载 580 人、358 条关系，曹节父女／婚姻档案正常；
+- 前端无维基体系可见文案或外链，控制台无 warning/error，依赖审计为 0 个漏洞；
+- 当前路线图和 Milestone 3 完成，SanguoGraph 达到 v1.0 稳定版发布标准。

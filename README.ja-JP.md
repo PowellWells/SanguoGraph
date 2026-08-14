@@ -6,7 +6,7 @@
 
 > **オンラインで試す：**[人物関係グラフを開く](https://powellwells.github.io/SanguoGraph/)
 
-三国人物关系谱 · SanguoGraph は、出典を追跡できる史料を核にした、三国時代の歴史人物関係ナレッジグラフの初期プロジェクトです。正式レイヤーには魏・蜀・呉・後漢末の集団に属する歴史人物または明示的に文学レイヤーに属する人物を 580 人収録し、検証済み記録、表示用勢力、文学的主張、内部研究候補を分離して扱います。
+三国人物关系谱 · SanguoGraph v1.0 は、出典を追跡できる史料を核にした、三国時代の歴史人物関係ナレッジグラフの安定版です。正式レイヤーには魏・蜀・呉・後漢末の集団に属する歴史人物または明示的に文学レイヤーに属する人物を 580 人収録し、検証済み記録、表示用勢力、文学的主張、内部研究候補を分離して扱います。
 
 ## オフラインで直接開く
 
@@ -64,6 +64,7 @@ npm run lint
 npm run test
 npm run validate:data
 npm run validate:processed
+npm run validate:release
 npm run build
 npm run build:offline
 npm run validate:offline
@@ -80,4 +81,4 @@ npm audit --omit=dev
 
 ## ライセンス
 
-ソースコードは [MIT License](LICENSE) で利用できます。プロジェクトが維持する歴史データは現在メンテナーが編集しています。独立したデータライセンスは [roadmap](docs/ROADMAP.md) で検討中のガバナンス課題であり、第三者データを CC0 として再ライセンスすることはありません。
+ソースコードは [MIT License](LICENSE) で利用できます。SanguoGraph がライセンス権限を持つ正式な構造化歴史データは [CC BY 4.0](LICENSE-DATA) で提供されます。再利用・再配布時には「三国人物关系谱 · SanguoGraph」と表示し、ライセンスへのリンクと変更の有無を示してください。史料の引用、第三者資料、内部研究候補はこのデータライセンスの対象外です。

@@ -6,7 +6,7 @@
 
 > **온라인으로 체험하기:** [인물 관계 그래프 열기](https://powellwells.github.io/SanguoGraph/)
 
-삼국 인물 관계보 · SanguoGraph는 추적 가능한 사료를 중심으로 구축하는 삼국 시대 역사 인물 관계 지식 그래프의 초기 프로젝트입니다. 정식 레이어에는 위·촉·오·후한 말 집단에 속한 역사 인물 또는 문학 레이어로 명시된 인물 580명이 포함되며, 검증된 기록, 표시용 세력, 문학적 주장, 내부 연구 후보를 분리해 관리합니다.
+삼국 인물 관계보 · SanguoGraph v1.0은 추적 가능한 사료를 중심으로 구축한 삼국 시대 역사 인물 관계 지식 그래프의 안정 버전입니다. 정식 레이어에는 위·촉·오·후한 말 집단에 속한 역사 인물 또는 문학 레이어로 명시된 인물 580명이 포함되며, 검증된 기록, 표시용 세력, 문학적 주장, 내부 연구 후보를 분리해 관리합니다.
 
 ## 오프라인으로 바로 열기
 
@@ -64,6 +64,7 @@ npm run lint
 npm run test
 npm run validate:data
 npm run validate:processed
+npm run validate:release
 npm run build
 npm run build:offline
 npm run validate:offline
@@ -80,4 +81,4 @@ npm audit --omit=dev
 
 ## 라이선스
 
-소스 코드는 [MIT License](LICENSE)로 제공됩니다. 프로젝트가 유지하는 역사 데이터는 현재 유지 관리자가 정리하고 있습니다. 독립적인 데이터 라이선스는 [roadmap](docs/ROADMAP.md)에서 검토 중인 거버넌스 결정이며, 제3자 데이터를 CC0로 재라이선스하지 않습니다.
+소스 코드는 [MIT License](LICENSE)로 제공됩니다. SanguoGraph가 라이선스할 권한이 있는 정식 구조화 역사 데이터는 [CC BY 4.0](LICENSE-DATA)으로 제공됩니다. 재사용하거나 재배포할 때에는 “三国人物关系谱 · SanguoGraph”를 표시하고 라이선스 링크와 변경 여부를 밝혀야 합니다. 사료 인용문, 제3자 자료 및 내부 연구 후보는 이 데이터 라이선스 범위에 포함되지 않습니다.
