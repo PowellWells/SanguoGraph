@@ -106,7 +106,7 @@ describe('complete biographical roster manifest', () => {
       createHash('sha256')
         .update(JSON.stringify(graphData.relations))
         .digest('hex'),
-    ).toBe('99850ae436763c9f6ce5fad5b06b7cb15fa966405bd2537e74084ae4a35c9f8b');
+    ).toBe('52e0c57ae626f65c46ac9a2d6f6ac97804d0f11d02884b580539b5a81b93f4a7');
   });
 
   it('records the source-backed Yuan family cluster', () => {

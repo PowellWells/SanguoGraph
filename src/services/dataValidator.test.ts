@@ -16,7 +16,7 @@ describe('formal graph data', () => {
   it('contains the seven reviewed import batches and fixed family relations', () => {
     expect(graphData.persons).toHaveLength(580);
     expect(graphData.relations).toHaveLength(358);
-    expect(graphData.sources).toHaveLength(189);
+    expect(graphData.sources).toHaveLength(196);
     expect(
       graphData.persons.filter((person) => person.importBatch === 1),
     ).toHaveLength(24);
@@ -100,12 +100,13 @@ describe('formal graph data', () => {
 
   it('requires every published relation to cite a source quotation', () => {
     const data = copyGraphData();
-    const sourceId = data.relations[0].sourceIds[0];
-    const source = data.sources.find(({ id }) => id === sourceId);
-    if (!source) {
-      throw new Error('测试关系缺少史料。');
+    for (const sourceId of data.relations[0].sourceIds) {
+      const source = data.sources.find(({ id }) => id === sourceId);
+      if (!source) {
+        throw new Error('测试关系缺少史料。');
+      }
+      source.quotation = null;
     }
-    source.quotation = null;
 
     expect(issueCodes(data)).toContain('RELATION_WITHOUT_QUOTED_SOURCE');
   });

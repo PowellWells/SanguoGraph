@@ -13,7 +13,7 @@
     "description": "东汉宦官，曹嵩养父。",
     "historicity": "historical",
     "reviewStatus": "verified",
-    "sourceIds": ["source:sg:sgz_wei_01_wudi"],
+    "sourceIds": ["source:sg:sgz_wei_01_wudi", "source:sg:hhs_78_caoteng"],
     "externalIds": {},
     "note": "人物身份据《三国志》卷一。"
   },
@@ -31,7 +31,11 @@
     "description": "曹腾养子，曹操之父。",
     "historicity": "historical",
     "reviewStatus": "verified",
-    "sourceIds": ["source:sg:sgz_wei_01_wudi"],
+    "sourceIds": [
+      "source:sg:sgz_wei_01_wudi",
+      "source:sg:hhs_78_caoteng",
+      "source:sg:zztj_60_caosong"
+    ],
     "externalIds": {},
     "note": "生年不详；卒年沿用通行纪年，关系以所引史料为准。"
   },
@@ -49,7 +53,14 @@
     "description": "东汉末年政治家，曹魏政权奠基者。",
     "historicity": "historical",
     "reviewStatus": "verified",
-    "sourceIds": ["source:sg:sgz_wei_01_wudi"],
+    "sourceIds": [
+      "source:sg:sgz_wei_01_wudi",
+      "source:sg:hhs_78_caoteng",
+      "source:sg:zztj_60_caosong",
+      "source:sg:zztj_62_caoang",
+      "source:sg:zztj_65_caopi",
+      "source:sg:hyz_06_caocao_caopi"
+    ],
     "externalIds": {},
     "note": "别名含史书中的帝号称谓。"
   },
@@ -85,7 +96,11 @@
     "description": "曹操继室，曹丕、曹彰、曹植、曹熊之母。",
     "historicity": "historical",
     "reviewStatus": "verified",
-    "sourceIds": ["source:sg:sgz_wei_05_houfei", "source:sg:sgz_wei_20_wuwen"],
+    "sourceIds": [
+      "source:sg:sgz_wei_05_houfei",
+      "source:sg:sgz_wei_20_wuwen",
+      "source:sg:zztj_69_empress_bian"
+    ],
     "externalIds": {},
     "note": "姓名未见记载，项目以史书称谓作展示名。"
   },
@@ -139,7 +154,7 @@
     "description": "曹操长子，刘夫人所生。",
     "historicity": "historical",
     "reviewStatus": "verified",
-    "sourceIds": ["source:sg:sgz_wei_20_wuwen"],
+    "sourceIds": ["source:sg:sgz_wei_20_wuwen", "source:sg:zztj_62_caoang"],
     "externalIds": {},
     "note": "生年不详。"
   },
@@ -157,7 +172,12 @@
     "description": "曹操子，卞夫人所生，曹魏开国皇帝。",
     "historicity": "historical",
     "reviewStatus": "verified",
-    "sourceIds": ["source:sg:sgz_wei_02_wendi", "source:sg:sgz_wei_20_wuwen"],
+    "sourceIds": [
+      "source:sg:sgz_wei_02_wendi",
+      "source:sg:sgz_wei_20_wuwen",
+      "source:sg:zztj_65_caopi",
+      "source:sg:hyz_06_caocao_caopi"
+    ],
     "externalIds": {},
     "note": ""
   },
@@ -175,7 +195,11 @@
     "description": "曹操子，卞夫人所生。",
     "historicity": "historical",
     "reviewStatus": "verified",
-    "sourceIds": ["source:sg:sgz_wei_19_rencheng", "source:sg:sgz_wei_20_wuwen"],
+    "sourceIds": [
+      "source:sg:sgz_wei_19_rencheng",
+      "source:sg:sgz_wei_20_wuwen",
+      "source:sg:zztj_69_caozhang_caozhi"
+    ],
     "externalIds": {},
     "note": "生年不详。"
   },
@@ -193,7 +217,11 @@
     "description": "曹操子，卞夫人所生。",
     "historicity": "historical",
     "reviewStatus": "verified",
-    "sourceIds": ["source:sg:sgz_wei_19_rencheng", "source:sg:sgz_wei_20_wuwen"],
+    "sourceIds": [
+      "source:sg:sgz_wei_19_rencheng",
+      "source:sg:sgz_wei_20_wuwen",
+      "source:sg:zztj_69_caozhang_caozhi"
+    ],
     "externalIds": {},
     "note": ""
   },

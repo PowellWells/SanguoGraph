@@ -88,7 +88,7 @@ describe('application routes and home interaction', () => {
     const summary = screen.getByLabelText('图谱数据摘要');
     expect(within(summary).getByText('580')).toBeInTheDocument();
     expect(within(summary).getByText('358')).toBeInTheDocument();
-    expect(within(summary).getByText('186')).toBeInTheDocument();
+    expect(within(summary).getByText('193')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: '适应画布' }),
     ).toBeInTheDocument();
@@ -233,10 +233,10 @@ describe('application routes and home interaction', () => {
 
   it('opens the filtered source catalog from the live summary', () => {
     renderRoute('/');
-    fireEvent.click(screen.getByRole('button', { name: '186 查看列表' }));
+    fireEvent.click(screen.getByRole('button', { name: '193 查看列表' }));
 
     expect(
-      screen.getByRole('heading', { name: '史料记录（186）' }),
+      screen.getByRole('heading', { name: '史料记录（193）' }),
     ).toBeInTheDocument();
     expect(screen.getByText(/这里只统计当前画布/)).toBeInTheDocument();
     const relationButton = screen.getByRole('button', {
@@ -293,7 +293,7 @@ describe('application routes and home interaction', () => {
       screen.getByRole('heading', { name: '史料浏览', level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getByText('候选数据不等于史实')).toBeInTheDocument();
-    expect(screen.getByText('189 条结果')).toBeInTheDocument();
+    expect(screen.getByText('196 条结果')).toBeInTheDocument();
 
     fireEvent.change(screen.getByRole('searchbox', { name: '检索史料' }), {
       target: { value: '曹节 刘协' },

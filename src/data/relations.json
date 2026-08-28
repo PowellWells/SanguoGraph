@@ -8,7 +8,7 @@
     "historicalLayer": "official_history",
     "reviewStatus": "verified",
     "origin": "recorded",
-    "sourceIds": ["source:sg:sgz_wei_01_wudi"],
+    "sourceIds": ["source:sg:sgz_wei_01_wudi", "source:sg:hhs_78_caoteng"],
     "note": "《武帝纪》明确记载曹嵩为曹腾养子。"
   },
   {
@@ -20,7 +20,11 @@
     "historicalLayer": "official_history",
     "reviewStatus": "verified",
     "origin": "recorded",
-    "sourceIds": ["source:sg:sgz_wei_01_wudi"],
+    "sourceIds": [
+      "source:sg:sgz_wei_01_wudi",
+      "source:sg:hhs_78_caoteng",
+      "source:sg:zztj_60_caosong"
+    ],
     "note": ""
   },
   {
@@ -80,7 +84,7 @@
     "historicalLayer": "official_history",
     "reviewStatus": "verified",
     "origin": "recorded",
-    "sourceIds": ["source:sg:sgz_wei_20_wuwen"],
+    "sourceIds": ["source:sg:sgz_wei_20_wuwen", "source:sg:zztj_62_caoang"],
     "note": ""
   },
   {
@@ -116,7 +120,12 @@
     "historicalLayer": "official_history",
     "reviewStatus": "verified",
     "origin": "recorded",
-    "sourceIds": ["source:sg:sgz_wei_02_wendi", "source:sg:sgz_wei_20_wuwen"],
+    "sourceIds": [
+      "source:sg:sgz_wei_02_wendi",
+      "source:sg:sgz_wei_20_wuwen",
+      "source:sg:zztj_65_caopi",
+      "source:sg:hyz_06_caocao_caopi"
+    ],
     "note": ""
   },
   {

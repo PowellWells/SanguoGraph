@@ -237,7 +237,7 @@ describe('PersonPanel', () => {
     expect(screen.getAllByText('已确认')).toHaveLength(2);
     expect(screen.getByText('当前未登记反对材料')).toBeInTheDocument();
     expect(screen.getByText(/已录史料将曹嵩记为曹操之父/)).toBeInTheDocument();
-    expect(screen.getByText(/养子嵩嗣/)).toBeInTheDocument();
+    expect(screen.getAllByText(/养子嵩嗣/)).toHaveLength(2);
     expect(screen.queryByRole('link', { name: '查看原文' })).not.toBeInTheDocument();
   });
 
